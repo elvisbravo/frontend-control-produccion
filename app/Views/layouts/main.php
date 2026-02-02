@@ -170,8 +170,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-4 col-md-4 col-xl-3 mx-auto">
-                        <h4>Calendario de Proyectos</h4>
+                    <div class="col-10 col-md-4 col-xl-4 mx-auto">
+                        <h4 class="text-center">Calendario de Proyectos</h4>
                         <h6 class="mb-3 text-center">Elige el trabajador</h6>
                         <div class="dropdown w-100 mb-4">
                             <button class="btn btn-link dropdown-toggle text-start no-caret w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
