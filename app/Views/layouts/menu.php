@@ -17,13 +17,13 @@
     </a>
     <ul class="dropdown-menu">
         <li class="nav-item">
-            <a class="nav-link" href="adminux-finance-dashboard.html">
+            <a class="nav-link" href="/prospectos">
                 <i class="menu-icon bi bi-speedometer2"></i>
                 <div class="col align-self-center menu-name">Prospectos/Potenciales</div>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminux-finance-bank.html">
+            <a class="nav-link" href="/clientes-activos">
                 <i class="menu-icon bi bi-bank"></i>
                 <div class="col align-self-center menu-name">Clientes Activos</div>
             </a>
