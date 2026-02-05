@@ -13,4 +13,6 @@ $routes->get('prospectos', 'Clientes::prospectos');
 
 $routes->get('permisos', 'Permisos::index');
 
-$routes->get('usuarios', 'Usuarios::index');
+$routes->get('usuarios', 'Usuario::index');
+
+$routes->get('tareas', 'Tareas::index');

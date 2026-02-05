@@ -43,13 +43,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminux-network-performance.html">
+            <a class="nav-link" href="/tareas">
                 <i class="menu-icon bi bi-speedometer"></i>
                 <div class="col align-self-center menu-name">Tareas</div>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminux-network-devices.html">
+            <a class="nav-link" href="/instituciones">
                 <i class="menu-icon bi bi-pc-display-horizontal"></i>
                 <div class="col align-self-center menu-name">Universidad/Instituto</div>
             </a>
