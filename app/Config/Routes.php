@@ -19,4 +19,4 @@ $routes->get('tareas', 'Tareas::index');
 
 $routes->get('instituciones', 'Instituciones::index');
 
-$routes->get('Carreras', 'Carreras::index');
+$routes->get('carreras', 'Carreras::index');
