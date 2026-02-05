@@ -25,6 +25,10 @@
         }
     </style>
 
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script defer src="assets/js/app134b.js?772e8d72791201a52a4c"></script>
     <link href="assets/css/app134b.css?772e8d72791201a52a4c" rel="stylesheet">
 </head>
@@ -475,7 +479,9 @@
 
     <!-- Page Level js -->
     <script src="assets/js/adminux/adminux-dashboard.js"></script>
-    <script src="assets/js/adminux/adminux-calendar.js"></script>
+
+    <?= $this->renderSection('scripts') ?>
+    
 </body>
 
 

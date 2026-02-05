@@ -177,3 +177,7 @@
 
 </div>
 <?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script src="assets/js/adminux/adminux-calendar.js"></script>
+<?= $this->endSection() ?>
