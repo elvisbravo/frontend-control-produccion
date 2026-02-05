@@ -16,3 +16,5 @@ $routes->get('permisos', 'Permisos::index');
 $routes->get('usuarios', 'Usuario::index');
 
 $routes->get('tareas', 'Tareas::index');
+
+$routes->get('instituciones', 'Instituciones::index');

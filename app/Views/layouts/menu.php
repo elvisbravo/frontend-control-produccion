@@ -55,7 +55,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminux-network-devices.html">
+            <a class="nav-link" href="/carreras">
                 <i class="menu-icon bi bi-pc-display-horizontal"></i>
                 <div class="col align-self-center menu-name">Carreras</div>
             </a>
