@@ -63,34 +63,75 @@
                                     <div class="card adminuiux-card shadow-sm mb-2">
                                         <div class="card-body">
                                             <div class="text-center mb-4">
+                                                <img src="assets/img/logo.svg" alt="logo" class="mb-3" style="height:64px">
                                                 <h2 class="mb-1 text-theme-1">Sistema Mia</h2>
-                                                <p class="text-secondary">Ingrese sus credenciales para el sistema administrativo</p>
+                                                <p class="text-secondary small">Accede con tus credenciales al panel administrativo</p>
                                             </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" id="emailadd" placeholder="Enter email address" autofocus="">
-                                                <label for="emailadd">Correo Electrónico</label>
-                                            </div>
-                                            <div class="position-relative">
-                                                <div class="form-floating mb-3">
-                                                    <input type="password" class="form-control" id="passwd" placeholder="Enter your password" >
-                                                    <label for="passwd">Contraseña</label>
+
+                                            <form id="loginForm" novalidate>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Correo Electrónico</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                                        <input type="email" class="form-control" id="emailadd" placeholder="usuario@dominio.com" required autofocus>
+                                                    </div>
                                                 </div>
-                                                <button class="btn btn-square btn-link text-theme-1 position-absolute end-0 top-0 mt-2 me-2 ">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                            </div>
-                                            <div class="row gx-3 align-items-center mb-3">
-                                                
-                                                <div class="col-auto">
-                                                    <a href="adminux-forgot-password.html" class="btn btn-link">¿Olvidaste tu Contraseña?</a>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Contraseña</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                                        <input type="password" class="form-control" id="passwd" placeholder="Ingresa tu contraseña" required>
+                                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Mostrar contraseña"><i class="bi bi-eye"></i></button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row gx-3 align-items-center mb-4">
-                                                <div class="col">
-                                                    <a href="adminux-dashboard.html" class="btn btn-lg btn-theme w-100 ">Acceder</a>
+
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                                                        <label class="form-check-label small" for="rememberMe">Recordarme</label>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#" class="small">¿Olvidaste tu contraseña?</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                           
+
+                                                <div class="d-grid mb-3">
+                                                    <button type="submit" class="btn btn-lg btn-theme">Iniciar sesión</button>
+                                                </div>
+
+                                                <div class="text-center small text-secondary">
+                                                    ¿No tienes cuenta? <a href="#">Contacta al administrador</a>
+                                                </div>
+                                            </form>
+
+                                            <script>
+                                                (function(){
+                                                    const toggle = document.getElementById('togglePassword');
+                                                    const pwd = document.getElementById('passwd');
+                                                    if (toggle && pwd) {
+                                                        toggle.addEventListener('click', function(){
+                                                            const type = pwd.getAttribute('type') === 'password' ? 'text' : 'password';
+                                                            pwd.setAttribute('type', type);
+                                                            this.querySelector('i').classList.toggle('bi-eye');
+                                                            this.querySelector('i').classList.toggle('bi-eye-slash');
+                                                        });
+                                                    }
+
+                                                    const form = document.getElementById('loginForm');
+                                                    form && form.addEventListener('submit', function(e){
+                                                        e.preventDefault();
+                                                        if (!form.checkValidity()) { form.reportValidity(); return; }
+                                                        // Aquí integrar llamada al backend
+                                                        if (typeof Swal !== 'undefined') {
+                                                            Swal.fire({ title: 'Accediendo...', didOpen: ()=> Swal.showLoading(), allowOutsideClick: false });
+                                                            setTimeout(()=> { Swal.close(); window.location.href = '/'; }, 800);
+                                                        } else {
+                                                            window.location.href = '/';
+                                                        }
+                                                    });
+                                                })();
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
