@@ -18,3 +18,5 @@ $routes->get('usuarios', 'Usuario::index');
 $routes->get('tareas', 'Tareas::index');
 
 $routes->get('instituciones', 'Instituciones::index');
+
+$routes->get('Carreras', 'Carreras::index');
