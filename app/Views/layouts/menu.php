@@ -70,13 +70,13 @@
     </a>
     <ul class="dropdown-menu">
         <li class="nav-item">
-            <a class="nav-link" href="adminux-social-dashboard.html">
+            <a class="nav-link" href="/usuarios">
                 <i class="menu-icon bi bi-bullseye"></i>
                 <div class="col align-self-center menu-name">Usuarios</div>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminux-social-analytics.html">
+            <a class="nav-link" href="/permisos">
                 <i class="menu-icon bi bi-bar-chart"></i>
                 <div class="col align-self-center menu-name">Permisos</div>
             </a>

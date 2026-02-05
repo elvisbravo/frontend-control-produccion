@@ -10,3 +10,7 @@ $routes->get('/', 'Auth::index');
 $routes->get('home', 'Home::index');
 
 $routes->get('prospectos', 'Clientes::prospectos');
+
+$routes->get('permisos', 'Permisos::index');
+
+$routes->get('usuarios', 'Usuarios::index');
