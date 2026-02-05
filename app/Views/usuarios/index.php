@@ -135,9 +135,9 @@
                                 <label for="direccion" class="form-label">Rol</label>
                                 <select name="rol_id" id="rol_id" class="form-control">
                                     <option value="">Seleccione...</option>
-                                    <option value="2">ADMINISTRADOR</option>
-                                    <option value="3">JEFE DE PRODUCCION</option>
-                                    <option value="4">AUXILIAR</option>
+                                    <?php foreach ($roles as $key => $value) { ?>
+                                        <option value="<?= $value['id'] ?> ?>"><?= $value['nombre'] ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>

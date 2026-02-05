@@ -2,11 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Models\RolModel;
+
 class Usuario extends BaseController
 {
     public function index(): string
     {
-        return view('usuarios/index');
+        $rol = new RolModel();
+
+        $roles = $rol->where('id !=', 1)->where('estado', true)->findAll();
+
+        return view('usuarios/index', compact('roles'));
     }
 
     public function api_dni_ruc($tipo, $numero)

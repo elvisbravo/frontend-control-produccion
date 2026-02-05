@@ -25,3 +25,6 @@ $routes->get('instituciones', 'Instituciones::index');
 $routes->get('carreras', 'Carreras::index');
 // Mantenimientos - Feriados
 $routes->get('feriados', 'Mantenimientos::feriados');
+
+$routes->get('trabajos', 'Trabajos::index');
+$routes->get('trabajos/data', 'Trabajos::data');

@@ -17,9 +17,9 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/clientes-activos">
+            <a class="nav-link" href="/trabajos">
                 <i class="menu-icon bi bi-bank"></i>
-                <div class="col align-self-center menu-name">Clientes Activos</div>
+                <div class="col align-self-center menu-name">Trabajos</div>
             </a>
         </li>
     </ul>
