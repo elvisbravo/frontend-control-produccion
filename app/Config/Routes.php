@@ -28,3 +28,5 @@ $routes->get('feriados', 'Mantenimientos::feriados');
 
 $routes->get('trabajos', 'Trabajos::index');
 $routes->get('trabajos/data', 'Trabajos::data');
+$routes->get('trabajos/sugerir', 'Trabajos::sugerirAuxiliares');
+$routes->get('trabajos/reporte', 'Trabajos::reporteDisponibilidad');

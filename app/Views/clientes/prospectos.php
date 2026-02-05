@@ -81,6 +81,7 @@
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="1">Ficha de Enfoque</a></li>
                                         <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="1">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="1">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="1">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
                                     </ul>
@@ -123,6 +124,7 @@
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="2">Ficha de Enfoque</a></li>
                                         <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="2">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="2">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="2">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
                                     </ul>
@@ -165,6 +167,7 @@
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="3">Ficha de Enfoque</a></li>
                                         <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="3">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="3">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="3">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
                                     </ul>
@@ -207,6 +210,7 @@
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="4">Ficha de Enfoque</a></li>
                                         <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="4">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="4">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="4">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
                                     </ul>
@@ -249,6 +253,7 @@
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="5">Ficha de Enfoque</a></li>
                                         <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="5">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="5">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="5">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
                                     </ul>
@@ -538,6 +543,45 @@
                     <button type="submit" class="btn btn-theme">Guardar</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Simulador de Disponibilidad para Prospectos -->
+<div class="modal fade" id="modalSimuladorProspectos" tabindex="-1" aria-labelledby="simuladorProspectosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title h5" id="simuladorProspectosLabel">Simulador de Disponibilidad</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="prospectoIdSimular" value="">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">¿Quién puede realizar este trabajo? (Selecciona uno o más)</label>
+                    <div id="listadoDisponiblesProspectos">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Estado General del Equipo</label>
+                    <div id="reporteCargaProspectos">
+                        <small class="text-secondary">Cargando reporte...</small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnAsignarSeleccionados" style="display:none;">
+                    <i class="bi bi-check-circle me-1"></i>Asignar Seleccionados
+                </button>
+            </div>
         </div>
     </div>
 </div>

@@ -70,4 +70,28 @@ class Trabajos extends BaseController
 
         return $this->response->setJSON(['success' => true, 'data' => $sample]);
     }
+
+    public function sugerirAuxiliares()
+    {
+        $disponibilidadService = new \App\Services\DisponibilidadService();
+
+        $cantidad = $this->request->getGet('cantidad') ?? 5;
+        $trabajo_id = $this->request->getGet('trabajo_id');
+
+        $disponibles = $disponibilidadService->obtenerMasDisponibles((int)$cantidad);
+
+        return $this->response->setJSON([
+            'success' => true,
+            'data' => $disponibles,
+            'trabajo_id' => $trabajo_id,
+        ]);
+    }
+
+    public function reporteDisponibilidad()
+    {
+        $disponibilidadService = new \App\Services\DisponibilidadService();
+        $reporte = $disponibilidadService->reporteDisponibilidad();
+
+        return $this->response->setJSON(['success' => true, 'reporte' => $reporte]);
+    }
 }

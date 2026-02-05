@@ -87,6 +87,7 @@ function initDataTable() {
   initializeJefeValoracionEvents();
   initializeFichaEnfoqueEvents();
   initializeConvertirClienteEvents();
+  initializeSimuladorDisponibilidadEvents();
   initializeContactosEvents();
   initializeGuardarEstadoEvents();
 }
@@ -652,3 +653,229 @@ function lastvisibletd() {
     thisis.find("td:visible:last").addClass("lastvisible");
   });
 }
+
+// ============ SIMULADOR DE DISPONIBILIDAD PARA PROSPECTOS ============
+
+function initializeSimuladorDisponibilidadEvents() {
+  document
+    .querySelectorAll(".btn-simular-disponibilidad")
+    .forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var prospectoId = this.getAttribute("data-id");
+        abrirSimuladorProspectos(prospectoId);
+      });
+    });
+}
+
+function abrirSimuladorProspectos(prospectoId) {
+  var modal = document.getElementById("modalSimuladorProspectos");
+  document.getElementById("prospectoIdSimular").value = prospectoId;
+
+  // Mostrar modal
+  if (typeof bootstrap !== "undefined") {
+    var bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+  }
+
+  // Cargar disponibilidad
+  cargarDisponibilidadProspectos();
+  cargarReporteDisponibilidadProspectos();
+}
+
+function cargarDisponibilidadProspectos() {
+  var listado = document.getElementById("listadoDisponiblesProspectos");
+  listado.innerHTML =
+    '<div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Cargando...</span></div>';
+
+  fetch("/trabajos/sugerir?cantidad=10", { credentials: "same-origin" })
+    .then(function (r) {
+      return r.json();
+    })
+    .then(function (json) {
+      if (!json || !json.success) {
+        listado.innerHTML =
+          '<p class="text-danger">Error al cargar disponibilidad</p>';
+        return;
+      }
+
+      var html = "";
+      json.data.forEach(function (aux) {
+        var estadoColor =
+          {
+            disponible: "success",
+            moderado: "warning",
+            ocupado: "danger",
+          }[aux.estado] || "secondary";
+
+        var barraAncho = Math.min(aux.porcentaje, 100);
+        html += `
+          <div class="card mb-2">
+            <div class="card-body p-3">
+              <div class="row align-items-center">
+                <div class="col-md-1">
+                  <input type="checkbox" class="form-check-input aux-checkbox" value="${aux.id}" data-aux-name="${aux.nombre} ${aux.apellidos}">
+                </div>
+                <div class="col-md-3">
+                  <strong>${aux.nombre} ${aux.apellidos}</strong><br>
+                  <small class="text-secondary">@${aux.usuario}</small><br>
+                  <span class="badge bg-${estadoColor}">${aux.estado.toUpperCase()}</span>
+                </div>
+                <div class="col-md-8">
+                  <div class="progress" style="height: 25px;">
+                    <div class="progress-bar bg-${estadoColor}" role="progressbar" 
+                         style="width: ${barraAncho}%" 
+                         aria-valuenow="${aux.porcentaje}" aria-valuemin="0" aria-valuemax="100">
+                      ${Math.round(aux.porcentaje)}% - ${aux.horas_actuales}/${aux.capacidad_maxima} horas
+                    </div>
+                  </div>
+                  <small class="text-secondary">Trabajos activos: ${aux.trabajos_en_curso}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      listado.innerHTML = html;
+
+      // Agregar eventos a checkboxes
+      document.querySelectorAll(".aux-checkbox").forEach(function (checkbox) {
+        checkbox.addEventListener("change", actualizarBtnAsignar);
+      });
+
+      actualizarBtnAsignar();
+    })
+    .catch(function (err) {
+      console.error("Error:", err);
+      listado.innerHTML = '<p class="text-danger">Error de red</p>';
+    });
+}
+
+function cargarReporteDisponibilidadProspectos() {
+  var reporte = document.getElementById("reporteCargaProspectos");
+  reporte.innerHTML =
+    '<small class="text-secondary">Cargando reporte...</small>';
+
+  fetch("/trabajos/reporte", { credentials: "same-origin" })
+    .then(function (r) {
+      return r.json();
+    })
+    .then(function (json) {
+      if (!json || !json.success) {
+        reporte.innerHTML =
+          '<p class="text-danger">Error al cargar reporte</p>';
+        return;
+      }
+
+      var res = json.reporte.resumen;
+      var html = `
+        <div class="row text-center">
+          <div class="col-md-4">
+            <div class="card border-success">
+              <div class="card-body">
+                <h5 class="card-title text-success">${res.disponible}</h5>
+                <p class="card-text small">Disponibles</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-warning">
+              <div class="card-body">
+                <h5 class="card-title text-warning">${res.moderado}</h5>
+                <p class="card-text small">Carga Moderada</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-danger">
+              <div class="card-body">
+                <h5 class="card-title text-danger">${res.ocupado}</h5>
+                <p class="card-text small">Ocupados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      reporte.innerHTML = html;
+    })
+    .catch(function (err) {
+      console.error("Error:", err);
+      reporte.innerHTML = '<p class="text-danger">Error de red</p>';
+    });
+}
+function actualizarBtnAsignar() {
+  var checkboxes = document.querySelectorAll(".aux-checkbox:checked");
+  var btn = document.getElementById("btnAsignarSeleccionados");
+
+  if (checkboxes.length > 0) {
+    btn.style.display = "inline-block";
+  } else {
+    btn.style.display = "none";
+  }
+}
+
+// Event listener para botón de asignar seleccionados
+document.addEventListener("DOMContentLoaded", function () {
+  var btnAsignar = document.getElementById("btnAsignarSeleccionados");
+  if (btnAsignar) {
+    btnAsignar.addEventListener("click", function () {
+      var checkboxes = document.querySelectorAll(".aux-checkbox:checked");
+      var seleccionados = [];
+
+      checkboxes.forEach(function (checkbox) {
+        seleccionados.push({
+          id: checkbox.value,
+          nombre: checkbox.getAttribute("data-aux-name"),
+        });
+      });
+
+      var prospectoId = document.getElementById("prospectoIdSimular").value;
+
+      if (seleccionados.length === 0) {
+        alert("Selecciona al menos un auxiliar");
+        return;
+      }
+
+      // Mostrar confirmación
+      var nombres = seleccionados
+        .map(function (s) {
+          return s.nombre;
+        })
+        .join(", ");
+
+      if (typeof Swal !== "undefined") {
+        Swal.fire({
+          title: "Confirmar Asignación",
+          html:
+            "<p>¿Asignar este trabajo a:</p><strong>" + nombres + "</strong>?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Sí, asignar",
+          cancelButtonText: "Cancelar",
+        }).then(function (result) {
+          if (result.isConfirmed) {
+            Swal.fire(
+              "Éxito",
+              "Trabajo asignado a " + seleccionados.length + " auxiliar(es)",
+              "success",
+            ).then(function () {
+              bootstrap.Modal.getInstance(
+                document.getElementById("modalSimuladorProspectos"),
+              ).hide();
+              location.reload();
+            });
+          }
+        });
+      } else {
+        if (confirm("¿Asignar este trabajo a: " + nombres + "?")) {
+          alert("Trabajo asignado a " + seleccionados.length + " auxiliar(es)");
+          bootstrap.Modal.getInstance(
+            document.getElementById("modalSimuladorProspectos"),
+          ).hide();
+          location.reload();
+        }
+      }
+    });
+  }
+});
