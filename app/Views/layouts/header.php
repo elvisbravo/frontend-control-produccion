@@ -59,7 +59,9 @@
                                     </figure>
                                 </div>
                                 <div class="col align-self-center ">
-                                    <h5 class="mb-1">Elvis Bravo</h5>
+                                    <?php $nombre = session()->get('nombre');
+                                    $apellidos = session()->get('apellidos'); ?>
+                                    <h5 class="mb-1"><?= $nombre ? esc($nombre . ' ' . $apellidos) : 'Invitado' ?></h5>
                                     <p class="small"><i class="bi bi-trophy me-2"></i> Desarrollador de Software</p>
                                 </div>
                             </div>
@@ -69,9 +71,9 @@
                         <div>
                             <a class="dropdown-item" href="adminux-myprofile.html"><i data-feather="user" class="avatar avatar-18 me-1"></i> Mi Perfil</a>
                         </div>
-                        
+
                         <div>
-                            <a class="dropdown-item theme-red" href="adminux-login.html">
+                            <a class="dropdown-item theme-red" href="<?= base_url('auth/logout') ?>">
                                 <i data-feather="power" class="avatar avatar-18 me-1"></i> Salir
                             </a>
                         </div>

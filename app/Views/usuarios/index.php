@@ -36,7 +36,6 @@
                             <th>Documento</th>
                             <th>Nombre Completo</th>
                             <th>Celular</th>
-                            <th>Carrera</th>
                             <th>Correo</th>
                             <th>Acciones</th>
                         </tr>
@@ -59,8 +58,9 @@
                 <h5 class="modal-title" id="modalTitle">Agregar Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <form id="formUsuario">
+            <form id="formUsuario">
+                <div class="modal-body">
+
                     <input type="hidden" id="usuarioIdEdit" value="">
 
                     <!-- Fila 1: Tipo de Documento y Número de Documento -->
@@ -112,61 +112,33 @@
                                 <input type="date" class="form-control" id="fechaNacimiento" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="carrera" class="form-label">Carrera</label>
-                                <select class="form-select" id="carrera" required>
-                                    <option value="">Selecciona una carrera</option>
-                                    <option value="Ingeniería de Sistemas">Ingeniería de Sistemas</option>
-                                    <option value="Ingeniería Industrial">Ingeniería Industrial</option>
-                                    <option value="Administración">Administración</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="Contabilidad">Contabilidad</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Fila 4: Especialidad (Multi-select) -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="especialidad" class="form-label">Especialidad</label>
-                                <select class="form-select" id="especialidad" multiple required>
-                                    <option value="Frontend">Frontend</option>
-                                    <option value="Backend">Backend</option>
-                                    <option value="DevOps">DevOps</option>
-                                    <option value="QA">QA</option>
-                                    <option value="Diseño">Diseño</option>
-                                    <option value="Data Science">Data Science</option>
-                                </select>
-                                <small class="form-text text-muted">Mantén presionado Ctrl (o Cmd en Mac) para seleccionar varias opciones</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fila 5: Celular y Ubigeo -->
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="celular" class="form-label">Número de Celular</label>
-                                <input type="tel" class="form-control" id="celular" placeholder="9XXXXXXXX" pattern="[0-9]{9}" required>
+                                <input type="tel" class="form-control" id="celular" placeholder="51987456321" pattern="[0-9]{9}" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="ubigeo" class="form-label">Ubigeo</label>
-                                <input type="text" class="form-control" id="ubigeo" placeholder="150131 (Dpto-Prov-Dist)" required>
-                            </div>
-                        </div>
+
                     </div>
 
                     <!-- Fila 6: Dirección -->
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="direccion" class="form-label">Dirección</label>
-                                <textarea class="form-control" id="direccion" rows="2" placeholder="Ingresa la dirección completa" required></textarea>
+                                <input type="text" class="form-control" name="direccion" id="direccion">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label">Rol</label>
+                                <select name="rol_id" id="rol_id" class="form-control">
+                                    <option value="">Seleccione...</option>
+                                    <option value="2">ADMINISTRADOR</option>
+                                    <option value="3">JEFE DE PRODUCCION</option>
+                                    <option value="4">AUXILIAR</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -181,12 +153,13 @@
                         </div>
                     </div>
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-theme" id="btnGuardarUsuario">Guardar</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-theme" id="btnGuardarUsuario">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

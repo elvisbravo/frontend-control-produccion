@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>AdminUX - AdminUIUX - Bootstrap HTML Admin template - adminuiux.com</title>
+    <title>GRUPO ES CONSULTORES</title>
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
 
     <!-- Fonts -->
@@ -38,8 +38,8 @@
                 <div class="col-12 mb-auto pt-4"></div>
                 <div class="col-auto">
                     <img src="assets/img/logo.svg" alt="" class="height-100 mb-3">
-                    <p class="h3 mb-0"><span class="text-gradient">AdminUX</span></p>
-                    <p class="small text-secondary mb-3"><span class="">Admin Dashboard HTML Template</span></p>
+                    <p class="h3 mb-0"><span class="text-gradient">GRUPO ES</span></p>
+                    <p class="small text-secondary mb-3"><span class="">GRUPO ES CONSULTORES</span></p>
                     <div class="loader6 mb-2 mx-auto" style="border-color: var(--adminuiux-theme-2);"></div>
                 </div>
                 <div class="col-12 mt-auto pb-4">
@@ -49,11 +49,11 @@
         </div>
     </div> <!-- standard header -->
     <!-- standard header -->
-    
+
     <main class="flex-shrink-0 pt-0 z-index-1">
         <div class="container">
             <div class="auth-wrapper">
-                
+
                 <!-- login wrap -->
                 <div class="row justify-content-center minheight-dynamic" style="--mih-dynamic: calc(100vh - 135px)">
                     <div class="col-12 col-md-8 col-xl-6">
@@ -73,7 +73,7 @@
                                                     <label class="form-label">Correo Electrónico</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                                        <input type="email" class="form-control" id="emailadd" placeholder="usuario@dominio.com" required autofocus>
+                                                        <input type="email" class="form-control" id="emailadd" name="email" placeholder="usuario@gmail.com" required autofocus>
                                                     </div>
                                                 </div>
 
@@ -81,7 +81,7 @@
                                                     <label class="form-label">Contraseña</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                                        <input type="password" class="form-control" id="passwd" placeholder="Ingresa tu contraseña" required>
+                                                        <input type="password" class="form-control" id="passwd" name="password" placeholder="Ingresa tu contraseña" required>
                                                         <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Mostrar contraseña"><i class="bi bi-eye"></i></button>
                                                     </div>
                                                 </div>
@@ -106,30 +106,17 @@
                                             </form>
 
                                             <script>
-                                                (function(){
+                                                (function() {
                                                     const toggle = document.getElementById('togglePassword');
                                                     const pwd = document.getElementById('passwd');
                                                     if (toggle && pwd) {
-                                                        toggle.addEventListener('click', function(){
+                                                        toggle.addEventListener('click', function() {
                                                             const type = pwd.getAttribute('type') === 'password' ? 'text' : 'password';
                                                             pwd.setAttribute('type', type);
                                                             this.querySelector('i').classList.toggle('bi-eye');
                                                             this.querySelector('i').classList.toggle('bi-eye-slash');
                                                         });
                                                     }
-
-                                                    const form = document.getElementById('loginForm');
-                                                    form && form.addEventListener('submit', function(e){
-                                                        e.preventDefault();
-                                                        if (!form.checkValidity()) { form.reportValidity(); return; }
-                                                        // Aquí integrar llamada al backend
-                                                        if (typeof Swal !== 'undefined') {
-                                                            Swal.fire({ title: 'Accediendo...', didOpen: ()=> Swal.showLoading(), allowOutsideClick: false });
-                                                            setTimeout(()=> { Swal.close(); window.location.href = '/'; }, 800);
-                                                        } else {
-                                                            window.location.href = '/';
-                                                        }
-                                                    });
                                                 })();
                                             </script>
                                         </div>
@@ -153,6 +140,7 @@
     </footer>
 
     <script src="assets/js/adminux/adminux-auth.js" type="text/javascript"></script>
+    <script src="js/auth/login.js" type="text/javascript"></script>
 </body>
 
 

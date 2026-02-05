@@ -1,13 +1,7 @@
 <li class="nav-item">
-    <a class="nav-link" aria-current="page" href="adminux-dashboard.html">
+    <a class="nav-link" aria-current="page" href="/home">
         <i class="menu-icon bi bi-house-door"></i>
         <div class="col menu-name">Home</div>
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" aria-current="page" href="adminux-dashboard.html">
-        <i class="menu-icon bi bi-house-door"></i>
-        <div class="col menu-name">Proyectos</div>
     </a>
 </li>
 <li class="nav-item dropdown">
@@ -58,6 +52,12 @@
             <a class="nav-link" href="/carreras">
                 <i class="menu-icon bi bi-pc-display-horizontal"></i>
                 <div class="col align-self-center menu-name">Carreras</div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/feriados">
+                <i class="menu-icon bi bi-calendar-event"></i>
+                <div class="col align-self-center menu-name">Feriados</div>
             </a>
         </li>
     </ul>

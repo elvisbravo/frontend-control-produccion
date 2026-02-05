@@ -6,12 +6,11 @@
 <div class="container-fluid py-3">
     <div class="row gx-3 gx-lg-4 align-items-center page-title">
         <div class="col col-sm mb-3 mb-sm-0 order-1">
-            <h5 class="mb-0">Seguridad</h5>
-            <p class="text-secondary small">Permisoss</p>
+            <h5 class="mb-0">Recursos Humanos</h5>
+            <p class="text-secondary small">Solicitud de Permisos</p>
         </div>
     </div>
 </div>
-
 
 <div class="container mt-3" id="main-content">
 
@@ -64,7 +63,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_2" value="2" data-rol-name="Supervisor">
                                         <label class="form-check-label" for="rol_2">
-                                            Supervisor
+                                            Jefe de Producción
                                         </label>
                                     </div>
                                 </div>
@@ -89,7 +88,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_3" value="3" data-rol-name="Vendedor">
                                         <label class="form-check-label" for="rol_3">
-                                            Vendedor
+                                            Auxiliar
                                         </label>
                                     </div>
                                 </div>
@@ -114,7 +113,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_4" value="4" data-rol-name="Usuario">
                                         <label class="form-check-label" for="rol_4">
-                                            Usuario
+                                            Jefe de Ventas
                                         </label>
                                     </div>
                                 </div>
@@ -306,7 +305,7 @@
             </div>
         </div>
     </div>
-
+</div>
 
 
 

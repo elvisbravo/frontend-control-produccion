@@ -7,23 +7,27 @@ function cerrarModal(modalId) {
     var modal = bootstrap.Modal.getInstance(modalElement);
     if (modal) {
       modal.hide();
-      
+
       // Escuchar cuando termina la animación de cierre
-      modalElement.addEventListener('hidden.bs.modal', function handler() {
-        // Limpiar todos los backdrops que hayan quedado
-        var backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(function(backdrop) {
-          backdrop.remove();
-        });
-        
-        // Asegurar que no hay modal-open en el body
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-        
-        // Remover el listener después de usarlo
-        modalElement.removeEventListener('hidden.bs.modal', handler);
-      }, { once: true });
+      modalElement.addEventListener(
+        "hidden.bs.modal",
+        function handler() {
+          // Limpiar todos los backdrops que hayan quedado
+          var backdrops = document.querySelectorAll(".modal-backdrop");
+          backdrops.forEach(function (backdrop) {
+            backdrop.remove();
+          });
+
+          // Asegurar que no hay modal-open en el body
+          document.body.classList.remove("modal-open");
+          document.body.style.overflow = "";
+          document.body.style.paddingRight = "";
+
+          // Remover el listener después de usarlo
+          modalElement.removeEventListener("hidden.bs.modal", handler);
+        },
+        { once: true },
+      );
     }
   }
 }
@@ -90,15 +94,15 @@ function initDataTable() {
 // Function to initialize modal events
 function initializeModalEvents() {
   var btnAdd = document.getElementById("btnAdd");
-  
+
   if (btnAdd) {
     btnAdd.addEventListener("click", function (e) {
       e.preventDefault();
       console.log("Add button clicked, opening modal...");
-      
+
       // Resetear el formulario cuando se abre el modal
       resetFormModal();
-      
+
       // Use Bootstrap Modal API to show modal
       if (typeof bootstrap !== "undefined") {
         var modalElement = document.getElementById("modalPotencial");
@@ -121,7 +125,7 @@ function initializeModalEvents() {
 // Function to initialize contacts management
 function initializeContactosEvents() {
   var btnAgregarContacto = document.getElementById("btnAgregarContacto");
-  
+
   if (btnAgregarContacto) {
     btnAgregarContacto.addEventListener("click", function (e) {
       e.preventDefault();
@@ -132,7 +136,9 @@ function initializeContactosEvents() {
 
 // Function to add a new contact
 function agregarContacto() {
-  var contactosAdicionalesContainer = document.getElementById("contactosAdicionalesContainer");
+  var contactosAdicionalesContainer = document.getElementById(
+    "contactosAdicionalesContainer",
+  );
   var totalContactos = document.querySelectorAll(".contacto-block").length;
   var nuevoNumero = totalContactos + 1;
 
@@ -165,7 +171,7 @@ function agregarContacto() {
   `;
 
   contactosAdicionalesContainer.appendChild(nuevoContacto);
-  
+
   // Agregar evento al botón eliminar
   var btnEliminar = nuevoContacto.querySelector(".btn-eliminar-contacto");
   btnEliminar.addEventListener("click", function (e) {
@@ -175,13 +181,15 @@ function agregarContacto() {
 
   // Actualizar contador
   actualizarContadorContactos();
-  
+
   console.log("Contacto agregado:", nuevoNumero);
 }
 
 // Function to remove a contact
 function eliminarContacto(numeroContacto) {
-  var contactoElement = document.querySelector(`[data-contacto="${numeroContacto}"]`);
+  var contactoElement = document.querySelector(
+    `[data-contacto="${numeroContacto}"]`,
+  );
   if (contactoElement) {
     contactoElement.remove();
     actualizarContadorContactos();
@@ -193,9 +201,10 @@ function eliminarContacto(numeroContacto) {
 function actualizarContadorContactos() {
   var totalContactos = document.querySelectorAll(".contacto-block").length;
   var contadorElement = document.getElementById("contadorContactos");
-  
+
   if (contadorElement) {
-    var texto = totalContactos === 1 ? "1 contacto" : totalContactos + " contactos";
+    var texto =
+      totalContactos === 1 ? "1 contacto" : totalContactos + " contactos";
     contadorElement.textContent = texto;
   }
 }
@@ -206,13 +215,15 @@ function resetFormModal() {
   if (form) {
     form.reset();
   }
-  
+
   // Limpiar contenedor de contactos adicionales
-  var contactosAdicionalesContainer = document.getElementById("contactosAdicionalesContainer");
+  var contactosAdicionalesContainer = document.getElementById(
+    "contactosAdicionalesContainer",
+  );
   if (contactosAdicionalesContainer) {
     contactosAdicionalesContainer.innerHTML = "";
   }
-  
+
   actualizarContadorContactos();
 }
 
@@ -226,7 +237,7 @@ if (document.readyState === "loading") {
 // Function to initialize details events
 function initializeDetallesEvents() {
   var botonesDetalle = document.querySelectorAll(".btn-ver-detalle");
-  
+
   if (botonesDetalle.length > 0) {
     botonesDetalle.forEach(function (btn) {
       btn.addEventListener("click", function (e) {
@@ -249,39 +260,47 @@ function abrirModalDetalle(idCliente) {
     fechaEntrega: "28-02-2026",
     fechaIngreso: "05-02-2026",
     estado: "Contactado",
-    jefeValoracion: "Juan López - Jefe de Ventas",
+    jefeValoracion: "Juan López - Jefe de Producción",
     contactos: [
       {
         nombre: "Elvis",
         apellido: "Bravo Sandoval",
-        celular: "51922502947"
+        celular: "51922502947",
       },
       {
         nombre: "María",
         apellido: "García López",
-        celular: "51987654321"
-      }
-    ]
+        celular: "51987654321",
+      },
+    ],
   };
 
   // Llenar los campos del modal
-  document.getElementById("detalle-nivelAcademico").textContent = datosCliente.nivelAcademico || "-";
-  document.getElementById("detalle-universidad").textContent = datosCliente.universidad || "-";
-  document.getElementById("detalle-carrera").textContent = datosCliente.carrera || "-";
-  document.getElementById("detalle-fechaEntrega").textContent = datosCliente.fechaEntrega || "-";
-  document.getElementById("detalle-fechaIngreso").textContent = datosCliente.fechaIngreso || "-";
-  
+  document.getElementById("detalle-nivelAcademico").textContent =
+    datosCliente.nivelAcademico || "-";
+  document.getElementById("detalle-universidad").textContent =
+    datosCliente.universidad || "-";
+  document.getElementById("detalle-carrera").textContent =
+    datosCliente.carrera || "-";
+  document.getElementById("detalle-fechaEntrega").textContent =
+    datosCliente.fechaEntrega || "-";
+  document.getElementById("detalle-fechaIngreso").textContent =
+    datosCliente.fechaIngreso || "-";
+
   // Establecer el estado en el selector
   var estadoSelect = document.getElementById("detalleEstado");
   var estadoValue = datosCliente.estado.toUpperCase().replace(/ /g, "_");
   if (estadoSelect) {
     estadoSelect.value = estadoValue;
   }
-  
-  document.getElementById("detalle-jefeValoracion").textContent = datosCliente.jefeValoracion || "-";
-  
+
+  document.getElementById("detalle-jefeValoracion").textContent =
+    datosCliente.jefeValoracion || "-";
+
   // Guardar el ID del cliente para usarlo al guardar cambios
-  document.getElementById("detalleEstado").setAttribute("data-cliente-id", idCliente);
+  document
+    .getElementById("detalleEstado")
+    .setAttribute("data-cliente-id", idCliente);
 
   // Llenar contactos
   var contactosHtml = "";
@@ -309,7 +328,7 @@ function abrirModalDetalle(idCliente) {
       `;
     });
   } else {
-    contactosHtml = "<p class=\"text-secondary\">Sin contactos registrados</p>";
+    contactosHtml = '<p class="text-secondary">Sin contactos registrados</p>';
   }
   document.getElementById("detalle-contactos").innerHTML = contactosHtml;
 
@@ -327,9 +346,9 @@ function abrirModalDetalle(idCliente) {
 // Function to initialize guardar estado events
 function initializeGuardarEstadoEvents() {
   var btnGuardarEstado = document.getElementById("btnGuardarEstado");
-  
+
   if (btnGuardarEstado) {
-    btnGuardarEstado.addEventListener("click", function(e) {
+    btnGuardarEstado.addEventListener("click", function (e) {
       e.preventDefault();
       guardarNuevoEstado();
     });
@@ -341,51 +360,61 @@ function guardarNuevoEstado() {
   var selectEstado = document.getElementById("detalleEstado");
   var clienteId = selectEstado.getAttribute("data-cliente-id");
   var nuevoEstado = selectEstado.value;
-  
-  console.log("Guardando nuevo estado para cliente:", clienteId, "Estado:", nuevoEstado);
-  
+
+  console.log(
+    "Guardando nuevo estado para cliente:",
+    clienteId,
+    "Estado:",
+    nuevoEstado,
+  );
+
   // Mapeo de estados a valores de tabla y colores
   var estadosMap = {
-    "NUEVO": { texto: "Nuevo", color: "text-bg-secondary" },
-    "CONTACTADO": { texto: "Contactado", color: "text-bg-info" },
-    "INTERESADO": { texto: "Interesado", color: "text-bg-success" },
-    "EN_SEGUIMIENTO": { texto: "En Seguimiento", color: "text-bg-warning" },
-    "DESCARTADO": { texto: "Descartado", color: "text-bg-danger" }
+    NUEVO: { texto: "Nuevo", color: "text-bg-secondary" },
+    CONTACTADO: { texto: "Contactado", color: "text-bg-info" },
+    INTERESADO: { texto: "Interesado", color: "text-bg-success" },
+    EN_SEGUIMIENTO: { texto: "En Seguimiento", color: "text-bg-warning" },
+    DESCARTADO: { texto: "Descartado", color: "text-bg-danger" },
   };
-  
+
   var estadoInfo = estadosMap[nuevoEstado];
-  
+
   if (estadoInfo) {
     // Actualizar la tabla
     var fila = document.querySelector("tr[data-id='" + clienteId + "']");
     if (!fila) {
       // Buscar en todas las filas
       var filas = document.querySelectorAll("tbody tr");
-      filas.forEach(function(tr) {
+      filas.forEach(function (tr) {
         var botones = tr.querySelectorAll("[data-id]");
-        botones.forEach(function(btn) {
+        botones.forEach(function (btn) {
           if (btn.getAttribute("data-id") === clienteId) {
             fila = tr;
           }
         });
       });
     }
-    
+
     if (fila) {
       // Encontrar la celda de estado y actualizar el badge
       var celdaEstado = fila.querySelector("td:nth-child(7)");
       if (celdaEstado) {
-        celdaEstado.innerHTML = '<span class="badge rounded-pill ' + estadoInfo.color + '">' + estadoInfo.texto + '</span>';
+        celdaEstado.innerHTML =
+          '<span class="badge rounded-pill ' +
+          estadoInfo.color +
+          '">' +
+          estadoInfo.texto +
+          "</span>";
       }
     }
-    
+
     // Mostrar confirmación
     if (typeof Swal !== "undefined") {
       Swal.fire({
         title: "¡Éxito!",
         text: "El estado ha sido actualizado a: " + estadoInfo.texto,
         icon: "success",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
       }).then((result) => {
         if (result.isConfirmed) {
           // Cerrar el modal
@@ -402,7 +431,7 @@ function guardarNuevoEstado() {
 // Function to initialize jefe de valoración events
 function initializeJefeValoracionEvents() {
   var botonesJefe = document.querySelectorAll(".btn-seleccionar-jefe");
-  
+
   if (botonesJefe.length > 0) {
     botonesJefe.forEach(function (btn) {
       btn.addEventListener("click", function (e) {
@@ -457,17 +486,17 @@ function guardarJefeValoracion() {
 
   // Mapeo de IDs a nombres
   var jefeMap = {
-    "JUAN_LOPEZ": "Juan López - Jefe de Ventas",
-    "MARIA_GARCIA": "María García - Coordinadora",
-    "CARLOS_RODRIGUEZ": "Carlos Rodríguez - Gestor",
-    "ANA_MARTINEZ": "Ana Martínez - Supervisora",
-    "LUIS_FERNANDEZ": "Luis Fernández - Director"
+    JUAN_LOPEZ: "Juan López - Jefe de Producción",
+    MARIA_GARCIA: "María García - Coordinadora",
+    CARLOS_RODRIGUEZ: "Carlos Rodríguez - Gestor",
+    ANA_MARTINEZ: "Ana Martínez - Supervisora",
+    LUIS_FERNANDEZ: "Luis Fernández - Director",
   };
 
   console.log("Jefe de valoración asignado:", {
     clienteId: clienteIdJefe,
     jefeId: jefeValoracion,
-    jefeName: jefeMap[jefeValoracion]
+    jefeName: jefeMap[jefeValoracion],
   });
 
   // Aquí iría la llamada AJAX para guardar en el servidor
@@ -480,7 +509,7 @@ function guardarJefeValoracion() {
 // Function to initialize ficha de enfoque events
 function initializeFichaEnfoqueEvents() {
   var botonesFicha = document.querySelectorAll(".btn-ficha-enfoque");
-  
+
   if (botonesFicha.length > 0) {
     botonesFicha.forEach(function (btn) {
       btn.addEventListener("click", function (e) {
@@ -537,7 +566,7 @@ function guardarFichaEnfoque() {
     titulo: titulotrabajo,
     variables: variables,
     objetivos: objetivos,
-    descripcion: descripcion
+    descripcion: descripcion,
   });
 
   // Aquí iría la llamada AJAX para guardar en el servidor
@@ -550,7 +579,7 @@ function guardarFichaEnfoque() {
 // Function to initialize convertir cliente events
 function initializeConvertirClienteEvents() {
   var botonesConvertir = document.querySelectorAll(".btn-convertir-cliente");
-  
+
   if (botonesConvertir.length > 0) {
     botonesConvertir.forEach(function (btn) {
       btn.addEventListener("click", function (e) {
@@ -574,7 +603,7 @@ function mostrarConfirmacionConvertirCliente(idCliente) {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, convertir",
-      cancelButtonText: "Cancelar"
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         convertirCliente(idCliente);
@@ -582,7 +611,11 @@ function mostrarConfirmacionConvertirCliente(idCliente) {
     });
   } else {
     // Fallback si SweetAlert no está disponible
-    if (confirm("¿Está seguro de que desea convertir este potencial cliente a cliente?")) {
+    if (
+      confirm(
+        "¿Está seguro de que desea convertir este potencial cliente a cliente?",
+      )
+    ) {
       convertirCliente(idCliente);
     }
   }
@@ -598,7 +631,7 @@ function convertirCliente(idCliente) {
       title: "¡Éxito!",
       text: "El potencial cliente ha sido convertido a cliente correctamente.",
       icon: "success",
-      confirmButtonText: "OK"
+      confirmButtonText: "OK",
     }).then((result) => {
       if (result.isConfirmed) {
         // Aquí podrías recargar la tabla o actualizar los datos

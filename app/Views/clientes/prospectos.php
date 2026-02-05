@@ -283,12 +283,8 @@
                                 <label for="nivelAcademico" class="form-label">Nivel Académico</label>
                                 <select class="form-select" id="nivelAcademico" name="nivelAcademico" required>
                                     <option value="">-- Seleccione un nivel --</option>
-                                    <option value="BACHILLER">Bachiller</option>
-                                    <option value="TECNICO">Técnico</option>
                                     <option value="PREGRADO">Pregrado</option>
                                     <option value="POSGRADO">Posgrado</option>
-                                    <option value="DIPLOMADO">Diplomado</option>
-                                    <option value="ESPECIALIZACION">Especialización</option>
                                     <option value="MAESTRIA">Maestría</option>
                                     <option value="DOCTORADO">Doctorado</option>
                                 </select>
@@ -480,7 +476,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="clienteIdJefe" value="">
-                
+
                 <div class="mb-3">
                     <label for="jefeValoracion" class="form-label">Jefe de Valoración</label>
                     <select class="form-select" id="jefeValoracion" name="jefeValoracion" required>
