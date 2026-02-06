@@ -16,13 +16,14 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Respuesta login:", data);
-        if (data && data.success) {
-          // Redirigir a /home cuando login exitoso
-          window.location.href = "/home";
-        } else {
-          alert(data.message || "Credenciales inválidas");
+        if (data.status == "error") {
+          alert(data.message);
+          return false;
         }
+      
+        window.location.href = "/home";
+        
+        
       })
       .catch((err) => {
         console.error("Error en fetch:", err);

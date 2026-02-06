@@ -59,10 +59,8 @@
                                     </figure>
                                 </div>
                                 <div class="col align-self-center ">
-                                    <?php $nombre = session()->get('nombre');
-                                    $apellidos = session()->get('apellidos'); ?>
-                                    <h5 class="mb-1"><?= $nombre ? esc($nombre . ' ' . $apellidos) : 'Invitado' ?></h5>
-                                    <p class="small"><i class="bi bi-trophy me-2"></i> Desarrollador de Software</p>
+                                    <h5 class="mb-1"><?= session()->get('nombres')." ". session()->get('apellidos') ?></h5>
+                                    <p class="small"><i class="bi bi-trophy me-2"></i> <?= session()->get('rol') ?></p>
                                 </div>
                             </div>
                         </a>

@@ -14,6 +14,9 @@ $routes->get('home', 'Home::index');
 $routes->get('prospectos', 'Clientes::prospectos');
 
 $routes->get('permisos', 'Permisos::index');
+$routes->get('permisos/lista-roles', 'Permisos::listaRoles');
+$routes->post('permisos/guardar-rol', 'Permisos::guardarRol');
+$routes->get('permisos/eliminar-rol/(:num)', 'Permisos::eliminarRol/$1');
 
 $routes->get('usuarios', 'Usuario::index');
 $routes->get('consulta-dni/(:any)/(:any)', 'Usuario::api_dni_ruc/$1/$2');

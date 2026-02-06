@@ -30,106 +30,8 @@
                 </div>
                 <div class="card-body">
                     <!-- Lista de roles -->
-                    <div class="roles-list">
-                        <!-- Rol 1 -->
-                        <div class="role-item p-3 border-bottom">
-                            <div class="row align-items-center gx-0">
-                                <div class="col-auto">
-                                    <div class="form-check">
-                                        <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_1" value="1" data-rol-name="Administrador">
-                                        <label class="form-check-label" for="rol_1">
-                                            Administrador
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col ms-auto text-end">
-                                    <div class="dropdown">
-                                        <button class="btn btn-link btn-sm no-caret p-0" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item btn-editar-rol" href="javascript:void(0)" data-rol-id="1">Editar</a></li>
-                                            <li><a class="dropdown-item text-danger btn-eliminar-rol" href="javascript:void(0)" data-rol-id="1">Eliminar</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="roles-list" id="roles-list">
 
-                        <!-- Rol 2 -->
-                        <div class="role-item p-3 border-bottom">
-                            <div class="row align-items-center gx-0">
-                                <div class="col-auto">
-                                    <div class="form-check">
-                                        <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_2" value="2" data-rol-name="Supervisor">
-                                        <label class="form-check-label" for="rol_2">
-                                            Jefe de Producción
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col ms-auto text-end">
-                                    <div class="dropdown">
-                                        <button class="btn btn-link btn-sm no-caret p-0" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item btn-editar-rol" href="javascript:void(0)" data-rol-id="2">Editar</a></li>
-                                            <li><a class="dropdown-item text-danger btn-eliminar-rol" href="javascript:void(0)" data-rol-id="2">Eliminar</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Rol 3 -->
-                        <div class="role-item p-3 border-bottom">
-                            <div class="row align-items-center gx-0">
-                                <div class="col-auto">
-                                    <div class="form-check">
-                                        <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_3" value="3" data-rol-name="Vendedor">
-                                        <label class="form-check-label" for="rol_3">
-                                            Auxiliar
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col ms-auto text-end">
-                                    <div class="dropdown">
-                                        <button class="btn btn-link btn-sm no-caret p-0" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item btn-editar-rol" href="javascript:void(0)" data-rol-id="3">Editar</a></li>
-                                            <li><a class="dropdown-item text-danger btn-eliminar-rol" href="javascript:void(0)" data-rol-id="3">Eliminar</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Rol 4 -->
-                        <div class="role-item p-3">
-                            <div class="row align-items-center gx-0">
-                                <div class="col-auto">
-                                    <div class="form-check">
-                                        <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_4" value="4" data-rol-name="Usuario">
-                                        <label class="form-check-label" for="rol_4">
-                                            Jefe de Ventas
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col ms-auto text-end">
-                                    <div class="dropdown">
-                                        <button class="btn btn-link btn-sm no-caret p-0" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item btn-editar-rol" href="javascript:void(0)" data-rol-id="4">Editar</a></li>
-                                            <li><a class="dropdown-item text-danger btn-eliminar-rol" href="javascript:void(0)" data-rol-id="4">Eliminar</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -317,23 +219,21 @@
                 <h5 class="modal-title" id="modalTitle">Agregar Rol</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <form id="formRol">
-                    <input type="hidden" id="rolIdEdit" value="">
+            <form id="formRol">
+                <div class="modal-body">
+
+                    <input type="hidden" id="rolId" name="rolId" value="0">
                     <div class="mb-3">
                         <label for="nombreRol" class="form-label">Nombre del Rol</label>
-                        <input type="text" class="form-control" id="nombreRol" placeholder="Ej: Supervisor" required>
+                        <input type="text" class="form-control" id="nombreRol" name="nombreRol" placeholder="Ej: Supervisor" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="descripcionRol" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcionRol" rows="3" placeholder="Describe los permisos generales del rol"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-theme" id="btnGuardarRol">Guardar</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-theme" id="btnGuardarRol">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

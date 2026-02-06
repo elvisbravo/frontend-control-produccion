@@ -9,21 +9,22 @@ const permisosXRol = {
 };
 
 // Inicializar eventos cuando DOM esté listo
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   inicializarEventosRoles();
   inicializarEventosPermisos();
   inicializarEventosRolActions();
+  loadRoles();
 });
 
 function inicializarEventosRoles() {
   const rolesRadio = document.querySelectorAll(".rol-radio");
-  
+
   rolesRadio.forEach(radio => {
-    radio.addEventListener("change", function() {
+    radio.addEventListener("change", function () {
       const rolId = this.value;
       const rolNombre = this.getAttribute("data-rol-name");
       console.log("Rol seleccionado:", rolNombre, "ID:", rolId);
-      
+
       // Cargar permisos del rol seleccionado
       cargarPermisosDelRol(rolId);
     });
@@ -56,12 +57,11 @@ function cargarPermisosDelRol(rolId) {
 function editarRol(rolId) {
   const rolElement = document.querySelector(`.rol-radio[value="${rolId}"]`);
   const rolName = rolElement.getAttribute("data-rol-name");
-  
+
   document.getElementById("modalTitle").textContent = "Editar Rol";
-  document.getElementById("rolIdEdit").value = rolId;
-  document.getElementById("nombreRol").value = rolName;
-  document.getElementById("descripcionRol").value = ""; // Cargar descripción desde BD si existe
-  
+  document.getElementById("rolId").value = rolId;
+  document.getElementById("nombreRol").value = rolName; // Cargar descripción desde BD si existe
+
   const modal = new bootstrap.Modal(document.getElementById("modalAgregarEditarRol"));
   modal.show();
 }
@@ -70,7 +70,7 @@ function editarRol(rolId) {
 function eliminarRol(rolId) {
   const rolElement = document.querySelector(`.rol-radio[value="${rolId}"]`);
   const rolName = rolElement.getAttribute("data-rol-name");
-  
+
   if (typeof Swal !== "undefined") {
     Swal.fire({
       title: "¿Eliminar rol?",
@@ -83,14 +83,21 @@ function eliminarRol(rolId) {
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
-        // TODO: Hacer llamada AJAX para eliminar rol
-        Swal.fire({
-          title: "¡Eliminado!",
-          text: `El rol "${rolName}" ha sido eliminado correctamente.`,
-          icon: "success"
-        }).then(() => {
-          // Recargar la página o actualizar lista de roles
-        });
+        fetch(`/permisos/eliminar-rol/${rolId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === 'success') {
+              Swal.fire({
+                title: "¡Eliminado!",
+                text: `El rol "${rolName}" ha sido eliminado correctamente.`,
+                icon: "success"
+              }).then(() => {
+                loadRoles();
+              });
+            }
+
+          })
+
       }
     });
   } else {
@@ -103,87 +110,18 @@ function eliminarRol(rolId) {
 
 // Función para inicializar eventos de acciones de rol (editar/eliminar botones)
 function inicializarEventosRolActions() {
-  const botonesEditar = document.querySelectorAll(".btn-editar-rol");
-  const botonesEliminar = document.querySelectorAll(".btn-eliminar-rol");
   const btnAgregarRol = document.getElementById("btnAdd");
 
   // Botón agregar rol
   if (btnAgregarRol) {
-    btnAgregarRol.addEventListener("click", function() {
+    btnAgregarRol.addEventListener("click", function () {
       document.getElementById("modalTitle").textContent = "Agregar Rol";
-      document.getElementById("rolIdEdit").value = "";
+      document.getElementById("rolId").value = "";
       document.getElementById("nombreRol").value = "";
-      document.getElementById("descripcionRol").value = "";
-      
+
       const modal = new bootstrap.Modal(document.getElementById("modalAgregarEditarRol"));
       modal.show();
     });
-  }
-
-  // Botones editar
-  botonesEditar.forEach(btn => {
-    btn.addEventListener("click", function(e) {
-      e.preventDefault();
-      const rolId = this.getAttribute("data-rol-id");
-      editarRol(rolId);
-    });
-  });
-
-  // Botones eliminar
-  botonesEliminar.forEach(btn => {
-    btn.addEventListener("click", function(e) {
-      e.preventDefault();
-      const rolId = this.getAttribute("data-rol-id");
-      eliminarRol(rolId);
-    });
-  });
-
-  // Botón guardar rol
-  const btnGuardarRol = document.getElementById("btnGuardarRol");
-  if (btnGuardarRol) {
-    btnGuardarRol.addEventListener("click", function() {
-      guardarRol();
-    });
-  }
-}
-
-// Función para guardar rol (crear o editar)
-function guardarRol() {
-  const nombreRol = document.getElementById("nombreRol").value.trim();
-  const descripcionRol = document.getElementById("descripcionRol").value.trim();
-  const rolIdEdit = document.getElementById("rolIdEdit").value;
-
-  if (!nombreRol) {
-    alert("Por favor, ingresa el nombre del rol");
-    return;
-  }
-
-  const tipoOperacion = rolIdEdit ? "actualizado" : "creado";
-  const mensajeExito = rolIdEdit 
-    ? `El rol "${nombreRol}" ha sido actualizado correctamente.`
-    : `El rol "${nombreRol}" ha sido creado correctamente.`;
-
-  // TODO: Hacer llamada AJAX para guardar rol
-  console.log("Guardando rol:", {
-    id: rolIdEdit,
-    nombre: nombreRol,
-    descripcion: descripcionRol
-  });
-
-  if (typeof Swal !== "undefined") {
-    Swal.fire({
-      title: "¡Éxito!",
-      text: mensajeExito,
-      icon: "success"
-    }).then(() => {
-      // Cerrar modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarEditarRol"));
-      if (modal) modal.hide();
-    });
-  } else {
-    alert(mensajeExito);
-    const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarEditarRol"));
-    if (modal) modal.hide();
   }
 }
 
@@ -192,7 +130,7 @@ function inicializarEventosPermisos() {
   const btnGuardar = document.getElementById("btnGuardarPermisos");
 
   if (btnGuardar) {
-    btnGuardar.addEventListener("click", function() {
+    btnGuardar.addEventListener("click", function () {
       guardarPermisos();
     });
   }
@@ -240,3 +178,90 @@ function guardarPermisos() {
   //   body: JSON.stringify({ rolId, permisos: permisosSeleccionados })
   // })
 }
+
+const rolesList = document.getElementById("roles-list");
+
+function loadRoles() {
+  fetch('/permisos/lista-roles')
+    .then(res => res.json())
+    .then(data => {
+      const datos = data.result;
+      let html = "";
+
+      datos.forEach(rol => {
+        let opciones = "";
+
+        if (rol.id != 1 && rol.id != 2) {
+          opciones += `
+        <div class="col ms-auto text-end">
+          <div class="dropdown">
+              <button class="btn btn-link btn-sm no-caret p-0" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item btn-editar-rol" href="javascript:void(0)" onclick="editarRol(${rol.id})" data-rol-id="${rol.id}">Editar</a></li>
+                  <li><a class="dropdown-item text-danger btn-eliminar-rol" onclick="eliminarRol(${rol.id})" href="javascript:void(0)" data-rol-id="${rol.id}">Eliminar</a></li>
+              </ul>
+          </div>
+        </div>
+        `;
+        }
+
+        html += `
+      <div class="role-item p-3 border-bottom">
+        <div class="row align-items-center gx-0">
+          <div class="col-auto">
+            <div class="form-check">
+              <input class="form-check-input rol-radio" type="radio" name="rolSeleccionado" id="rol_${rol.id}" value="${rol.id}" data-rol-name="${rol.nombre}">
+                <label class="form-check-label" for="rol_${rol.id}">
+                  ${rol.nombre}
+              </label>
+            </div>
+          </div>
+          ${opciones}                     
+        </div>
+      </div>
+      `;
+      });
+
+      rolesList.innerHTML = html;
+
+    })
+}
+
+const formRol = document.getElementById("formRol");
+
+formRol.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(formRol);
+
+  fetch('/permisos/guardar-rol', {
+    method: 'POST',
+    body: formData
+  })
+    .then(res => res.json())
+    .then(data => {
+
+      if (data.status === 'success') {
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarEditarRol"));
+        modal.hide();
+        // Recargar lista de roles
+        loadRoles();
+
+        return false;
+      }
+
+      alert("Error al guardar el rol: " + data.message);
+    })
+    .catch(err => {
+      console.error("Error al guardar rol:", err);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un error al guardar el rol. Por favor, intenta nuevamente.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    });
+})
