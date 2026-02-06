@@ -52,6 +52,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="url_backend" value="<?= getenv('URL_BACKEND') ?>">
     <!-- standard header -->
     <header class="adminuiux-header">
         <!-- Fixed navbar -->
@@ -479,9 +480,10 @@
 
     <!-- Page Level js -->
     <script src="assets/js/adminux/adminux-dashboard.js"></script>
+    <script src="js/main.js"></script>
 
     <?= $this->renderSection('scripts') ?>
-    
+
 </body>
 
 

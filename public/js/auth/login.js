@@ -20,10 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(data.message);
           return false;
         }
-      
+
         window.location.href = "/home";
-        
-        
       })
       .catch((err) => {
         console.error("Error en fetch:", err);

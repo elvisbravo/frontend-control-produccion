@@ -20,6 +20,9 @@ $routes->get('permisos/eliminar-rol/(:num)', 'Permisos::eliminarRol/$1');
 
 $routes->get('usuarios', 'Usuario::index');
 $routes->get('consulta-dni/(:any)/(:any)', 'Usuario::api_dni_ruc/$1/$2');
+$routes->post('save-user', 'Usuario::create');
+$routes->get('usuarios/get-all', 'Usuario::getUsers');
+$routes->get('usuario/get-row/(:num)', 'Usuario::getUser/$1');
 
 $routes->get('tareas', 'Tareas::index');
 

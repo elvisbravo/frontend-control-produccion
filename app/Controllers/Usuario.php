@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\RolModel;
-
 class Usuario extends BaseController
 {
     public function index()
@@ -101,5 +99,117 @@ class Usuario extends BaseController
         $resp['data'] = json_decode($data);
 
         return $this->response->setJSON($resp);
+    }
+
+    public function create()
+    {
+        $usuarioId = $this->request->getPost('usuarioId');
+        $tipoDocumento = $this->request->getPost('tipoDocumento');
+        $numeroDocumento = $this->request->getPost('numeroDocumento');
+        $nombres = $this->request->getPost('nombres');
+        $apellidos = $this->request->getPost('apellidos');
+        $fechaNacimiento = $this->request->getPost('fechaNacimiento');
+        $celular = $this->request->getPost('celular');
+        $direccion = $this->request->getPost('direccion');
+        $rol_id = $this->request->getPost('rol_id');
+        $correo = $this->request->getPost('correo');
+        $password = $this->request->getPost('password');
+
+        $ruta = getenv('URL_BACKEND') . 'usuario/create';
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->post($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false,
+            'json' => [
+                'usuarioId' => $usuarioId,
+                'tipoDocumento' => $tipoDocumento,
+                'numeroDocumento' => $numeroDocumento,
+                'nombres' => $nombres,
+                'apellidos' => $apellidos,
+                'fechaNacimiento' => $fechaNacimiento,
+                'celular' => $celular,
+                'direccion' => $direccion,
+                'rol_id' => $rol_id,
+                'correo' => $correo,
+                'password' => $password
+            ]
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
+    }
+
+    public function getUsers()
+    {
+        $ruta = getenv('URL_BACKEND') . 'usuario/get-all';
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
+    }
+
+    public function getUser($id)
+    {
+        $ruta = getenv('URL_BACKEND') . 'usuario/get-row/' . $id;
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
     }
 }
