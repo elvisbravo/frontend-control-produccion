@@ -113,7 +113,6 @@ function initDataTable() {
 function inicializarEventosUsuarios() {
   const btnAdd = document.getElementById("btnAdd");
   const btnBuscarDocumento = document.getElementById("btnBuscarDocumento");
-  const btnGuardarUsuario = document.getElementById("btnGuardarUsuario");
 
   // Botón agregar usuario
   if (btnAdd) {
@@ -129,12 +128,7 @@ function inicializarEventosUsuarios() {
     });
   }
 
-  // Botón guardar usuario
-  if (btnGuardarUsuario) {
-    btnGuardarUsuario.addEventListener("click", function () {
-      guardarUsuario();
-    });
-  }
+
 }
 
 // Función para abrir modal para agregar usuario
@@ -142,7 +136,7 @@ function abrirModalAgregarUsuario() {
   document.getElementById("modalTitle").textContent = "Agregar Usuario";
   document.getElementById("usuarioIdEdit").value = "";
   document.getElementById("formUsuario").reset();
-  document.getElementById("tipoDocumento").value = "DNI";
+  document.getElementById("tipoDocumento").value = "2";
 
   const modal = new bootstrap.Modal(
     document.getElementById("modalAgregarEditarUsuario"),

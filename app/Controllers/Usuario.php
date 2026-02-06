@@ -6,12 +6,33 @@ use App\Models\RolModel;
 
 class Usuario extends BaseController
 {
-    public function index(): string
+    public function index()
     {
-        $rol = new RolModel();
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to(base_url());
+        }
 
-        $roles = $rol->where('id !=', 1)->where('estado', true)->findAll();
+        $ruta = getenv('URL_BACKEND') . 'permisos/lista-roles';
 
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['message']['error']
+            ]);
+        }
+
+        $roles = $data['result'];
         return view('usuarios/index', compact('roles'));
     }
 

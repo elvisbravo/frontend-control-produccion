@@ -69,9 +69,9 @@
                             <div class="mb-3">
                                 <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
                                 <select class="form-select" id="tipoDocumento" required>
-                                    <option value="DNI">D.N.I.</option>
-                                    <option value="CARNET">Carné de Extranjería</option>
-                                    <option value="PASAPORTE">Pasaporte</option>
+                                    <option value="2">D.N.I.</option>
+                                    <option value="3">Carné de Extranjería</option>
+                                    <option value="5">Pasaporte</option>
                                 </select>
                             </div>
                         </div>
@@ -136,7 +136,9 @@
                                 <select name="rol_id" id="rol_id" class="form-control">
                                     <option value="">Seleccione...</option>
                                     <?php foreach ($roles as $key => $value) { ?>
-                                        <option value="<?= $value['id'] ?> ?>"><?= $value['nombre'] ?></option>
+                                        <?php if($value['id'] != 1) { ?>
+                                        <option value="<?= $value['id'] ?>"><?= $value['nombre'] ?></option>
+                                        <?php } ?>
                                     <?php } ?>
                                 </select>
                             </div>
