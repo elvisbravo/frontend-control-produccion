@@ -31,12 +31,6 @@
     </a>
     <ul class="dropdown-menu">
         <li class="nav-item">
-            <a class="nav-link" href="adminux-network-dashboard.html">
-                <i class="menu-icon bi bi-grid"></i>
-                <div class="col align-self-center menu-name">Categoría de Tareas</div>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="/tareas">
                 <i class="menu-icon bi bi-speedometer"></i>
                 <div class="col align-self-center menu-name">Tareas</div>

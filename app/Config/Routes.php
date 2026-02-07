@@ -23,8 +23,15 @@ $routes->get('consulta-dni/(:any)/(:any)', 'Usuario::api_dni_ruc/$1/$2');
 $routes->post('save-user', 'Usuario::create');
 $routes->get('usuarios/get-all', 'Usuario::getUsers');
 $routes->get('usuario/get-row/(:num)', 'Usuario::getUser/$1');
+$routes->get('usuario/delete/(:num)', 'Usuario::delete/$1');
 
 $routes->get('tareas', 'Tareas::index');
+$routes->post('tareas/save', 'Tareas::create');
+$routes->post('categorias/save', 'Tareas::createType');
+$routes->get('categorias/get-all', 'Tareas::getAllCategories');
+$routes->get('tareas/get-all', 'Tareas::getAllTareas');
+$routes->get('categorias/delete/(:num)', 'Tareas::deleteType/$1');
+$routes->get('tareas/delete/(:num)', 'Tareas::delete/$1');
 
 $routes->get('instituciones', 'Instituciones::index');
 

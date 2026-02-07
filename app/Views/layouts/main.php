@@ -479,7 +479,7 @@
     </div>
 
     <!-- Page Level js -->
-    <script src="assets/js/adminux/adminux-dashboard.js"></script>
+    <!--<script src="assets/js/adminux/adminux-dashboard.js"></script>-->
     <script src="js/main.js"></script>
 
     <?= $this->renderSection('scripts') ?>

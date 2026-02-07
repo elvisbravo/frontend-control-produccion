@@ -212,4 +212,32 @@ class Usuario extends BaseController
             'result' => $data['result']
         ]);
     }
+
+    public function delete($id)
+    {
+        $ruta = getenv('URL_BACKEND') . 'usuario/delete/' . $id;
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message']
+        ]);
+    }
 }

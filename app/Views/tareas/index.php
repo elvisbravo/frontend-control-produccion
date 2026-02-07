@@ -35,7 +35,6 @@
                             <th>Categoría</th>
                             <th>Nombre de la Tarea</th>
                             <th>Horas Estimadas</th>
-                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -76,46 +75,37 @@
                 <h5 class="modal-title" id="modalTareaTitle">Agregar Tarea</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <form id="formTarea">
-                    <input type="hidden" id="tareaIdEdit" value="">
+            <form id="formTarea">
+                <div class="modal-body">
+
+                    <input type="hidden" id="tareaId" name="tareaId" value="0">
 
                     <!-- Categoría -->
                     <div class="mb-3">
                         <label for="tareaCategoria" class="form-label">Categoría</label>
-                        <select class="form-select" id="tareaCategoria" required>
-                            <option value="">Selecciona una categoría</option>
+                        <select class="form-select" id="tareaCategoria" name="tareaCategoria" required>
                         </select>
                     </div>
 
                     <!-- Nombre de la Tarea -->
                     <div class="mb-3">
                         <label for="tareaNombre" class="form-label">Nombre de la Tarea</label>
-                        <input type="text" class="form-control" id="tareaNombre" placeholder="Ingresa el nombre" required>
+                        <input type="text" class="form-control" id="tareaNombre" name="tareaNombre" placeholder="Ingresa el nombre" required>
                     </div>
 
                     <!-- Horas Estimadas -->
                     <div class="mb-3">
                         <label for="tareasHoras" class="form-label">Horas Estimadas</label>
-                        <input type="number" class="form-control" id="tareasHoras" placeholder="Ej: 8" min="0.5" step="0.5" required>
+                        <input type="text" class="form-control" id="tareasHoras" name="tareasHoras" placeholder="Ej: 8:00" required>
                     </div>
 
-                    <!-- Estado -->
-                    <div class="mb-3">
-                        <label for="tareaEstado" class="form-label">Estado</label>
-                        <select class="form-select" id="tareaEstado" required>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="En Progreso">En Progreso</option>
-                            <option value="Completada">Completada</option>
-                        </select>
-                    </div>
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-theme" id="btnGuardarTarea">Guardar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-theme" id="btnGuardarTarea">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -128,31 +118,33 @@
                 <h5 class="modal-title" id="modalCategoriaTitle">Agregar Categoría</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <form id="formCategoria">
-                    <input type="hidden" id="categoriaIdEdit" value="">
+            <form id="formCategoria">
+                <div class="modal-body">
+
+                    <input type="hidden" id="categoriaId" name="categoriaId" value="">
 
                     <!-- Nombre de Categoría -->
                     <div class="mb-3">
                         <label for="categoriaNombre" class="form-label">Nombre de la Categoría</label>
-                        <input type="text" class="form-control" id="categoriaNombre" placeholder="Ej: Desarrollo, Testing, etc." required>
+                        <input type="text" class="form-control" id="categoriaNombre" name="categoriaNombre" placeholder="Ej: Desarrollo, Testing, etc." required>
                     </div>
 
                     <!-- Color de Categoría -->
                     <div class="mb-3">
                         <label for="categoriaColor" class="form-label">Color</label>
                         <div class="input-group">
-                            <input type="color" class="form-control form-control-color" id="categoriaColor" value="#007bff" required>
+                            <input type="color" class="form-control form-control-color" id="categoriaColor" name="categoriaColor" value="#007bff" required>
                             <span class="input-group-text" id="colorPreview" style="background-color: #007bff;"></span>
                         </div>
                     </div>
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-theme" id="btnGuardarCategoria">Guardar</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-theme" id="btnGuardarCategoria">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

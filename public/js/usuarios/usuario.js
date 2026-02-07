@@ -42,7 +42,7 @@ function initDataTable() {
                             <button type="button" class="btn btn-outline-primary btn-editar-usuario" onclick="editarUsuario(${row.id})" data-usuario-id="${row.id}">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-outline-danger btn-eliminar-usuario" data-usuario-id="${row.id}">
+                            <button type="button" class="btn btn-outline-danger btn-eliminar-usuario" onclick="eliminarUsuario(${row.id}, '${row.nombres}', '${row.apellidos}')" data-usuario-id="${row.id}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -59,22 +59,6 @@ function initDataTable() {
     searching: true,
     ordering: true,
     info: true,
-  });
-
-  // Agregar event listeners para editar y eliminar
-  document.addEventListener("click", function (e) {
-    if (e.target.closest(".btn-editar-usuario")) {
-      const usuarioId = e.target
-        .closest(".btn-editar-usuario")
-        .getAttribute("data-usuario-id");
-      //editarUsuario(usuarioId);
-    }
-    if (e.target.closest(".btn-eliminar-usuario")) {
-      const usuarioId = e.target
-        .closest(".btn-eliminar-usuario")
-        .getAttribute("data-usuario-id");
-      eliminarUsuario(usuarioId);
-    }
   });
 }
 
@@ -139,52 +123,45 @@ function editarUsuario(usuarioId) {
 }
 
 // Función para eliminar usuario
-function eliminarUsuario(usuarioId) {
-  const usuario = usuariosData.find((u) => u.id == usuarioId);
+function eliminarUsuario(usuarioId, nombres, apellidos) {
 
-  if (!usuario) {
-    alert("Usuario no encontrado");
-    return;
-  }
+  const nombreCompleto = nombres + " " + apellidos;
 
-  const nombreCompleto = usuario.nombres + " " + usuario.apellidos;
+  Swal.fire({
+    title: "¿Eliminar usuario?",
+    text: `¿Estás seguro de que deseas eliminar a ${nombreCompleto}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3545",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // TODO: Hacer llamada AJAX para eliminar usuario
+      fetch("usuario/delete/" + usuarioId)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "error") {
+            Swal.fire({
+              title: "Error",
+              text: data.message,
+              icon: "error",
+            });
+            return;
+          }
 
-  if (typeof Swal !== "undefined") {
-    Swal.fire({
-      title: "¿Eliminar usuario?",
-      text: `¿Estás seguro de que deseas eliminar a ${nombreCompleto}?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#6c757d",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // TODO: Hacer llamada AJAX para eliminar usuario
-        const index = usuariosData.findIndex((u) => u.id == usuarioId);
-        if (index > -1) {
-          usuariosData.splice(index, 1);
-          usuariosTable.clear().rows.add(usuariosData).draw();
-        }
+          usuariosTable.ajax.reload(null, false);
 
-        Swal.fire({
-          title: "¡Eliminado!",
-          text: `${nombreCompleto} ha sido eliminado correctamente.`,
-          icon: "success",
-        });
-      }
-    });
-  } else {
-    if (confirm(`¿Eliminar a ${nombreCompleto}?`)) {
-      const index = usuariosData.findIndex((u) => u.id == usuarioId);
-      if (index > -1) {
-        usuariosData.splice(index, 1);
-        usuariosTable.clear().rows.add(usuariosData).draw();
-      }
-      alert("Usuario eliminado correctamente");
+          Swal.fire({
+            title: "¡Eliminado!",
+            text: `${nombreCompleto} ha sido eliminado correctamente.`,
+            icon: "success",
+          });
+
+        })
     }
-  }
+  });
 }
 
 // Función para buscar documento
@@ -236,6 +213,6 @@ formUsuario.addEventListener("submit", (e) => {
 
       alert(data.message);
 
-      usuariosTable.ajax.reload();
+      usuariosTable.ajax.reload(null, false);
     });
 });
