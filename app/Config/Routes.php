@@ -34,6 +34,9 @@ $routes->get('categorias/delete/(:num)', 'Tareas::deleteType/$1');
 $routes->get('tareas/delete/(:num)', 'Tareas::delete/$1');
 
 $routes->get('instituciones', 'Instituciones::index');
+$routes->post('instituciones/save', 'Instituciones::save');
+$routes->get('instituciones/get-all', 'Instituciones::getInstituciones');
+$routes->get('instituciones/delete/(:num)', 'Instituciones::delete/$1');
 
 $routes->get('carreras', 'Carreras::index');
 // Mantenimientos - Feriados

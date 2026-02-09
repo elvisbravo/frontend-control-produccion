@@ -29,6 +29,8 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <?= $this->renderSection('styles') ?>
+
     <script defer src="assets/js/app134b.js?772e8d72791201a52a4c"></script>
     <link href="assets/css/app134b.css?772e8d72791201a52a4c" rel="stylesheet">
 </head>
