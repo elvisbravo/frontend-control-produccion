@@ -35,6 +35,7 @@
                             <th>Categoría</th>
                             <th>Nombre de la Tarea</th>
                             <th>Horas Estimadas</th>
+                            <th>Roles</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -97,6 +98,18 @@
                     <div class="mb-3">
                         <label for="tareasHoras" class="form-label">Horas Estimadas</label>
                         <input type="text" class="form-control" id="tareasHoras" name="tareasHoras" placeholder="Ej: 8:00" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tareasHoras" class="form-label">Roles</label>
+                        <div class="input-group input-group-md rounded mb-3" style="--mw-dynamic: calc(100% - 41px)">
+                            <span class="input-group-text text-theme"><i class="bi bi-person"></i></span>
+                            <select class="form-control" id="roles" name="roles[]" multiple="">
+                                <?php foreach ($roles as $rol) : ?>
+                                    <option value="<?= $rol['id'] ?>"><?= $rol['nombre'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
 
 

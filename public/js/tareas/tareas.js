@@ -42,6 +42,16 @@ function initDataTable() {
             {
                 data: null,
                 render: function (data, type, row) {
+                    let rolesHtml = '';
+                    row.roles.forEach(rol => {
+                        rolesHtml += `<span class="badge rounded-pill bg-secondary me-1">${rol.nombre}</span>`;
+                    });
+                    return rolesHtml;
+                }
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
                     return `
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-outline-primary btn-editar-tarea" data-tarea-id="${row.id}" onclick="editarTarea(${row.id}, '${row.nombre}', '${row.horas_estimadas}', ${row.tipo_tarea})">
@@ -170,7 +180,7 @@ function eliminarTarea(tareaId, nombre) {
             fetch(`tareas/delete/${tareaId}`)
                 .then(res => res.json())
                 .then(data => {
-                    
+
                     if (data.status === 'error') {
                         Swal.fire({
                             title: "¡Error!",
@@ -337,3 +347,12 @@ formCategoria.addEventListener("submit", (e) => {
 
         })
 })
+
+const element = document.querySelector('#roles');
+const choices = new Choices(element, {
+    removeItems: true,
+    removeItemButton: true,
+    placeholder: true,
+    placeholderValue: 'Selecciona roles',
+    searchPlaceholderValue: 'Buscar roles',
+});

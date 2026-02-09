@@ -10,7 +10,29 @@ class Tareas extends BaseController
             return redirect()->to(base_url());
         }
 
-        return view('tareas/index');
+        $ruta = getenv('URL_BACKEND') . 'permisos/lista-roles';
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['message']['error']
+            ]);
+        }
+
+        $roles = $data['result'];
+
+        return view('tareas/index', compact('roles'));
     }
 
     public function create()
@@ -19,6 +41,7 @@ class Tareas extends BaseController
         $tareaCategoria = $this->request->getPost('tareaCategoria');
         $tareaNombre = $this->request->getPost('tareaNombre');
         $tareaHoras = $this->request->getPost('tareasHoras');
+        $tareasRoles = $this->request->getPost('roles');
 
         $ruta = getenv('URL_BACKEND') . 'tareas/save';
 
@@ -33,7 +56,8 @@ class Tareas extends BaseController
                 'id' => $tareaId,
                 'categoriaId' => $tareaCategoria,
                 'nombre' => $tareaNombre,
-                'horasEstimadas' => $tareaHoras
+                'horasEstimadas' => $tareaHoras,
+                'roles' => $tareasRoles
             ]
         ]);
 
