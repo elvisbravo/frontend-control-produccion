@@ -32,7 +32,6 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Nombre</th>
-                        <th>Tipo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>

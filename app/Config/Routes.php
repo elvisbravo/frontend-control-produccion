@@ -43,7 +43,8 @@ $routes->post('carreras/save', 'Carreras::save');
 $routes->get('carreras/get-all', 'Carreras::getCarreras');
 $routes->get('carreras/delete/(:num)', 'Carreras::delete/$1');
 // Mantenimientos - Feriados
-$routes->get('feriados', 'Mantenimientos::feriados');
+$routes->get('feriados', 'Feriados::index');
+$routes->get('feriados/get-all', 'Feriados::getFeriados');
 
 $routes->get('trabajos', 'Trabajos::index');
 $routes->get('trabajos/data', 'Trabajos::data');

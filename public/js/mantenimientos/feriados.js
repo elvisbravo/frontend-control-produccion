@@ -18,25 +18,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function render() {
     tableBody.innerHTML = "";
-    holidays.forEach((h, idx) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${h.date}</td>
-        <td>${h.name}</td>
-        <td>${h.type}${h.type === "regional" && h.region ? " (" + h.region + ")" : ""}</td>
+
+    fetch("feriados/get-all")
+      .then((response) => response.json())
+      .then((data) => {
+        const datos = data.result;
+        datos.forEach((h, idx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+        <td>${h.fecha}</td>
+        <td>${h.nombre}</td>
         <td><button class="btn btn-sm btn-outline-danger" data-idx="${idx}">Eliminar</button></td>
       `;
-      tableBody.appendChild(tr);
-    });
+          tableBody.appendChild(tr);
+        });
+      })
 
-    // attach delete handlers
-    tableBody.querySelectorAll("button[data-idx]").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const i = parseInt(this.dataset.idx, 10);
-        holidays.splice(i, 1);
-        render();
-      });
-    });
   }
 
   function computeEaster(year) {
