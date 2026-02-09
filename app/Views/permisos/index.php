@@ -55,20 +55,20 @@
                         <div class="modulo-item mb-4">
                             <div class="modulo-header mb-3">
                                 <h6 class="mb-0">
-                                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                                    <i class="bi bi-speedometer2 me-2"></i>Gestion de clientes
                                 </h6>
                             </div>
                             <div class="submodulos-list ps-4">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_dashboard_ver" value="dashboard_ver">
                                     <label class="form-check-label" for="perm_dashboard_ver">
-                                        Ver Dashboard
+                                        Prospectos/potenciales
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_dashboard_exportar" value="dashboard_exportar">
                                     <label class="form-check-label" for="perm_dashboard_exportar">
-                                        Exportar Reportes
+                                        Trabajos
                                     </label>
                                 </div>
                             </div>
@@ -78,32 +78,32 @@
                         <div class="modulo-item mb-4">
                             <div class="modulo-header mb-3">
                                 <h6 class="mb-0">
-                                    <i class="bi bi-people me-2"></i>Clientes
+                                    <i class="bi bi-people me-2"></i>Mantenimiento
                                 </h6>
                             </div>
                             <div class="submodulos-list ps-4">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_clientes_ver" value="clientes_ver">
                                     <label class="form-check-label" for="perm_clientes_ver">
-                                        Ver Clientes
+                                        Tareas
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_clientes_crear" value="clientes_crear">
                                     <label class="form-check-label" for="perm_clientes_crear">
-                                        Crear Clientes
+                                        Universidad/instituto
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_clientes_editar" value="clientes_editar">
                                     <label class="form-check-label" for="perm_clientes_editar">
-                                        Editar Clientes
+                                        Carreras
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_clientes_eliminar" value="clientes_eliminar">
                                     <label class="form-check-label" for="perm_clientes_eliminar">
-                                        Eliminar Clientes
+                                        Feriados
                                     </label>
                                 </div>
                             </div>
@@ -113,26 +113,26 @@
                         <div class="modulo-item mb-4">
                             <div class="modulo-header mb-3">
                                 <h6 class="mb-0">
-                                    <i class="bi bi-cart me-2"></i>Ventas
+                                    <i class="bi bi-cart me-2"></i>Seguridad
                                 </h6>
                             </div>
                             <div class="submodulos-list ps-4">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_ventas_ver" value="ventas_ver">
                                     <label class="form-check-label" for="perm_ventas_ver">
-                                        Ver Ventas
+                                        Usuarios
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_ventas_crear" value="ventas_crear">
                                     <label class="form-check-label" for="perm_ventas_crear">
-                                        Crear Venta
+                                        Permisos
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="perm_ventas_aprobar" value="ventas_aprobar">
                                     <label class="form-check-label" for="perm_ventas_aprobar">
-                                        Aprobar Ventas
+                                        Modulos
                                     </label>
                                 </div>
                             </div>
@@ -167,34 +167,6 @@
                             </div>
                         </div>
 
-                        <!-- Módulo: Configuración -->
-                        <div class="modulo-item mb-4">
-                            <div class="modulo-header mb-3">
-                                <h6 class="mb-0">
-                                    <i class="bi bi-gear me-2"></i>Configuración
-                                </h6>
-                            </div>
-                            <div class="submodulos-list ps-4">
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="perm_config_ver" value="config_ver">
-                                    <label class="form-check-label" for="perm_config_ver">
-                                        Ver Configuración
-                                    </label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="perm_config_editar" value="config_editar">
-                                    <label class="form-check-label" for="perm_config_editar">
-                                        Editar Configuración
-                                    </label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="perm_config_usuarios" value="config_usuarios">
-                                    <label class="form-check-label" for="perm_config_usuarios">
-                                        Gestionar Usuarios
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Botón Guardar -->

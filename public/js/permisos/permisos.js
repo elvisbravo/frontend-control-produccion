@@ -250,6 +250,12 @@ formRol.addEventListener("submit", (e) => {
         // Recargar lista de roles
         loadRoles();
 
+        Swal.fire({
+          title: "¡Éxito!",
+          text: data.message,
+          icon: "success"
+        })
+
         return false;
       }
 
