@@ -116,7 +116,7 @@ function inicializarEventosRolActions() {
   if (btnAgregarRol) {
     btnAgregarRol.addEventListener("click", function () {
       document.getElementById("modalTitle").textContent = "Agregar Rol";
-      document.getElementById("rolId").value = "";
+      document.getElementById("rolId").value = "0";
       document.getElementById("nombreRol").value = "";
 
       const modal = new bootstrap.Modal(document.getElementById("modalAgregarEditarRol"));
