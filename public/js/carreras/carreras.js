@@ -2,30 +2,10 @@
 
 let carrerasTable;
 
-// Muestra de instituciones (puedes sincronizar con `institucionesData` del otro script o con backend)
-const institucionesList = [
-    { id: 1, nombre: 'Universidad Nacional' },
-    { id: 2, nombre: 'Instituto Superior ABC' },
-    { id: 3, nombre: 'Universidad Privada XYZ' }
-];
-
-let carrerasData = [
-    { id: 1, institucionId: 1, nombre: 'Ingeniería de Sistemas' },
-    { id: 2, institucionId: 2, nombre: 'Administración' },
-    { id: 3, institucionId: 3, nombre: 'Marketing' }
-];
-
-document.addEventListener('DOMContentLoaded', function() {
-    poblarSelectInstituciones();
+document.addEventListener('DOMContentLoaded', function () {
     initDataTable();
     inicializarEventosCarreras();
 });
-
-function poblarSelectInstituciones() {
-    const select = document.getElementById('carreraInstitucion');
-    if (!select) return;
-    select.innerHTML = '<option value="">Selecciona una institución</option>' + institucionesList.map(i => `<option value="${i.id}">${i.nombre}</option>`).join('');
-}
 
 function initDataTable() {
     if (typeof $ === 'undefined') {
@@ -34,23 +14,23 @@ function initDataTable() {
     }
 
     carrerasTable = $('#carrerasTable').DataTable({
-        data: carrerasData,
+        ajax: {
+            url: "carreras/get-all",
+            type: "GET",
+            dataSrc: "result",
+        },
         columns: [
             {
-                data: 'institucionId',
-                render: function(data, type, row) {
-                    const inst = institucionesList.find(i => i.id == data);
-                    return inst ? inst.nombre : 'Sin institución';
-                }
+                data: 'institucion_nombre',
             },
             { data: 'nombre' },
             {
                 data: null,
-                render: function(data, type, row) {
+                render: function (data, type, row) {
                     return `
                         <div class="btn-group btn-group-sm" role="group">
-                            <button class="btn btn-outline-primary btn-editar-carrera" data-id="${row.id}"><i class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-outline-danger btn-eliminar-carrera" data-id="${row.id}"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-outline-primary btn-editar-carrera" data-id="${row.id}" onclick="editarCarrera(${row.id}, '${row.nombre}', ${row.institucion_id})"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-outline-danger btn-eliminar-carrera" data-id="${row.id}" onclick="eliminarCarrera(${row.id}, '${row.nombre}')"><i class="bi bi-trash"></i></button>
                         </div>
                     `;
                 }
@@ -61,99 +41,84 @@ function initDataTable() {
         paging: true,
         pageLength: 10
     });
-
-    document.addEventListener('click', function(e) {
-        const editar = e.target.closest('.btn-editar-carrera');
-        const eliminar = e.target.closest('.btn-eliminar-carrera');
-        if (editar) editarCarrera(editar.getAttribute('data-id'));
-        if (eliminar) eliminarCarrera(eliminar.getAttribute('data-id'));
-    });
 }
 
 function inicializarEventosCarreras() {
     const btnAdd = document.getElementById('btnAddCarrera');
-    const btnGuardar = document.getElementById('btnGuardarCarrera');
 
     if (btnAdd) btnAdd.addEventListener('click', abrirModalAgregarCarrera);
-    if (btnGuardar) btnGuardar.addEventListener('click', guardarCarrera);
 }
 
 function abrirModalAgregarCarrera() {
     document.getElementById('modalCarreraTitle').textContent = 'Agregar Carrera';
-    document.getElementById('carreraIdEdit').value = '';
+    document.getElementById('carreraId').value = '0';
     document.getElementById('formCarrera').reset();
-    poblarSelectInstituciones();
+    //poblarSelectInstituciones();
     const modal = new bootstrap.Modal(document.getElementById('modalAgregarEditarCarrera'));
     modal.show();
 }
 
-function editarCarrera(id) {
-    const carrera = carrerasData.find(c => c.id == id);
-    if (!carrera) { alert('Carrera no encontrada'); return; }
+function editarCarrera(id, nombre, institucionId) {
     document.getElementById('modalCarreraTitle').textContent = 'Editar Carrera';
-    document.getElementById('carreraIdEdit').value = carrera.id;
-    document.getElementById('carreraInstitucion').value = carrera.institucionId;
-    document.getElementById('carreraNombre').value = carrera.nombre;
+    document.getElementById('carreraId').value = id;
+    document.getElementById('carreraInstitucion').value = institucionId;
+    document.getElementById('carreraNombre').value = nombre;
     const modal = new bootstrap.Modal(document.getElementById('modalAgregarEditarCarrera'));
     modal.show();
 }
 
-function eliminarCarrera(id) {
-    const carrera = carrerasData.find(c => c.id == id);
-    if (!carrera) { alert('No encontrada'); return; }
-    const nombre = carrera.nombre;
-    if (typeof Swal !== 'undefined') {
-        Swal.fire({
-            title: '¿Eliminar carrera?',
-            text: `¿Eliminar ${nombre}?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Sí, eliminar'
-        }).then(res => {
-            if (res.isConfirmed) {
-                const idx = carrerasData.findIndex(c => c.id == id);
-                if (idx > -1) { carrerasData.splice(idx,1); carrerasTable.clear().rows.add(carrerasData).draw(); }
-                Swal.fire('Eliminada','Carrera eliminada','success');
-            }
-        });
-    } else {
-        if (confirm(`Eliminar ${nombre}?`)) {
-            const idx = carrerasData.findIndex(c => c.id == id);
-            if (idx > -1) { carrerasData.splice(idx,1); carrerasTable.clear().rows.add(carrerasData).draw(); }
-            alert('Carrera eliminada');
+function eliminarCarrera(id, nombre) {
+    Swal.fire({
+        title: '¿Eliminar carrera?',
+        text: `¿Eliminar ${nombre}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar'
+    }).then(res => {
+        if (res.isConfirmed) {
+            fetch(`/carreras/delete/${id}`, {
+                method: 'GET'
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire('Eliminada', data.message, 'success').then(() => {
+                            carrerasTable.ajax.reload(null, false);
+                        });
+                    } else {
+                        Swal.fire('Error', 'Error al eliminar la carrera: ' + data.message, 'error');
+                    }
+                })
+
         }
-    }
+    });
 }
 
-function guardarCarrera() {
-    const form = document.getElementById('formCarrera');
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-    const idEdit = document.getElementById('carreraIdEdit').value;
-    const institucionId = parseInt(document.getElementById('carreraInstitucion').value);
-    const nombre = document.getElementById('carreraNombre').value.trim();
-    if (!institucionId) { alert('Selecciona una institución'); return; }
+const formCarrera = document.getElementById('formCarrera');
 
-    if (idEdit) {
-        const carrera = carrerasData.find(c => c.id == idEdit);
-        if (carrera) { Object.assign(carrera, { institucionId, nombre }); carrerasTable.clear().rows.add(carrerasData).draw(); }
-        mensaje = `La carrera "${nombre}" ha sido actualizada.`;
-    } else {
-        const nuevoId = Math.max(...carrerasData.map(c=>c.id),0)+1;
-        carrerasData.push({ id: nuevoId, institucionId, nombre });
-        carrerasTable.clear().rows.add(carrerasData).draw();
-        mensaje = `La carrera "${nombre}" ha sido creada.`;
-    }
+formCarrera.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-    if (typeof Swal !== 'undefined') {
-        Swal.fire('¡Éxito!', mensaje, 'success').then(()=>{
-            const modal = bootstrap.Modal.getInstance(document.getElementById('modalAgregarEditarCarrera'));
-            if (modal) modal.hide();
+    const formData = new FormData(formCarrera);
+
+    fetch('/carreras/save', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json())
+        .then(data => {
+
+            if (data.status == 'success') {
+                Swal.fire('¡Éxito!', data.message, 'success').then(() => {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('modalAgregarEditarCarrera'));
+                    if (modal) modal.hide();
+                    // Aquí podrías recargar la tabla o actualizar el estado local
+                    carrerasTable.ajax.reload(null, false); // Si usas AJAX para cargar datos, de lo contrario actualiza localmente
+                });
+            } else {
+                Swal.fire('Error', 'Error al guardar la carrera: ' + data.message, 'error');
+            }
+        }).catch(() => {
+            Swal.fire('Error', 'Error al guardar la carrera', 'error');
         });
-    } else {
-        alert(mensaje);
-        const modal = bootstrap.Modal.getInstance(document.getElementById('modalAgregarEditarCarrera'));
-        if (modal) modal.hide();
-    }
-}
+});
