@@ -3,13 +3,74 @@
 // Variables globales
 let tareasTable;
 let categoriasCache = {}; // Cache de categorías
+let rolesData = []; // Array para almacenar roles
+let choicesInstance; // Instancia de Choices para el select de roles
+
+let selectRoles = new Choices(document.getElementById("roles"), {
+    removeItems: true,
+    removeItemButton: true,
+    placeholder: true,
+    placeholderValue: 'Selecciona roles',
+    searchPlaceholderValue: 'Buscar roles',
+});
 
 // Inicializar cuando DOM esté listo
 document.addEventListener("DOMContentLoaded", function () {
+    //cargarRoles();
     cargarCategorias();
     initDataTable();
     inicializarEventosTareas();
 });
+
+// Función para cargar roles desde API
+function cargarRoles() {
+    fetch('permisos/lista-roles')
+        .then(res => res.json())
+        .then(data => {
+            rolesData = data.result || [];
+
+            // Llenar el select
+            const selectRoles = document.getElementById("roles");
+            if (!selectRoles) {
+                console.error('Select roles no encontrado');
+                return;
+            }
+
+            selectRoles.innerHTML = rolesData.map(rol =>
+                `<option value="${rol.id}">${rol.nombre}</option>`
+            ).join("");
+
+            // Dar un pequeño delay para asegurar que el DOM se actualice
+            setTimeout(() => {
+                inicializarChoices();
+            }, 1000);
+        })
+        .catch(err => console.error('Error cargando roles:', err));
+}
+
+// Función para inicializar Choices
+function inicializarChoices() {
+    const selectRoles = document.getElementById("roles");
+
+    if (!selectRoles) {
+        console.error('Select roles no encontrado para inicializar Choices');
+        return;
+    }
+
+    // Destruir instancia anterior si existe
+    if (choicesInstance) {
+        choicesInstance.destroy();
+    }
+
+    // Inicializar Choices
+    choicesInstance = new Choices(selectRoles, {
+        removeItems: true,
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: 'Selecciona roles',
+        searchPlaceholderValue: 'Buscar roles',
+    });
+}
 
 // Función para inicializar DataTable
 function initDataTable() {
@@ -54,10 +115,10 @@ function initDataTable() {
                 render: function (data, type, row) {
                     return `
                         <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-outline-primary btn-editar-tarea" data-tarea-id="${row.id}" onclick="editarTarea(${row.id}, '${row.nombre}', '${row.horas_estimadas}', ${row.tipo_tarea})">
+                            <button type="button" class="btn btn-outline-primary btn-editar-tarea" data-tarea-id="${row.id}">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-outline-danger btn-eliminar-tarea" data-tarea-id="${row.id}" onclick="eliminarTarea(${row.id}, '${row.nombre}')">
+                            <button type="button" class="btn btn-outline-danger btn-eliminar-tarea" data-tarea-id="${row.id}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -139,6 +200,19 @@ function inicializarEventosTareas() {
             document.getElementById("colorPreview").style.backgroundColor = this.value;
         });
     }
+
+    // Event listeners delegados para botones de la tabla
+    document.addEventListener("click", function (e) {
+        if (e.target.closest(".btn-editar-tarea")) {
+            const tareaId = e.target.closest(".btn-editar-tarea").getAttribute("data-tarea-id");
+            editarTarea(tareaId);
+        }
+        if (e.target.closest(".btn-eliminar-tarea")) {
+            const tareaId = e.target.closest(".btn-eliminar-tarea").getAttribute("data-tarea-id");
+            const nombreTarea = e.target.closest("tr").querySelector("td:nth-child(2)")?.textContent || "esta tarea";
+            eliminarTarea(tareaId, nombreTarea);
+        }
+    });
 }
 
 // Función para abrir modal de agregar tarea
@@ -147,20 +221,42 @@ function abrirModalAgregarTarea() {
     document.getElementById("tareaId").value = "0";
     document.getElementById("formTarea").reset();
 
+    selectRoles.removeActiveItems();
+
     const modal = new bootstrap.Modal(document.getElementById("modalAgregarEditarTarea"));
     modal.show();
 }
 
 // Función para editar tarea
-function editarTarea(tareaId, tareaNombre, tareaHoras, tareaCategoria) {
+function editarTarea(tareaId) {
     document.getElementById("modalTareaTitle").textContent = "Editar Tarea";
+    document.getElementById("formTarea").reset();
     document.getElementById("tareaId").value = tareaId;
-    document.getElementById("tareaCategoria").value = tareaCategoria;
-    document.getElementById("tareaNombre").value = tareaNombre;
-    document.getElementById("tareasHoras").value = tareaHoras;
 
     const modal = new bootstrap.Modal(document.getElementById("modalAgregarEditarTarea"));
     modal.show();
+
+    // Cargar datos desde la API
+    fetch(`tareas/get-row/${tareaId}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.result) {
+                const tarea = data.result.tarea;
+                document.getElementById("tareaCategoria").value = tarea.tipo_tarea;
+                document.getElementById("tareaNombre").value = tarea.nombre;
+                document.getElementById("tareasHoras").value = tarea.horas_estimadas;
+
+                const rolesTarea = data.result.roles;
+
+                // Establecer roles seleccionados con Choices
+                const rolesIds = rolesTarea.map(rol => parseInt(rol.rol_id));
+
+                rolesIds.forEach((value) => {
+                    selectRoles.setChoiceByValue(value.toString());
+                });
+            }
+        })
+        .catch(err => console.error('Error cargando tarea:', err));
 }
 
 // Función para eliminar tarea
@@ -347,12 +443,3 @@ formCategoria.addEventListener("submit", (e) => {
 
         })
 })
-
-const element = document.querySelector('#roles');
-const choices = new Choices(element, {
-    removeItems: true,
-    removeItemButton: true,
-    placeholder: true,
-    placeholderValue: 'Selecciona roles',
-    searchPlaceholderValue: 'Buscar roles',
-});

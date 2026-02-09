@@ -32,6 +32,7 @@ $routes->get('categorias/get-all', 'Tareas::getAllCategories');
 $routes->get('tareas/get-all', 'Tareas::getAllTareas');
 $routes->get('categorias/delete/(:num)', 'Tareas::deleteType/$1');
 $routes->get('tareas/delete/(:num)', 'Tareas::delete/$1');
+$routes->get('tareas/get-row/(:num)', 'Tareas::getTarea/$1');
 
 $routes->get('instituciones', 'Instituciones::index');
 $routes->post('instituciones/save', 'Instituciones::save');
