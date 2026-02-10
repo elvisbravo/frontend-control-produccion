@@ -80,7 +80,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="1">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="1">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="1">Seleccionar Rol</a></li>
                                         <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="1">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="1">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
@@ -123,7 +123,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="2">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="2">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="2">Seleccionar Rol</a></li>
                                         <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="2">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="2">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
@@ -166,7 +166,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="3">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="3">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="3">Seleccionar Rol</a></li>
                                         <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="3">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="3">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
@@ -209,7 +209,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="4">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="4">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="4">Seleccionar Rol</a></li>
                                         <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="4">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="4">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
@@ -252,7 +252,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="5">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="5">Seleccionar Jefe de Valoración</a></li>
+                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="5">Seleccionar Rol</a></li>
                                         <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="5">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="5">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
@@ -278,6 +278,7 @@
             </div>
             <form id="formPotencialCliente">
                 <div class="modal-body">
+                    <input type="hidden" id="prospecto_id" name="prospecto_id" value="0">
                     <!-- Datos del Cliente -->
                     <div class="mb-4 pb-4 border-bottom">
                         <h6 class="mb-3">
@@ -286,7 +287,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="nivelAcademico" class="form-label">Nivel Académico</label>
-                                <select class="form-select" id="nivelAcademico" name="nivelAcademico" required>
+                                <select class="form-select" id="nivelAcademico" name="nivelAcademico">
                                     <option value="">-- Seleccione un nivel --</option>
                                     <option value="PREGRADO">Pregrado</option>
                                     <option value="POSGRADO">Posgrado</option>
@@ -296,7 +297,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="universidad" class="form-label">Universidad</label>
-                                <select class="form-select" id="universidad" name="universidad" required>
+                                <select class="form-select" id="universidad" name="universidad">
                                     <option value="">-- Seleccione una universidad --</option>
                                     <option value="UNSM">UNSM - Universidad Nacional de San Martín</option>
                                     <option value="UNMSM">UNMSM - Universidad Nacional Mayor de San Marcos</option>
@@ -313,7 +314,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label for="carrera" class="form-label">Carrera Universitaria</label>
-                                <select class="form-select" id="carrera" name="carrera" required>
+                                <select class="form-select" id="carrera" name="carrera">
                                     <option value="">-- Seleccione una carrera --</option>
                                     <option value="ADMINISTRACION">Administración</option>
                                     <option value="CONTABILIDAD">Contabilidad</option>
@@ -329,48 +330,47 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="fechaEntrega" class="form-label">Fecha de Entrega</label>
-                                <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+                                <label for="fechaEntrega" class="form-label">Fecha de Entrega Tentativa</label>
+                                <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega">
                             </div>
                         </div>
                     </div>
 
                     <!-- Contactos -->
                     <div class="mb-4">
-                        <h6 class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="badge bg-secondary">Contactos</span>
-                        </h6>
+
+                            <button type="button" class="btn btn-outline-theme btn-sm" id="btnAgregarContacto">
+                                <i class="bi bi-plus-circle me-1"></i> Agregar más contactos
+                            </button>
+                        </div>
+
+                        <small class="text-secondary" id="contadorContactos">1 contacto</small>
+
 
                         <!-- Contenedor de contactos -->
                         <div id="contactosContainer">
                             <!-- Primer contacto (siempre visible) -->
                             <div class="contacto-block mb-4 pb-4 border-bottom" data-contacto="1">
-                                <h6 class="mb-3">
+                                <h6 class="mb-1">
                                     <span class="badge bg-theme">Contacto 1</span>
                                 </h6>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="nombre_1" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="nombre_1" name="nombre_1" placeholder="Ingrese nombre" required>
+                                        <input type="text" class="form-control" id="nombre_1" name="nombres[]" placeholder="Ingrese nombre">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="apellido_1" class="form-label">Apellido</label>
-                                        <input type="text" class="form-control" id="apellido_1" name="apellido_1" placeholder="Ingrese apellido" required>
+                                        <input type="text" class="form-control" id="apellido_1" name="apellidos[]" placeholder="Ingrese apellido">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="celular_1" class="form-label">Celular</label>
-                                        <input type="tel" class="form-control" id="celular_1" name="celular_1" placeholder="Ej: 51922502947" required>
+                                        <input type="tel" class="form-control" id="celular_1" name="celular[]" placeholder="Ej: 51922502947" required>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Botón para agregar más contactos -->
-                        <div class="d-flex justify-content-between align-items-center mt-4">
-                            <button type="button" class="btn btn-outline-theme btn-sm" id="btnAgregarContacto">
-                                <i class="bi bi-plus-circle me-1"></i> Agregar más contactos
-                            </button>
-                            <small class="text-secondary" id="contadorContactos">1 contacto</small>
                         </div>
 
                         <!-- Contenedor para contactos adicionales -->
@@ -471,32 +471,30 @@
 </div>
 
 
-<!-- Modal para seleccionar Jefe de Valoración -->
+<!-- Modal para Seleccionar Rol -->
 <div class="modal fade" id="modalSeleccionarJefe" tabindex="-1" aria-labelledby="seleccionarJefeLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="modal-title h5" id="seleccionarJefeLabel">Seleccionar Jefe de Valoración</p>
+                <p class="modal-title h5" id="seleccionarJefeLabel">Seleccionar Rol</p>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="clienteIdJefe" value="">
 
                 <div class="mb-3">
-                    <label for="jefeValoracion" class="form-label">Jefe de Valoración</label>
-                    <select class="form-select" id="jefeValoracion" name="jefeValoracion" required>
-                        <option value="">-- Seleccione un jefe --</option>
-                        <option value="JUAN_LOPEZ">Juan López - Jefe de Ventas</option>
-                        <option value="MARIA_GARCIA">María García - Coordinadora</option>
-                        <option value="CARLOS_RODRIGUEZ">Carlos Rodríguez - Gestor</option>
-                        <option value="ANA_MARTINEZ">Ana Martínez - Supervisora</option>
-                        <option value="LUIS_FERNANDEZ">Luis Fernández - Director</option>
+                    <label for="selectRoleValoracion" class="form-label">Roles</label>
+                    <select class="form-select" id="selectRoleValoracion" name="selectRoleValoracion" required>
                     </select>
                 </div>
 
-                <div class="alert alert-info" role="alert">
-                    <small><i class="bi bi-info-circle me-1"></i> Se asignará este jefe de valoración al cliente seleccionado.</small>
+                <div class="mb-3">
+                    <label for="tareaRealizar" class="form-label">Seleccionar tarea</label>
+                    <select class="form-select" id="tareaRealizar" name="tareaRealizar" required>
+                        <option value="">-- Seleccionar tarea --</option>
+                    </select>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

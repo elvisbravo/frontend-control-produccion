@@ -12,6 +12,7 @@ $routes->get('/auth/logout', 'Auth::logout');
 $routes->get('home', 'Home::index');
 
 $routes->get('prospectos', 'Clientes::prospectos');
+$routes->post('prospectos/crear', 'Clientes::saveProspecto');
 
 $routes->get('permisos', 'Permisos::index');
 $routes->get('permisos/lista-roles', 'Permisos::listaRoles');
@@ -33,6 +34,7 @@ $routes->get('tareas/get-all', 'Tareas::getAllTareas');
 $routes->get('categorias/delete/(:num)', 'Tareas::deleteType/$1');
 $routes->get('tareas/delete/(:num)', 'Tareas::delete/$1');
 $routes->get('tareas/get-row/(:num)', 'Tareas::getTarea/$1');
+$routes->get('tareas/get-by-rol/(:num)', 'Clientes::getTareaByRol/$1');
 
 $routes->get('instituciones', 'Instituciones::index');
 $routes->post('instituciones/save', 'Instituciones::save');

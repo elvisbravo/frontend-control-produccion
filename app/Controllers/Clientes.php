@@ -5,8 +5,93 @@ namespace App\Controllers;
 class Clientes extends BaseController
 {
 
-    public function prospectos(): string
+    public function prospectos()
     {
+        if(!session()->get('isLoggedIn')) {
+            return redirect()->to(base_url());
+        }
+
         return view('clientes/prospectos');
+    }
+
+    public function saveProspecto()
+    {
+        $prospecto_id = $this->request->getPost('prospecto_id');
+        $nivelAcademico = $this->request->getPost('nivelAcademico');
+        $universidad = $this->request->getPost('universidad');
+        $carrera = $this->request->getPost('carrera');
+        $fechaEntrega = $this->request->getPost('fechaEntrega');
+        $nombres = $this->request->getPost('nombres');
+        $apellidos = $this->request->getPost('apellidos');
+        $celular = $this->request->getPost('celular');
+
+        $usuario_id = session()->get('id_user');
+
+        $ruta = getenv('URL_BACKEND') . 'prospectos/crear';
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->post($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false,
+            'json' => [
+                'id' => $prospecto_id,
+                'origenId' => 1,
+                'nivelAcademicoId' => $nivelAcademico,
+                'usuarioVentaId' => $usuario_id,
+                'carreraId' => $carrera,
+                'fechaEntrega' => $fechaEntrega,
+                'nombres' => $nombres,
+                'apellidos' => $apellidos,
+                'celular' => $celular
+            ]
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
+
+    }
+
+    public function getTareaByRol($id)
+    {
+        $ruta = getenv('URL_BACKEND') . 'tareas/get-by-rol/' . $id;
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
     }
 }

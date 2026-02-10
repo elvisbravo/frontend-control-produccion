@@ -90,6 +90,8 @@ function initDataTable() {
   initializeSimuladorDisponibilidadEvents();
   initializeContactosEvents();
   initializeGuardarEstadoEvents();
+
+  selectRoles();
 }
 
 // Function to initialize modal events
@@ -158,15 +160,15 @@ function agregarContacto() {
     <div class="row">
       <div class="col-md-4">
         <label for="nombre_${nuevoNumero}" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre_${nuevoNumero}" name="nombre_${nuevoNumero}" placeholder="Ingrese nombre" required>
+        <input type="text" class="form-control" id="nombre_${nuevoNumero}" name="nombres[]" placeholder="Ingrese nombre" required>
       </div>
       <div class="col-md-4">
         <label for="apellido_${nuevoNumero}" class="form-label">Apellido</label>
-        <input type="text" class="form-control" id="apellido_${nuevoNumero}" name="apellido_${nuevoNumero}" placeholder="Ingrese apellido" required>
+        <input type="text" class="form-control" id="apellido_${nuevoNumero}" name="apellidos[]" placeholder="Ingrese apellido" required>
       </div>
       <div class="col-md-4">
         <label for="celular_${nuevoNumero}" class="form-label">Celular</label>
-        <input type="tel" class="form-control" id="celular_${nuevoNumero}" name="celular_${nuevoNumero}" placeholder="Ej: 51922502947" required>
+        <input type="tel" class="form-control" id="celular_${nuevoNumero}" name="celular[]" placeholder="Ej: 51922502947" required>
       </div>
     </div>
   `;
@@ -879,3 +881,57 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+const formPotencialCliente = document.getElementById("formPotencialCliente");
+
+formPotencialCliente.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(formPotencialCliente);
+
+  fetch("prospectos/crear", {
+    method: "POST",
+    body: formData,
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    
+  })
+})
+
+const selectRoleValoracion = document.getElementById("selectRoleValoracion");
+const tareaRealizar = document.getElementById("tareaRealizar");
+
+function selectRoles() {
+  fetch("permisos/lista-roles")
+  .then(res => res.json())
+  .then(data => {
+    const datos = data.result;
+
+    let html = '<option value="">Selecciona un rol</option>';
+
+    datos.forEach(rol => {
+      html += `<option value="${rol.id}">${rol.nombre}</option>`;
+    });
+    
+    selectRoleValoracion.innerHTML = html;
+  })
+}
+
+selectRoleValoracion.addEventListener("change", (e) => {
+  const roleId = e.target.value;
+
+  fetch(`tareas-por-rol/${roleId}`)
+  .then(res => res.json())
+  .then(data => {
+    let html = '<option value="">Selecciona una tarea</option>';
+
+    data.tareas.forEach(tarea => {
+      html += `<option value="${tarea.id}">${tarea.nombre}</option>`;
+    });
+
+    tareaRealizar.innerHTML = html;
+    
+  })
+})
