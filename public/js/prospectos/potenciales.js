@@ -1,5 +1,12 @@
 "use strict";
 
+let prospectosTable;
+
+document.addEventListener("DOMContentLoaded", function () {
+  initDataTable();
+  inicializarEventosOrigen();
+});
+
 // Function to properly close a modal and clean up backdrop
 function cerrarModal(modalId) {
   var modalElement = document.getElementById(modalId);
@@ -35,56 +42,75 @@ function cerrarModal(modalId) {
 // Function to initialize DataTable when jQuery is ready
 function initDataTable() {
   // Check if jQuery is available
-  if (typeof $ === "undefined" || typeof $.fn === "undefined") {
-    console.log("jQuery not ready yet, retrying...");
+  if (typeof $ === "undefined") {
     setTimeout(initDataTable, 100);
     return;
   }
 
-  // Check if table exists
-  var table = $("#clientScheduleGrid");
-  if (table.length === 0) {
-    console.warn("Table with ID 'clientScheduleGrid' not found");
-    return;
-  }
+  prospectosTable = $("#prospectoTable").DataTable({
+    ajax: {
+      url: "prospecto/get-all",
+      type: "GET",
+      dataSrc: "result",
+    },
+    columns: [
+      { data: "id" },
+      { data: "fecha_contacto" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          const contactos = row.personas;
+          console.log(contactos);
 
-  // Check if DataTable is available
-  if (typeof $.fn.DataTable === "undefined") {
-    console.log("DataTable not ready yet, retrying...");
-    setTimeout(initDataTable, 100);
-    return;
-  }
+          let contactoHtml = "";
 
-  console.log("Initializing DataTable...");
+          contactos.forEach((contact) => {
+            contactoHtml += `
+            <p class="mb-0">${contact.nombres} ${contact.apellidos}</p>
+            <p class="text-secondary small">${contact.celular}</p>
+            `;
+          });
 
-  // Initialize DataTable
-  table.DataTable({
-    searching: true,
-    lengthChange: true,
-    autoWidth: false,
-    columnDefs: [{ orderable: false, targets: 4 }],
-    order: [[0, "desc"]],
-    pageLength: 10,
+          return contactoHtml;
+        },
+      },
+      { data: "nivel_academico_id" },
+      { data: "carrera_id" },
+      { data: "carrera_id" },
+      { data: "estado" },
+      { data: "fecha_entrega" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return `
+                        <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="5">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <div class="dropdown d-inline-block">
+                                    <a class="btn btn-link no-caret" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
+                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="5">Ficha de Enfoque</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="5">Simular Disponibilidad</a></li>
+                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="5">Convertir a cliente</a></li>
+                                        <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
+                                    </ul>
+                                </div>
+                    `;
+        },
+      },
+    ],
     responsive: true,
+    language: { url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json" },
+    paging: true,
+    pageLength: 10,
   });
-
-  /* responsive last visible table cell */
-  lastvisibletd();
-
-  // Handle window resize
-  $(window).on("resize", function () {
-    /* resize */
-    var dataTable = $("#clientScheduleGrid").DataTable();
-    dataTable.columns.adjust().draw();
-    lastvisibletd();
-  });
-
-  console.log("DataTable initialized successfully!");
 
   // Initialize Modal Event Listeners
   initializeModalEvents();
   initializeDetallesEvents();
-  initializeJefeValoracionEvents();
   initializeFichaEnfoqueEvents();
   initializeConvertirClienteEvents();
   initializeSimuladorDisponibilidadEvents();
@@ -93,6 +119,8 @@ function initDataTable() {
 
   selectRoles();
 }
+
+selectRoles();
 
 // Function to initialize modal events
 function initializeModalEvents() {
@@ -228,13 +256,6 @@ function resetFormModal() {
   }
 
   actualizarContadorContactos();
-}
-
-// Start initialization when DOM is ready
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initDataTable);
-} else {
-  initDataTable();
 }
 
 // Function to initialize details events
@@ -429,84 +450,6 @@ function guardarNuevoEstado() {
       cerrarModal("modalDetalleCliente");
     }
   }
-}
-
-// Function to initialize jefe de valoración events
-function initializeJefeValoracionEvents() {
-  var botonesJefe = document.querySelectorAll(".btn-seleccionar-jefe");
-
-  if (botonesJefe.length > 0) {
-    botonesJefe.forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        var idCliente = this.getAttribute("data-id");
-        abrirModalSeleccionarJefe(idCliente);
-      });
-    });
-  }
-
-  // Event listener para el botón guardar jefe
-  var btnGuardarJefe = document.getElementById("btnGuardarJefe");
-  if (btnGuardarJefe) {
-    btnGuardarJefe.addEventListener("click", function () {
-      guardarJefeValoracion();
-    });
-  }
-}
-
-// Function to open modal for selecting jefe
-function abrirModalSeleccionarJefe(idCliente) {
-  var clienteIdJefe = document.getElementById("clienteIdJefe");
-  if (clienteIdJefe) {
-    clienteIdJefe.value = idCliente;
-  }
-
-  // Limpiar select
-  var jefeValoracion = document.getElementById("jefeValoracion");
-  if (jefeValoracion) {
-    jefeValoracion.value = "";
-  }
-
-  if (typeof bootstrap !== "undefined") {
-    var modalElement = document.getElementById("modalSeleccionarJefe");
-    if (modalElement) {
-      var modal = new bootstrap.Modal(modalElement);
-      modal.show();
-      console.log("Modal de seleccionar jefe abierto para cliente:", idCliente);
-    }
-  }
-}
-
-// Function to save jefe de valoración
-function guardarJefeValoracion() {
-  var clienteIdJefe = document.getElementById("clienteIdJefe").value;
-  var jefeValoracion = document.getElementById("jefeValoracion").value;
-
-  if (!jefeValoracion) {
-    alert("Por favor selecciona un jefe de valoración");
-    return;
-  }
-
-  // Mapeo de IDs a nombres
-  var jefeMap = {
-    JUAN_LOPEZ: "Juan López - Jefe de Producción",
-    MARIA_GARCIA: "María García - Coordinadora",
-    CARLOS_RODRIGUEZ: "Carlos Rodríguez - Gestor",
-    ANA_MARTINEZ: "Ana Martínez - Supervisora",
-    LUIS_FERNANDEZ: "Luis Fernández - Director",
-  };
-
-  console.log("Jefe de valoración asignado:", {
-    clienteId: clienteIdJefe,
-    jefeId: jefeValoracion,
-    jefeName: jefeMap[jefeValoracion],
-  });
-
-  // Aquí iría la llamada AJAX para guardar en el servidor
-  // Por ahora solo mostraremos un mensaje de éxito
-  alert("Jefe de valoración asignado: " + jefeMap[jefeValoracion]);
-  // Cerrar modal
-  cerrarModal("modalSeleccionarJefe");
 }
 
 // Function to initialize ficha de enfoque events
@@ -893,45 +836,68 @@ formPotencialCliente.addEventListener("submit", (e) => {
     method: "POST",
     body: formData,
   })
-  .then(res => res.json())
-  .then(data => {
-    console.log(data);
-    
-  })
-})
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.status == "success") {
+        Swal.fire("¡Éxito!", data.message, "success").then(() => {
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("modalAgregarEditarOrigen"),
+          );
+          if (modal) modal.hide();
+          // Aquí podrías recargar la tabla o actualizar el estado local
+          origenTable.ajax.reload(null, false); // Si usas AJAX para cargar datos, de lo contrario actualiza localmente
+        });
+      } else {
+        Swal.fire(
+          "Error",
+          "Error al guardar el origen: " + data.message,
+          "error",
+        );
+      }
+    });
+});
 
 const selectRoleValoracion = document.getElementById("selectRoleValoracion");
 const tareaRealizar = document.getElementById("tareaRealizar");
+const personal = document.getElementById("personal");
 
 function selectRoles() {
   fetch("permisos/lista-roles")
-  .then(res => res.json())
-  .then(data => {
-    const datos = data.result;
+    .then((res) => res.json())
+    .then((data) => {
+      const datos = data.result;
 
-    let html = '<option value="">Selecciona un rol</option>';
+      let html = '<option value="">-- Selecciona un rol --</option>';
 
-    datos.forEach(rol => {
-      html += `<option value="${rol.id}">${rol.nombre}</option>`;
+      datos.forEach((rol) => {
+        html += `<option value="${rol.id}">${rol.nombre}</option>`;
+      });
+
+      selectRoleValoracion.innerHTML = html;
     });
-    
-    selectRoleValoracion.innerHTML = html;
-  })
 }
 
 selectRoleValoracion.addEventListener("change", (e) => {
   const roleId = e.target.value;
 
-  fetch(`tareas-por-rol/${roleId}`)
-  .then(res => res.json())
-  .then(data => {
-    let html = '<option value="">Selecciona una tarea</option>';
+  fetch(`tareas/get-by-rol/${roleId}`)
+    .then((res) => res.json())
+    .then((data) => {
+      let html = '<option value="">-- Selecciona una tarea --</option>';
+      let htmlUsers = '<option value="">-- Selecciona un usuario --</option>';
 
-    data.tareas.forEach(tarea => {
-      html += `<option value="${tarea.id}">${tarea.nombre}</option>`;
+      const tareas = data.result.tareas;
+      const usuarios = data.result.users;
+
+      tareas.forEach((tarea) => {
+        html += `<option value="${tarea.id}">${tarea.nombre}</option>`;
+      });
+
+      usuarios.forEach((user) => {
+        htmlUsers += `<option value="${user.id}">${user.nombres} ${user.apellidos}</option>`;
+      });
+
+      tareaRealizar.innerHTML = html;
+      personal.innerHTML = htmlUsers;
     });
-
-    tareaRealizar.innerHTML = html;
-    
-  })
-})
+});

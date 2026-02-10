@@ -30,7 +30,7 @@
 
             <!-- data table -->
             <div class=" mb-4">
-                <table class="table w-100 nowrap" id="clientScheduleGrid">
+                <table class="table w-100 nowrap" id="prospectoTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -45,221 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                05-02-2026
-                            </td>
-                            <td>
-                                <p class="mb-0">Elvis Bravo Sandoval</p>
-                                <p class="text-secondary small">51922502947</p>
-                            </td>
-                            <td>
-                                POSGRADO
-                            </td>
-                            <td>
-                                Economía
-                            </td>
-                            <td>
-                                UNSM
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill text-bg-info">Contactado</span>
-                            </td>
-                            <td>
-                                28-02-2026
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="1">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <div class="dropdown d-inline-block">
-                                    <a class="btn btn-link no-caret" data-bs-toggle="dropdown">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
-                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="1">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="1">Seleccionar Rol</a></li>
-                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="1">Simular Disponibilidad</a></li>
-                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="1">Convertir a cliente</a></li>
-                                        <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                03-02-2026
-                            </td>
-                            <td>
-                                <p class="mb-0">María González López</p>
-                                <p class="text-secondary small">51987654321</p>
-                            </td>
-                            <td>
-                                PREGRADO
-                            </td>
-                            <td>
-                                Ingeniería de Sistemas
-                            </td>
-                            <td>
-                                UNMSM
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill text-bg-success">Interesado</span>
-                            </td>
-                            <td>
-                                15-03-2026
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="2">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <div class="dropdown d-inline-block">
-                                    <a class="btn btn-link no-caret" data-bs-toggle="dropdown">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
-                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="2">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="2">Seleccionar Rol</a></li>
-                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="2">Simular Disponibilidad</a></li>
-                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="2">Convertir a cliente</a></li>
-                                        <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                02-02-2026
-                            </td>
-                            <td>
-                                <p class="mb-0">Carlos Rodríguez Martínez</p>
-                                <p class="text-secondary small">51912345678</p>
-                            </td>
-                            <td>
-                                PREGRADO
-                            </td>
-                            <td>
-                                Administración
-                            </td>
-                            <td>
-                                PUCP
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill text-bg-warning">En Seguimiento</span>
-                            </td>
-                            <td>
-                                22-02-2026
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="3">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <div class="dropdown d-inline-block">
-                                    <a class="btn btn-link no-caret" data-bs-toggle="dropdown">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
-                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="3">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="3">Seleccionar Rol</a></li>
-                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="3">Simular Disponibilidad</a></li>
-                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="3">Convertir a cliente</a></li>
-                                        <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                01-02-2026
-                            </td>
-                            <td>
-                                <p class="mb-0">Ana Fernández García</p>
-                                <p class="text-secondary small">51956789012</p>
-                            </td>
-                            <td>
-                                MAESTRIA
-                            </td>
-                            <td>
-                                Derecho
-                            </td>
-                            <td>
-                                UNI
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill text-bg-secondary">Nuevo</span>
-                            </td>
-                            <td>
-                                28-02-2026
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="4">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <div class="dropdown d-inline-block">
-                                    <a class="btn btn-link no-caret" data-bs-toggle="dropdown">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
-                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="4">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="4">Seleccionar Rol</a></li>
-                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="4">Simular Disponibilidad</a></li>
-                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="4">Convertir a cliente</a></li>
-                                        <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>
-                                31-01-2026
-                            </td>
-                            <td>
-                                <p class="mb-0">Pedro López Sánchez</p>
-                                <p class="text-secondary small">51934567890</p>
-                            </td>
-                            <td>
-                                PREGRADO
-                            </td>
-                            <td>
-                                Psicología
-                            </td>
-                            <td>
-                                USMP
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill text-bg-danger">Descartado</span>
-                            </td>
-                            <td>
-                                28-02-2026
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="5">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <div class="dropdown d-inline-block">
-                                    <a class="btn btn-link no-caret" data-bs-toggle="dropdown">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
-                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="5">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-seleccionar-jefe" href="javascript:void(0)" data-id="5">Seleccionar Rol</a></li>
-                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="5">Simular Disponibilidad</a></li>
-                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="5">Convertir a cliente</a></li>
-                                        <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -289,10 +75,9 @@
                                 <label for="nivelAcademico" class="form-label">Nivel Académico</label>
                                 <select class="form-select" id="nivelAcademico" name="nivelAcademico">
                                     <option value="">-- Seleccione un nivel --</option>
-                                    <option value="PREGRADO">Pregrado</option>
-                                    <option value="POSGRADO">Posgrado</option>
-                                    <option value="MAESTRIA">Maestría</option>
-                                    <option value="DOCTORADO">Doctorado</option>
+                                    <option value="1">Pregrado</option>
+                                    <option value="2">Maestría</option>
+                                    <option value="3">Doctorado</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -375,6 +160,31 @@
 
                         <!-- Contenedor para contactos adicionales -->
                         <div id="contactosAdicionalesContainer"></div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <h6 class="mb-3">
+                            <span class="badge bg-secondary">Seleccione el Rol y las tareas</span>
+                        </h6>
+                        <div class="col-md-6">
+                            <label for="selectRoleValoracion" class="form-label">Roles</label>
+                            <select class="form-select" id="selectRoleValoracion" name="selectRoleValoracion" required>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="tareaRealizar" class="form-label">Tareas</label>
+                            <select class="form-select" id="tareaRealizar" name="tareaRealizar" required>
+                                <option value="">-- Seleccionar tarea --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="personal" class="form-label">Personal</label>
+                            <select class="form-select" id="personal" name="personal" required>
+                                <option value="">-- Seleccionar personal --</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -465,40 +275,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-theme" id="btnGuardarEstado">Guardar Cambios</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Modal para Seleccionar Rol -->
-<div class="modal fade" id="modalSeleccionarJefe" tabindex="-1" aria-labelledby="seleccionarJefeLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <p class="modal-title h5" id="seleccionarJefeLabel">Seleccionar Rol</p>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="clienteIdJefe" value="">
-
-                <div class="mb-3">
-                    <label for="selectRoleValoracion" class="form-label">Roles</label>
-                    <select class="form-select" id="selectRoleValoracion" name="selectRoleValoracion" required>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="tareaRealizar" class="form-label">Seleccionar tarea</label>
-                    <select class="form-select" id="tareaRealizar" name="tareaRealizar" required>
-                        <option value="">-- Seleccionar tarea --</option>
-                    </select>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-theme" id="btnGuardarJefe">Guardar</button>
             </div>
         </div>
     </div>

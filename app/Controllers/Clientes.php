@@ -7,7 +7,7 @@ class Clientes extends BaseController
 
     public function prospectos()
     {
-        if(!session()->get('isLoggedIn')) {
+        if (!session()->get('isLoggedIn')) {
             return redirect()->to(base_url());
         }
 
@@ -24,6 +24,8 @@ class Clientes extends BaseController
         $nombres = $this->request->getPost('nombres');
         $apellidos = $this->request->getPost('apellidos');
         $celular = $this->request->getPost('celular');
+        $tareaRealizar = $this->request->getPost('tareaRealizar');
+        $personal = $this->request->getPost('personal');
 
         $usuario_id = session()->get('id_user');
 
@@ -41,7 +43,9 @@ class Clientes extends BaseController
                 'origenId' => 1,
                 'nivelAcademicoId' => $nivelAcademico,
                 'usuarioVentaId' => $usuario_id,
-                'carreraId' => $carrera,
+                'carreraId' => 1,
+                'tarea_id' => $tareaRealizar,
+                'personal_id' => $personal,
                 'fechaEntrega' => $fechaEntrega,
                 'nombres' => $nombres,
                 'apellidos' => $apellidos,
@@ -63,12 +67,11 @@ class Clientes extends BaseController
             'message' => $data['message'],
             'result' => $data['result']
         ]);
-
     }
 
-    public function getTareaByRol($id)
+    public function getProspectos()
     {
-        $ruta = getenv('URL_BACKEND') . 'tareas/get-by-rol/' . $id;
+        $ruta = getenv('URL_BACKEND') . 'prospectos';
 
         $client = \Config\Services::curlrequest();
 

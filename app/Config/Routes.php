@@ -13,6 +13,7 @@ $routes->get('home', 'Home::index');
 
 $routes->get('prospectos', 'Clientes::prospectos');
 $routes->post('prospectos/crear', 'Clientes::saveProspecto');
+$routes->get('prospecto/get-all', 'Clientes::getProspectos');
 
 $routes->get('permisos', 'Permisos::index');
 $routes->get('permisos/lista-roles', 'Permisos::listaRoles');

@@ -19,7 +19,7 @@
         <li class="nav-item">
             <a class="nav-link" href="/trabajos">
                 <i class="menu-icon bi bi-bank"></i>
-                <div class="col align-self-center menu-name">Trabajos</div>
+                <div class="col align-self-center menu-name">Clientes</div>
             </a>
         </li>
     </ul>
