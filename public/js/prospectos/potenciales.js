@@ -841,16 +841,16 @@ formPotencialCliente.addEventListener("submit", (e) => {
       if (data.status == "success") {
         Swal.fire("¡Éxito!", data.message, "success").then(() => {
           const modal = bootstrap.Modal.getInstance(
-            document.getElementById("modalAgregarEditarOrigen"),
+            document.getElementById("modalPotencial"),
           );
           if (modal) modal.hide();
           // Aquí podrías recargar la tabla o actualizar el estado local
-          origenTable.ajax.reload(null, false); // Si usas AJAX para cargar datos, de lo contrario actualiza localmente
+          prospectosTable.ajax.reload(null, false); // Si usas AJAX para cargar datos, de lo contrario actualiza localmente
         });
       } else {
         Swal.fire(
           "Error",
-          "Error al guardar el origen: " + data.message,
+          "Error al guardar el potencial cliente: " + data.message,
           "error",
         );
       }
