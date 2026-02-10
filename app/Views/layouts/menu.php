@@ -54,6 +54,13 @@
                 <div class="col align-self-center menu-name">Feriados</div>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/origen">
+                <i class="menu-icon bi bi-calendar-event"></i>
+                <div class="col align-self-center menu-name">Origen</div>
+            </a>
+        </li>
     </ul>
 </li>
 <li class="nav-item dropdown">

@@ -48,6 +48,10 @@ $routes->get('carreras/delete/(:num)', 'Carreras::delete/$1');
 // Mantenimientos - Feriados
 $routes->get('feriados', 'Feriados::index');
 $routes->get('feriados/get-all', 'Feriados::getFeriados');
+$routes->get('origen', 'Origen::index');
+$routes->post('origen/save', 'Origen::create');
+$routes->get('origen/get-all', 'Origen::getOrigenes');
+$routes->get('origen/delete/(:num)', 'Origen::delete/$1');
 
 $routes->get('trabajos', 'Trabajos::index');
 $routes->get('trabajos/data', 'Trabajos::data');
