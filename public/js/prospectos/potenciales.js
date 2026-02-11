@@ -4,7 +4,6 @@ let prospectosTable;
 
 document.addEventListener("DOMContentLoaded", function () {
   initDataTable();
-  inicializarEventosOrigen();
 });
 
 // Function to properly close a modal and clean up backdrop
@@ -901,3 +900,26 @@ selectRoleValoracion.addEventListener("change", (e) => {
       personal.innerHTML = htmlUsers;
     });
 });
+
+ClassicEditor.create(document.querySelector("#editor"))
+  .then((editor) => {
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return {
+        upload: () => {
+          return loader.file.then(
+            (file) =>
+              new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  resolve({
+                    default: reader.result,
+                  });
+                };
+                reader.readAsDataURL(file);
+              }),
+          );
+        },
+      };
+    };
+  })
+  .catch((error) => console.error(error));

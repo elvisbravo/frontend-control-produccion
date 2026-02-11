@@ -1,5 +1,9 @@
 <?= $this->extend('layouts/main') ?>
 
+<?= $this->section('styles') ?>
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
 <!-- page title -->
@@ -166,24 +170,31 @@
                         <h6 class="mb-3">
                             <span class="badge bg-secondary">Seleccione el Rol y las tareas</span>
                         </h6>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="selectRoleValoracion" class="form-label">Roles</label>
                             <select class="form-select" id="selectRoleValoracion" name="selectRoleValoracion" required>
                             </select>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="tareaRealizar" class="form-label">Tareas</label>
                             <select class="form-select" id="tareaRealizar" name="tareaRealizar" required>
                                 <option value="">-- Seleccionar tarea --</option>
                             </select>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <label for="personal" class="form-label">Personal</label>
                             <select class="form-select" id="personal" name="personal" required>
                                 <option value="">-- Seleccionar personal --</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="editor" class="form-label">Apuntes</label>
+                            <div id="editor" style="height:300px;"></div>
                         </div>
                     </div>
                 </div>
@@ -364,5 +375,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <script defer src="js/prospectos/potenciales.js"></script>
 <?= $this->endSection() ?>
