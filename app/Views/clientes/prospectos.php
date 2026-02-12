@@ -123,6 +123,15 @@
                                 <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega">
                             </div>
                         </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="origenId" class="form-label">Origen</label>
+                                <select class="form-select" id="origenId" name="origenId">
+                                    <option value="">-- Seleccione un origen de contacto --</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Contactos -->
@@ -136,7 +145,6 @@
                         </div>
 
                         <small class="text-secondary" id="contadorContactos">1 contacto</small>
-
 
                         <!-- Contenedor de contactos -->
                         <div id="contactosContainer">

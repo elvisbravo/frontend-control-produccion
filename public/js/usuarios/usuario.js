@@ -52,7 +52,7 @@ function initDataTable() {
     ],
     responsive: true,
     language: {
-      url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+      url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
     },
     paging: true,
     pageLength: 10,
@@ -124,7 +124,6 @@ function editarUsuario(usuarioId) {
 
 // Función para eliminar usuario
 function eliminarUsuario(usuarioId, nombres, apellidos) {
-
   const nombreCompleto = nombres + " " + apellidos;
 
   Swal.fire({
@@ -140,8 +139,8 @@ function eliminarUsuario(usuarioId, nombres, apellidos) {
     if (result.isConfirmed) {
       // TODO: Hacer llamada AJAX para eliminar usuario
       fetch("usuario/delete/" + usuarioId)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (data.status === "error") {
             Swal.fire({
               title: "Error",
@@ -158,8 +157,7 @@ function eliminarUsuario(usuarioId, nombres, apellidos) {
             text: `${nombreCompleto} ha sido eliminado correctamente.`,
             icon: "success",
           });
-
-        })
+        });
     }
   });
 }

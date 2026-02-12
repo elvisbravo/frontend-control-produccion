@@ -6,6 +6,32 @@ document.addEventListener("DOMContentLoaded", function () {
   initDataTable();
 });
 
+let editorInstance;
+
+ClassicEditor.create(document.querySelector("#editor"))
+  .then((editor) => {
+    editorInstance = editor;
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return {
+        upload: () => {
+          return loader.file.then(
+            (file) =>
+              new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  resolve({
+                    default: reader.result,
+                  });
+                };
+                reader.readAsDataURL(file);
+              }),
+          );
+        },
+      };
+    };
+  })
+  .catch((error) => console.error(error));
+
 // Function to properly close a modal and clean up backdrop
 function cerrarModal(modalId) {
   var modalElement = document.getElementById(modalId);
@@ -66,16 +92,16 @@ function initDataTable() {
           contactos.forEach((contact) => {
             contactoHtml += `
             <p class="mb-0">${contact.nombres} ${contact.apellidos}</p>
-            <p class="text-secondary small">${contact.celular}</p>
+            <p class="text-secondary">${contact.celular}</p>
             `;
           });
 
           return contactoHtml;
         },
       },
-      { data: "nivel_academico_id" },
-      { data: "carrera_id" },
-      { data: "carrera_id" },
+      { data: "nivel_academico" },
+      { data: "carrera" },
+      { data: "institucion" },
       { data: "estado" },
       { data: "fecha_entrega" },
       {
@@ -90,7 +116,7 @@ function initDataTable() {
                                         <i class="bi bi-three-dots"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0)">Editar</a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="editarProspecto(${row.id})">Editar</a></li>
                                         <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="5">Ficha de Enfoque</a></li>
                                         <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="5">Simular Disponibilidad</a></li>
                                         <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="5">Convertir a cliente</a></li>
@@ -102,7 +128,9 @@ function initDataTable() {
       },
     ],
     responsive: true,
-    language: { url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json" },
+    language: {
+      url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+    },
     paging: true,
     pageLength: 10,
   });
@@ -121,6 +149,21 @@ function initDataTable() {
 
 selectRoles();
 
+function editarProspecto(id) {
+  var modalElement = document.getElementById("modalPotencial");
+  var modal = new bootstrap.Modal(modalElement);
+  modal.show();
+
+  const lgmodalLabel = document.getElementById("lgmodalLabel");
+  lgmodalLabel.textContent = "Editar Potencial Cliente";
+
+  fetch("prospecto/get-row/" + id)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    });
+}
+
 // Function to initialize modal events
 function initializeModalEvents() {
   var btnAdd = document.getElementById("btnAdd");
@@ -129,6 +172,8 @@ function initializeModalEvents() {
     btnAdd.addEventListener("click", function (e) {
       e.preventDefault();
       console.log("Add button clicked, opening modal...");
+
+      editorInstance.setData("");
 
       // Resetear el formulario cuando se abre el modal
       resetFormModal();
@@ -140,6 +185,9 @@ function initializeModalEvents() {
           var modal = new bootstrap.Modal(modalElement);
           modal.show();
           console.log("Modal opened successfully!");
+
+          const lgmodalLabel = document.getElementById("lgmodalLabel");
+          lgmodalLabel.textContent = "Agregar Potencial Cliente";
         } else {
           console.error("Modal element not found");
         }
@@ -830,6 +878,9 @@ formPotencialCliente.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const formData = new FormData(formPotencialCliente);
+  const contenido = editorInstance.getData();
+
+  formData.append("contenido", contenido);
 
   fetch("prospectos/crear", {
     method: "POST",
@@ -900,26 +951,3 @@ selectRoleValoracion.addEventListener("change", (e) => {
       personal.innerHTML = htmlUsers;
     });
 });
-
-ClassicEditor.create(document.querySelector("#editor"))
-  .then((editor) => {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-      return {
-        upload: () => {
-          return loader.file.then(
-            (file) =>
-              new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = () => {
-                  resolve({
-                    default: reader.result,
-                  });
-                };
-                reader.readAsDataURL(file);
-              }),
-          );
-        },
-      };
-    };
-  })
-  .catch((error) => console.error(error));

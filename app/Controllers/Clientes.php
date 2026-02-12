@@ -55,6 +55,7 @@ class Clientes extends BaseController
         $celular = $this->request->getPost('celular');
         $tareaRealizar = $this->request->getPost('tareaRealizar');
         $personal = $this->request->getPost('personal');
+        $contenido = $this->request->getPost('contenido');
 
         $usuario_id = session()->get('id_user');
 
@@ -72,13 +73,14 @@ class Clientes extends BaseController
                 'origenId' => 1,
                 'nivelAcademicoId' => $nivelAcademico,
                 'usuarioVentaId' => $usuario_id,
-                'carreraId' => 1,
+                'carreraId' => $carrera,
                 'tarea_id' => $tareaRealizar,
                 'personal_id' => $personal,
                 'fechaEntrega' => $fechaEntrega,
                 'nombres' => $nombres,
                 'apellidos' => $apellidos,
-                'celular' => $celular
+                'celular' => $celular,
+                'contenido' => $contenido
             ]
         ]);
 
@@ -101,6 +103,35 @@ class Clientes extends BaseController
     public function getProspectos()
     {
         $ruta = getenv('URL_BACKEND') . 'prospectos';
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
+    }
+
+    public function getProspecto($id)
+    {
+        $ruta = getenv('URL_BACKEND') . 'prospecto/get-row/' . $id;
 
         $client = \Config\Services::curlrequest();
 
