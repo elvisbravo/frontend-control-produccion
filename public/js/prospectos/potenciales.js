@@ -940,7 +940,13 @@ selectRoleValoracion.addEventListener("change", (e) => {
       const usuarios = data.result.users;
 
       tareas.forEach((tarea) => {
-        html += `<option value="${tarea.id}">${tarea.nombre}</option>`;
+        let prioridad = "";
+        if (tarea.prioridad == 0) {
+          prioridad = "C";
+        } else {
+          prioridad = "P";
+        }
+        html += `<option value="${tarea.id}">${tarea.nombre} | ${prioridad}</option>`;
       });
 
       usuarios.forEach((user) => {

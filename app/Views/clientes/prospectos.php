@@ -197,6 +197,11 @@
                                 <option value="">-- Seleccionar personal --</option>
                             </select>
                         </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="linkDrive" class="form-label">Link Drive</label>
+                            <input type="text" class="form-control" name="linkDrive" id="linkDrive">
+                        </div>
                     </div>
 
                     <div class="row mt-3">

@@ -101,14 +101,26 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="roles" class="form-label">Roles</label>
-                        <div class="input-group input-group-md rounded mb-3" style="--mw-dynamic: calc(100% - 41px)">
-                            <span class="input-group-text text-theme"><i class="bi bi-person"></i></span>
-                            <select class="form-control" id="roles" name="roles[]" multiple="">
+                        <label class="form-label">Roles</label>
+                        <div class="input-group mb-2">
+                            <select class="form-select" id="selectRolNuevo">
+                                <option value="">Seleccionar Rol...</option>
                                 <?php foreach ($roles as $rol) : ?>
-                                    <option value="<?= $rol['id'] ?>"><?= $rol['nombre'] ?></option>
+                                    <option value="<?= $rol['id'] ?>" data-nombre="<?= $rol['nombre'] ?>"><?= $rol['nombre'] ?></option>
                                 <?php endforeach; ?>
                             </select>
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0 me-2" type="checkbox" id="checkPrimaria" value="1">
+                                <span class="small">Es Primaria</span>
+                            </div>
+                            <button class="btn btn-outline-theme" type="button" id="btnAddRolToList">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+
+                        <div id="rolesListContainer" class="list-group list-group-flush border rounded p-2" style="min-height: 50px; max-height: 200px; overflow-y: auto; background-color: var(--adminuiux-card-bg);">
+                            <!-- Los roles agregados aparecerán aquí -->
+                            <p class="text-muted small mb-0 text-center py-2" id="noRolesMsg">No hay roles agregados</p>
                         </div>
                     </div>
 

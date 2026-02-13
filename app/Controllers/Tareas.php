@@ -6,7 +6,7 @@ class Tareas extends BaseController
 {
     public function index()
     {
-        if(!session()->get('isLoggedIn')) {
+        if (!session()->get('isLoggedIn')) {
             return redirect()->to(base_url());
         }
 
@@ -42,6 +42,7 @@ class Tareas extends BaseController
         $tareaNombre = $this->request->getPost('tareaNombre');
         $tareaHoras = $this->request->getPost('tareasHoras');
         $tareasRoles = $this->request->getPost('roles');
+        $prioridad = $this->request->getPost('prioridad');
 
         $ruta = getenv('URL_BACKEND') . 'tareas/save';
 
@@ -57,7 +58,8 @@ class Tareas extends BaseController
                 'categoriaId' => $tareaCategoria,
                 'nombre' => $tareaNombre,
                 'horasEstimadas' => $tareaHoras,
-                'roles' => $tareasRoles
+                'roles' => $tareasRoles,
+                'prioridad' => $prioridad
             ]
         ]);
 
@@ -228,7 +230,6 @@ class Tareas extends BaseController
             'status' => 'success',
             'message' => $data['message']
         ]);
-
     }
 
     public function delete($id)
