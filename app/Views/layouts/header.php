@@ -30,10 +30,10 @@
             </button>
 
             <!-- notification dropdown -->
-            <button class="btn btn-link btn-square btn-icon btn-link-header dropdown-toggle position-relative no-caret" type="button" data-bs-toggle="offcanvas" data-bs-target="#view-notification" aria-expanded="false">
+            <button class="btn btn-link btn-square btn-icon btn-link-header dropdown-toggle position-relative no-caret" type="button" id="btnOffCanvasNotification" aria-expanded="false">
                 <i data-feather="bell"></i>
                 <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger p-1">
-                    <small>0+</small>
+                    <small id="countNotifications">0+</small>
                     <span class="visually-hidden">unread messages</span>
                 </span>
             </button>
@@ -59,7 +59,7 @@
                                     </figure>
                                 </div>
                                 <div class="col align-self-center ">
-                                    <h5 class="mb-1"><?= session()->get('nombres')." ". session()->get('apellidos') ?></h5>
+                                    <h5 class="mb-1"><?= session()->get('nombres') . " " . session()->get('apellidos') ?></h5>
                                     <p class="small"><i class="bi bi-trophy me-2"></i> <?= session()->get('rol') ?></p>
                                 </div>
                             </div>

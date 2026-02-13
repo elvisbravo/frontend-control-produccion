@@ -11,6 +11,9 @@ $routes->get('/auth/logout', 'Auth::logout');
 
 $routes->get('home', 'Home::index');
 
+$routes->get('notifications', 'Notificaciones::getNotificacion');
+$routes->get('countNotifications', 'Notificaciones::countNotificacion');
+
 $routes->get('prospectos', 'Clientes::prospectos');
 $routes->post('prospectos/crear', 'Clientes::saveProspecto');
 $routes->get('prospecto/get-all', 'Clientes::getProspectos');
@@ -59,3 +62,5 @@ $routes->get('trabajos', 'Trabajos::index');
 $routes->get('trabajos/data', 'Trabajos::data');
 $routes->get('trabajos/sugerir', 'Trabajos::sugerirAuxiliares');
 $routes->get('trabajos/reporte', 'Trabajos::reporteDisponibilidad');
+
+$routes->get('horario-by-id', 'Horario::getHorarioById');
