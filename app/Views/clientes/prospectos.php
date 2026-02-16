@@ -28,7 +28,22 @@
     }
 
     .select2-container--open {
-        z-index: 1060;
+        z-index: 1061 !important;
+    }
+
+    /* Estilos para el select unido con Select2 */
+    .input-group #tipoTarea {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        height: 38px;
+    }
+
+    /* Quitar redondeo izquierdo al select2 que va pegado */
+    .select2-wrapper .select2-container--bootstrap-5 .select2-selection {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        margin-left: -1px;
+        min-height: 38px;
     }
 </style>
 <?= $this->endSection() ?>
@@ -88,11 +103,11 @@
 </div>
 
 <!-- modal-lg Modal -->
-<div class="modal fade" id="modalPotencial" aria-labelledby="lgmodalLabel" aria-hidden="true">
+<div class="modal fade" id="modalPotencial" tabindex="-1" aria-labelledby="lgmodalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="modal-title h5" id="lgmodalLabel">Agregar Potencial Cliente</p>
+                <h5 class="modal-title" id="lgmodalLabel">Agregar Potencial Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formPotencialCliente">
@@ -198,17 +213,26 @@
                         <h6 class="mb-3">
                             <span class="badge bg-secondary">Seleccione el Rol y las tareas</span>
                         </h6>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="selectRoleValoracion" class="form-label">Roles</label>
                             <select class="form-select" id="selectRoleValoracion" name="selectRoleValoracion" required>
                             </select>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="tareaRealizar" class="form-label">Tareas</label>
-                            <select class="form-select" id="tareaRealizar" name="tareaRealizar" required>
-                                <option value="">-- Seleccionar tarea --</option>
-                            </select>
+                        <div class="col-md-8 mb-3">
+                            <label for="tareaRealizar" class="form-label">Tipo y Tarea a realizar</label>
+                            <div class="input-group">
+                                <select class="form-select" id="tipoTarea" name="tipoTarea" style="flex: 0 0 35%;">
+                                    <option value="">TODOS</option>
+                                    <option value="1">PRIMARIA</option>
+                                    <option value="0">COMPLEMENTARIA</option>
+                                </select>
+                                <div class="select2-wrapper" style="flex: 0 0 65%; min-width: 0;">
+                                    <select class="form-select" id="tareaRealizar" name="tareaRealizar" required>
+                                        <option value="">-- Seleccionar tarea --</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -246,7 +270,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="modal-title h5" id="detalleClienteLabel">Detalle del Cliente</p>
+                <h5 class="modal-title" id="detalleClienteLabel">Detalle del Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -330,7 +354,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="modal-title h5" id="fichaEnfoqueLabel">Ficha de Enfoque</p>
+                <h5 class="modal-title" id="fichaEnfoqueLabel">Ficha de Enfoque</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formFichaEnfoque">
@@ -370,7 +394,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="modal-title h5" id="simuladorProspectosLabel">Simulador de Disponibilidad</p>
+                <h5 class="modal-title" id="simuladorProspectosLabel">Simulador de Disponibilidad</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

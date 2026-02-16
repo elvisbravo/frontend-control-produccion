@@ -131,5 +131,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 
+  window.calendarInstance = calendar;
   calendar.render();
+
+  // Escuchar el cambio de tabs para redimensionar el calendario
+  const calendarTab = document.getElementById('calendar-tab');
+  if (calendarTab) {
+    calendarTab.addEventListener('shown.bs.tab', function () {
+      if (window.calendarInstance) {
+        window.calendarInstance.updateSize();
+      }
+    });
+  }
 });

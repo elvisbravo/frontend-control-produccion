@@ -151,7 +151,7 @@ selectRoles();
 
 function editarProspecto(id) {
   var modalElement = document.getElementById("modalPotencial");
-  var modal = new bootstrap.Modal(modalElement);
+  var modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
 
   const lgmodalLabel = document.getElementById("lgmodalLabel");
@@ -182,17 +182,12 @@ function initializeModalEvents() {
       if (typeof bootstrap !== "undefined") {
         var modalElement = document.getElementById("modalPotencial");
         if (modalElement) {
-          var modal = new bootstrap.Modal(modalElement);
+          var modal = bootstrap.Modal.getOrCreateInstance(modalElement);
           modal.show();
           console.log("Modal opened successfully!");
 
           const lgmodalLabel = document.getElementById("lgmodalLabel");
           lgmodalLabel.textContent = "Agregar Potencial Cliente";
-
-          // Inicializar Select2 después de mostrar el modal
-          $(modalElement).on("shown.bs.modal", function () {
-            initSelect2Universidades();
-          });
         } else {
           console.error("Modal element not found");
         }
@@ -200,6 +195,15 @@ function initializeModalEvents() {
         console.error("Bootstrap not loaded");
       }
     });
+
+    // Inicializar Select2 después de mostrar el modal (solo una vez)
+    var modalElement = document.getElementById("modalPotencial");
+    if (modalElement) {
+      modalElement.addEventListener("shown.bs.modal", function () {
+        initSelect2Universidades();
+        initSelect2Tareas();
+      });
+    }
   } else {
     console.warn("btnAdd button not found");
   }
@@ -242,6 +246,25 @@ function initSelect2Universidades() {
         });
       })
       .catch((error) => console.error("Error al cargar universidades:", error));
+  }
+}
+
+function initSelect2Tareas() {
+  if (typeof $ !== "undefined" && $.fn.select2) {
+    const $select = $("#tareaRealizar");
+    const modalElement = document.getElementById("modalPotencial");
+
+    if ($select.hasClass("select2-hidden-accessible")) {
+      $select.select2("destroy");
+    }
+
+    $select.select2({
+      theme: "bootstrap-5",
+      dropdownParent: $("#modalPotencial .modal-body"),
+      placeholder: "-- Seleccionar tarea --",
+      allowClear: true,
+      width: "100%",
+    });
   }
 }
 
@@ -338,6 +361,8 @@ function resetFormModal() {
   if (form) {
     form.reset();
   }
+
+  currentTasks = [];
 
   // Limpiar contenedor de contactos adicionales
   var contactosAdicionalesContainer = document.getElementById(
@@ -958,8 +983,11 @@ formPotencialCliente.addEventListener("submit", (e) => {
 });
 
 const selectRoleValoracion = document.getElementById("selectRoleValoracion");
+const tipoTarea = document.getElementById("tipoTarea");
 const tareaRealizar = document.getElementById("tareaRealizar");
 const personal = document.getElementById("personal");
+
+let currentTasks = [];
 
 function selectRoles() {
   fetch("permisos/lista-roles")
@@ -977,33 +1005,64 @@ function selectRoles() {
     });
 }
 
+function updateTareasSelect() {
+  const filter = tipoTarea.value;
+
+  // 1. IMPORTANTE: Destruir antes de cambiar el HTML si ya es select2
+  if (
+    typeof $ !== "undefined" &&
+    $(tareaRealizar).hasClass("select2-hidden-accessible")
+  ) {
+    $(tareaRealizar).select2("destroy");
+  }
+
+  let html = '<option value="">-- Seleccionar tarea --</option>';
+
+  const filteredTareas =
+    filter === ""
+      ? currentTasks
+      : currentTasks.filter((t) => t.prioridad == filter);
+
+  filteredTareas.forEach((tarea) => {
+    let prioridad = tarea.prioridad == 0 ? "C" : "P";
+    html += `<option value="${tarea.id}">${tarea.nombre} | ${prioridad}</option>`;
+  });
+
+  tareaRealizar.innerHTML = html;
+  tareaRealizar.value = ""; // Resetear valor
+
+  // 2. Re-inicializar solo si hay tareas o si no se ha inicializado
+  initSelect2Tareas();
+}
+
+if (tipoTarea) {
+  tipoTarea.addEventListener("change", updateTareasSelect);
+}
+
 selectRoleValoracion.addEventListener("change", (e) => {
   const roleId = e.target.value;
+
+  if (!roleId) {
+    currentTasks = [];
+    updateTareasSelect();
+    personal.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
+    return;
+  }
 
   fetch(`tareas/get-by-rol/${roleId}`)
     .then((res) => res.json())
     .then((data) => {
-      let html = '<option value="">-- Selecciona una tarea --</option>';
       let htmlUsers = '<option value="">-- Selecciona un usuario --</option>';
 
-      const tareas = data.result.tareas;
+      currentTasks = data.result.tareas;
       const usuarios = data.result.users;
 
-      tareas.forEach((tarea) => {
-        let prioridad = "";
-        if (tarea.prioridad == 0) {
-          prioridad = "C";
-        } else {
-          prioridad = "P";
-        }
-        html += `<option value="${tarea.id}">${tarea.nombre} | ${prioridad}</option>`;
-      });
+      updateTareasSelect();
 
       usuarios.forEach((user) => {
         htmlUsers += `<option value="${user.id}">${user.nombres} ${user.apellidos}</option>`;
       });
 
-      tareaRealizar.innerHTML = html;
       personal.innerHTML = htmlUsers;
     });
 });
