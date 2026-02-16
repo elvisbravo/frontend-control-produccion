@@ -46,6 +46,7 @@ $routes->post('instituciones/save', 'Instituciones::save');
 $routes->get('instituciones/get-all', 'Instituciones::getInstituciones');
 $routes->get('instituciones/delete/(:num)', 'Instituciones::delete/$1');
 
+
 $routes->get('carreras', 'Carreras::index');
 $routes->post('carreras/save', 'Carreras::save');
 $routes->get('carreras/get-all', 'Carreras::getCarreras');

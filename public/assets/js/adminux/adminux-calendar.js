@@ -25,9 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
           const eventos = data.result.map((evento) => ({
             id: evento.id,
             title: evento.title,
-            start: evento.start,
+            start: evento.created_at,
             end: evento.end,
             className: evento.className,
+            // Agregamos los campos adicionales
+            contenido: evento.contenido || "",
+            linkDrive: evento.linkDrive || "",
+            horas_programacion: evento.horas_programacion || ""
           }));
 
           successCallback(eventos);
@@ -63,25 +67,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
     eventClick: function (info) {
       const event = info.event;
+      const props = event.extendedProps;
 
       let horaInicio = event.start ? event.start.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', hour12: true }) : "N/A";
-      let horaFin = event.end ? event.end.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', hour12: true }) : "N/A";
       let fecha = event.start ? event.start.toLocaleDateString('es-PE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : "N/A";
+      let horaRegistro = event.created_at ? event.created_at.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', hour12: true }) : "N/A";
 
       Swal.fire({
         title: `<span class="h5">${event.title}</span>`,
         html: `
           <div class="text-start">
-            <p class="mb-2"><strong><i class="bi bi-calendar-event me-2"></i>Fecha:</strong> <br><span class="text-secondary">${fecha}</span></p>
-            <p class="mb-2"><strong><i class="bi bi-clock me-2"></i>Horario:</strong> <br><span class="text-secondary">${horaInicio}</span></p>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p class="mb-1"><strong><i class="bi bi-calendar-event me-2"></i>Fecha:</strong></p>
+                    <p class="text-secondary small ms-4">${fecha}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong><i class="bi bi-clock me-2"></i>Horario:</strong></p>
+                    <p class="text-secondary small ms-4">${horaRegistro}</p>
+                </div>
+            </div>
+            
+            <hr>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold"><i class="bi bi-file-text me-2"></i>Contenido del Trabajo:</label>
+              <div class="border rounded p-3 bg-light" style="max-height: 250px; overflow-y: auto;">
+                ${props.contenido || '<span class="text-muted small">Sin contenido registrado.</span>'}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold"><i class="bi bi-hdd me-2"></i>Link Drive:</label>
+              <div class="input-group">
+                <input type="text" id="link_drive" class="form-control" value="${props.linkDrive}" placeholder="Ingrese el link del drive">
+                ${props.linkDrive ? `<a href="${props.linkDrive}" target="_blank" class="btn btn-outline-theme" id="btn_go_drive"><i class="bi bi-box-arrow-up-right"></i></a>` : ''}
+              </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="horas_programacion" class="form-label fw-bold"><i class="bi bi-hourglass-split me-2"></i>Horas de Programación:</label>
+                <input type="number" id="horas_programacion" class="form-control" placeholder="Ingrese horas estimadas" value="${props.horas_programacion}">
+            </div>
           </div>
         `,
-        icon: 'info',
-        confirmButtonText: 'Cerrar',
+        showCancelButton: true,
+        confirmButtonText: '<i class="bi bi-check-circle me-2"></i>Empezar',
+        cancelButtonText: 'Cerrar',
         confirmButtonColor: 'var(--adminuiux-theme-1)',
         customClass: {
           title: 'text-theme-1',
           popup: 'rounded-4 shadow'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const nuevasHoras = document.getElementById('horas_programacion').value;
+          const nuevoLink = document.getElementById('link_drive').value;
+          // Aquí se podría implementar la lógica para guardar los datos
+          console.log("Datos a guardar:", { horas: nuevasHoras, link: nuevoLink }, "para el evento:", event.id);
         }
       });
     }

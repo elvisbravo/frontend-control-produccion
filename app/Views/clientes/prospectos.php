@@ -2,6 +2,35 @@
 
 <?= $this->section('styles') ?>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+<style>
+    /* Corregir el problema del doble select y estética en modal */
+    .select2-container {
+        display: block;
+        width: 100% !important;
+    }
+
+    .select2-hidden-accessible {
+        border: 0 !important;
+        clip: rect(0 0 0 0) !important;
+        height: 1px !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        position: absolute !important;
+        width: 1px !important;
+    }
+
+    .select2-container--bootstrap-5 .select2-dropdown {
+        z-index: 1060;
+        /* Mayor que el modal de Bootstrap */
+    }
+
+    .select2-container--open {
+        z-index: 1060;
+    }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -59,7 +88,7 @@
 </div>
 
 <!-- modal-lg Modal -->
-<div class="modal fade" id="modalPotencial" tabindex="-1" aria-labelledby="lgmodalLabel" aria-hidden="true">
+<div class="modal fade" id="modalPotencial" aria-labelledby="lgmodalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -88,15 +117,6 @@
                                 <label for="universidad" class="form-label">Universidad</label>
                                 <select class="form-select" id="universidad" name="universidad">
                                     <option value="">-- Seleccione una universidad --</option>
-                                    <option value="UNSM">UNSM - Universidad Nacional de San Martín</option>
-                                    <option value="UNMSM">UNMSM - Universidad Nacional Mayor de San Marcos</option>
-                                    <option value="PUCP">PUCP - Pontificia Universidad Católica del Perú</option>
-                                    <option value="UNI">UNI - Universidad Nacional de Ingeniería</option>
-                                    <option value="UPAO">UPAO - Universidad Privada Antenor Orrego</option>
-                                    <option value="USMP">USMP - Universidad San Martín de Porres</option>
-                                    <option value="UPC">UPC - Universidad Peruana de Ciencias Aplicadas</option>
-                                    <option value="USFX">USFX - Universidad San Francisco Javier</option>
-                                    <option value="OTRO">Otra</option>
                                 </select>
                             </div>
                         </div>
@@ -389,5 +409,6 @@
 
 <?= $this->section('scripts') ?>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script defer src="js/prospectos/potenciales.js"></script>
 <?= $this->endSection() ?>

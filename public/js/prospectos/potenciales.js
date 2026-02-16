@@ -188,6 +188,11 @@ function initializeModalEvents() {
 
           const lgmodalLabel = document.getElementById("lgmodalLabel");
           lgmodalLabel.textContent = "Agregar Potencial Cliente";
+
+          // Inicializar Select2 después de mostrar el modal
+          $(modalElement).on("shown.bs.modal", function () {
+            initSelect2Universidades();
+          });
         } else {
           console.error("Modal element not found");
         }
@@ -197,6 +202,46 @@ function initializeModalEvents() {
     });
   } else {
     console.warn("btnAdd button not found");
+  }
+}
+
+function initSelect2Universidades() {
+  if (typeof $ !== "undefined" && $.fn.select2) {
+    const $select = $("#universidad");
+
+    // Destruir si ya existe para evitar duplicidades
+    if ($select.hasClass("select2-hidden-accessible")) {
+      $select.select2("destroy");
+    }
+
+    // Cargar datos por fetch
+    fetch("instituciones/get-all")
+      .then((res) => res.json())
+      .then((data) => {
+        // Asumiendo que data.result es el array o data directamente
+        const universidades = data.result || data;
+
+        // Limpiar y mantener solo el placeholder
+        $select.empty().append('<option value="">-- Seleccione una universidad --</option>');
+
+        // Llenar con los nuevos datos
+        universidades.forEach((uni) => {
+          // Ajustar uni.id y uni.nombre según el formato de tu API
+          const id = uni.id || uni.codigo || uni.value;
+          const nombre = uni.nombre || uni.text || uni.label;
+          $select.append(new Option(nombre, id));
+        });
+
+        // Inicializar Select2 con los nuevos datos
+        $select.select2({
+          theme: "bootstrap-5",
+          dropdownParent: $("#modalPotencial"),
+          placeholder: "-- Seleccione una universidad --",
+          allowClear: true,
+          width: "100%",
+        });
+      })
+      .catch((error) => console.error("Error al cargar universidades:", error));
   }
 }
 
@@ -300,6 +345,11 @@ function resetFormModal() {
   );
   if (contactosAdicionalesContainer) {
     contactosAdicionalesContainer.innerHTML = "";
+  }
+
+  // Destruir Select2 si existe para evitar duplicados
+  if (typeof $ !== "undefined" && $("#universidad").hasClass("select2-hidden-accessible")) {
+    $("#universidad").select2("destroy");
   }
 
   actualizarContadorContactos();
