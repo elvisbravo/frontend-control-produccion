@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             <div class="mb-3">
                 <label for="horas_programacion" class="form-label fw-bold"><i class="bi bi-hourglass-split me-2"></i>Horas de Programación:</label>
-                <input type="number" id="horas_programacion" class="form-control" placeholder="Ingrese horas estimadas" value="${props.horas_programacion}">
+                <input type="text" id="horas_programacion" class="form-control" placeholder="Ingrese horas estimadas" value="${props.horas_programacion}">
             </div>
           </div>
         `,
