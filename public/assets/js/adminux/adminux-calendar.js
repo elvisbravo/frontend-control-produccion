@@ -31,7 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
             // Agregamos los campos adicionales
             contenido: evento.contenido || "",
             linkDrive: evento.linkDrive || "",
-            horas_programacion: evento.horas_programacion || ""
+            horas_programacion: evento.horas_programacion || "",
+            // Prospecto
+            cliente_nombre: `${evento.prospecto_nombres || '--'} ${evento.prospecto_apellidos || ''}`,
+            cliente_celular: evento.prospecto_celular || '--',
+            cliente_origen: evento.prospecto_origen || '--',
+            cliente_nivel: evento.prospecto_nivel || '--',
+            cliente_universidad: evento.prospecto_universidad || '--',
+            cliente_carrera: evento.prospecto_carrera || '--',
+            entrega_tentativa: evento.fecha_entrega_tentativa || '--'
           }));
 
           successCallback(eventos);
@@ -79,12 +87,48 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="text-start">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <p class="mb-1"><strong><i class="bi bi-calendar-event me-2"></i>Fecha:</strong></p>
-                    <p class="text-secondary small ms-4">${fecha}</p>
+                    <p class="mb-1 text-secondary small"><strong><i class="bi bi-calendar-event me-2"></i>Fecha:</strong></p>
+                    <p class="ms-4">${fecha}</p>
                 </div>
                 <div class="col-md-6">
-                    <p class="mb-1"><strong><i class="bi bi-clock me-2"></i>Horario:</strong></p>
-                    <p class="text-secondary small ms-4">${horaRegistro}</p>
+                    <p class="mb-1 text-secondary small"><strong><i class="bi bi-clock me-2"></i>Horario:</strong></p>
+                    <p class="ms-4">${horaRegistro}</p>
+                </div>
+            </div>
+
+            <div class="card bg-light border-0 mb-3">
+                <div class="card-body p-3">
+                    <h6 class="mb-3"><span class="badge bg-secondary">Información del Cliente</span></h6>
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <p class="text-secondary small mb-0">Nombre Completo:</p>
+                            <p class="fw-bold mb-2">${props.cliente_nombre}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-secondary small mb-0">Celular:</p>
+                            <p class="mb-2">${props.cliente_celular}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-secondary small mb-0">Origen:</p>
+                            <p class="mb-2">${props.cliente_origen}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-secondary small mb-0">Nivel:</p>
+                            <p class="mb-2">${props.cliente_nivel}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-secondary small mb-0">Entrega Tentativa:</p>
+                            <p class="mb-2 text-primary fw-bold">${props.entrega_tentativa}</p>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-secondary small mb-0">Universidad:</p>
+                            <p class="mb-2">${props.cliente_universidad}</p>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-secondary small mb-0">Carrera:</p>
+                            <p class="mb-1">${props.cliente_carrera}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -107,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             <div class="mb-3">
                 <label for="horas_programacion" class="form-label fw-bold"><i class="bi bi-hourglass-split me-2"></i>Horas de Programación:</label>
-                <input type="text" id="horas_programacion" class="form-control" placeholder="Ingrese horas estimadas" value="${props.horas_programacion}">
+                <input type="number" step="0.5" id="horas_programacion" class="form-control" placeholder="Ingrese horas estimadas" value="${props.horas_programacion}">
             </div>
           </div>
         `,

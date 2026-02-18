@@ -79,13 +79,17 @@ function initDataTable() {
       dataSrc: "result",
     },
     columns: [
-      { data: "id" },
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.settings._iDisplayStart + meta.row + 1;
+        },
+      },
       { data: "fecha_contacto" },
       {
         data: null,
         render: function (data, type, row) {
           const contactos = row.personas;
-          console.log(contactos);
 
           let contactoHtml = "";
 
@@ -102,13 +106,26 @@ function initDataTable() {
       { data: "nivel_academico" },
       { data: "carrera" },
       { data: "institucion" },
-      { data: "estado" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          if (row.seguimiento === "nuevo") {
+            return `<span class="badge bg-secondary">${row.seguimiento}</span>`;
+          } else if (row.seguimiento === "proceso") {
+            return `<span class="badge bg-warning">${row.seguimiento}</span>`;
+          } else if (row.seguimiento === "pausado") {
+            return `<span class="badge bg-info">${row.seguimiento}</span>`;
+          } else if (row.seguimiento === "finalizado") {
+            return `<span class="badge bg-success">${row.seguimiento}</span>`;
+          }
+        },
+      },
       { data: "fecha_entrega" },
       {
         data: null,
         render: function (data, type, row) {
           return `
-                        <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="5">
+                        <button type="button" class="btn btn-square btn-link btn-ver-detalle" data-bs-toggle="tooltip" title="Ver Más" data-id="${row.id}">
                                     <i class="bi bi-eye"></i>
                                 </button>
                                 <div class="dropdown d-inline-block">
@@ -117,9 +134,9 @@ function initDataTable() {
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="javascript:void(0)" onclick="editarProspecto(${row.id})">Editar</a></li>
-                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="5">Ficha de Enfoque</a></li>
-                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="5">Simular Disponibilidad</a></li>
-                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="5">Convertir a cliente</a></li>
+                                        <li><a class="dropdown-item btn-ficha-enfoque" href="javascript:void(0)" data-id="${row.id}">Ficha de Enfoque</a></li>
+                                        <li><a class="dropdown-item btn-simular-disponibilidad" href="javascript:void(0)" data-id="${row.id}">Simular Disponibilidad</a></li>
+                                        <li><a class="dropdown-item btn-convertir-cliente" href="javascript:void(0)" data-id="${row.id}">Convertir a cliente</a></li>
                                         <li><a class="dropdown-item theme-red" href="javascript:void(0)">Eliminar</a></li>
                                     </ul>
                                 </div>
@@ -171,7 +188,6 @@ function initializeModalEvents() {
   if (btnAdd) {
     btnAdd.addEventListener("click", function (e) {
       e.preventDefault();
-      console.log("Add button clicked, opening modal...");
 
       editorInstance.setData("");
 
@@ -184,7 +200,6 @@ function initializeModalEvents() {
         if (modalElement) {
           var modal = bootstrap.Modal.getOrCreateInstance(modalElement);
           modal.show();
-          console.log("Modal opened successfully!");
 
           const lgmodalLabel = document.getElementById("lgmodalLabel");
           lgmodalLabel.textContent = "Agregar Potencial Cliente";
@@ -328,7 +343,6 @@ function agregarContacto() {
   // Actualizar contador
   actualizarContadorContactos();
 
-  console.log("Contacto agregado:", nuevoNumero);
 }
 
 // Function to remove a contact
@@ -339,7 +353,6 @@ function eliminarContacto(numeroContacto) {
   if (contactoElement) {
     contactoElement.remove();
     actualizarContadorContactos();
-    console.log("Contacto eliminado:", numeroContacto);
   }
 }
 
@@ -484,7 +497,6 @@ function abrirModalDetalle(idCliente) {
     if (modalElement) {
       var modal = new bootstrap.Modal(modalElement);
       modal.show();
-      console.log("Modal de detalle abierto para cliente:", idCliente);
     }
   }
 }
