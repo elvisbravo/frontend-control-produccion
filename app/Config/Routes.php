@@ -65,3 +65,5 @@ $routes->get('trabajos/sugerir', 'Trabajos::sugerirAuxiliares');
 $routes->get('trabajos/reporte', 'Trabajos::reporteDisponibilidad');
 
 $routes->get('horario-by-id', 'Horario::getHorarioById');
+
+$routes->get('actividades', 'Actividades::getActividades');

@@ -57,6 +57,7 @@ class Clientes extends BaseController
         $personal = $this->request->getPost('personal');
         $contenido = $this->request->getPost('contenido');
         $linkDrive = $this->request->getPost('linkDrive');
+        $prioridad = $this->request->getPost('prioridad');
 
         $usuario_id = session()->get('id_user');
 
@@ -82,7 +83,8 @@ class Clientes extends BaseController
                 'apellidos' => $apellidos,
                 'celular' => $celular,
                 'contenido' => $contenido,
-                'linkDrive' => $linkDrive
+                'linkDrive' => $linkDrive,
+                'prioridad' => $prioridad
             ]
         ]);
 

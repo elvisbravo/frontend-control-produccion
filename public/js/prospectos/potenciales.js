@@ -109,15 +109,22 @@ function initDataTable() {
       {
         data: null,
         render: function (data, type, row) {
-          if (row.seguimiento === "nuevo") {
-            return `<span class="badge bg-secondary">${row.seguimiento}</span>`;
-          } else if (row.seguimiento === "proceso") {
-            return `<span class="badge bg-warning">${row.seguimiento}</span>`;
-          } else if (row.seguimiento === "pausado") {
-            return `<span class="badge bg-info">${row.seguimiento}</span>`;
-          } else if (row.seguimiento === "finalizado") {
-            return `<span class="badge bg-success">${row.seguimiento}</span>`;
+          let badgeClass = '';
+          let styleAttr = '';
+          let seguimientoText = row.seguimiento;
+
+          if (row.seguimiento === "Pendiente") {
+            badgeClass = 'bg-secondary';
+          } else if (row.seguimiento === "Proceso" || row.seguimiento === "En proceso") {
+            badgeClass = 'bg-warning';
+          } else if (row.seguimiento === "Pausado") {
+            badgeClass = ''; // No default bootstrap class, use inline style
+            styleAttr = 'style="background-color: #fd7e14; color: white;"';
+          } else if (row.seguimiento === "Finalizado") {
+            badgeClass = 'bg-success';
           }
+
+          return `<span class="badge ${badgeClass}" ${styleAttr}>${seguimientoText}</span>`;
         },
       },
       { data: "fecha_entrega" },

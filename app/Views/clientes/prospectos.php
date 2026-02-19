@@ -253,13 +253,13 @@
                             <label class="form-label fw-bold">Prioridad de la Tarea</label>
                             <div class="d-flex gap-4 p-2 border rounded bg-light">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="prioridad" id="prioAlta" value="ALTA">
+                                    <input class="form-check-input" type="radio" name="prioridad" id="prioAlta" value="ALTA" required="">
                                     <label class="form-check-label text-danger fw-bold" for="prioAlta">
                                         <i class="bi bi-exclamation-triangle-fill me-1"></i> Alta
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="prioridad" id="prioMedia" value="MEDIA" checked>
+                                    <input class="form-check-input" type="radio" name="prioridad" id="prioMedia" value="MEDIA">
                                     <label class="form-check-label text-warning fw-bold" for="prioMedia">
                                         <i class="bi bi-exclamation-circle-fill me-1"></i> Media
                                     </label>

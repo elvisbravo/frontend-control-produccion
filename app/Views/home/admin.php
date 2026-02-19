@@ -230,15 +230,15 @@
                                         <label class="form-label fw-bold">Prioridad</label>
                                         <div class="d-flex gap-4 p-2 border rounded bg-light">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dt-prioridad-edit" id="dt-prio-alta" value="Alta">
+                                                <input class="form-check-input" type="radio" name="prioridad_prospecto" id="dt-prio-alta" value="Alta">
                                                 <label class="form-check-label text-danger fw-bold" for="dt-prio-alta">Alta</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dt-prioridad-edit" id="dt-prio-media" value="Media">
+                                                <input class="form-check-input" type="radio" name="prioridad_prospecto" id="dt-prio-media" value="Media">
                                                 <label class="form-check-label text-warning fw-bold" for="dt-prio-media">Media</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dt-prioridad-edit" id="dt-prio-baja" value="Baja">
+                                                <input class="form-check-input" type="radio" name="prioridad_prospecto" id="dt-prio-baja" value="Baja">
                                                 <label class="form-check-label text-success fw-bold" for="dt-prio-baja">Baja</label>
                                             </div>
                                         </div>
@@ -454,7 +454,7 @@
             const container = document.getElementById('listaTareasAsignadas');
             if (!container) return;
 
-            fetch("horario-by-id")
+            fetch("actividades")
                 .then(res => res.json())
                 .then(data => {
                     const tareas = data.result;
@@ -483,17 +483,44 @@
 
                             // Mapeo de estilos
                             let iconClass = "bi-journal-check";
-                            let badgeClass = "bg-primary";
+                            let badgeClass = "bg-secondary";
                             let bgClass = "bg-light";
+
+                            const prioridadLabel = (tarea.prioridad || 'Media').toUpperCase();
+                            if (prioridadLabel === 'ALTA') {
+                                badgeClass = "bg-danger";
+                            } else if (prioridadLabel === 'MEDIA') {
+                                badgeClass = "bg-warning text-dark";
+                            } else if (prioridadLabel === 'BAJA') {
+                                badgeClass = "bg-success";
+                            }
+
+                            // Mapeo seguimiento
+                            const sVal = (tarea.seguimiento || 'Pendiente').toUpperCase();
+                            let sBadgeClass = 'bg-secondary';
+                            let sBadgeStyle = '';
+                            let sLabel = 'Pendiente';
+
+                            if (sVal.includes('PROCESO')) {
+                                sBadgeClass = 'bg-warning text-dark';
+                                sLabel = 'En Proceso';
+                            } else if (sVal.includes('PAUSADO')) {
+                                sBadgeClass = '';
+                                sBadgeStyle = 'style="background-color: #fd7e14; color: white;"';
+                                sLabel = 'Pausado';
+                            } else if (sVal.includes('FINALIZADO')) {
+                                sBadgeClass = 'bg-success';
+                                sLabel = 'Finalizado';
+                            }
 
                             html += `
                                 <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 ${bgClass} p-3 btn-ver-detalle-tarea" 
                                    data-id="${tarea.id}" 
-                                   data-nombre="${tarea.title}" 
+                                   data-nombre="${tarea.nombre}" 
                                    data-fecha="${fechaFormateada}"
                                    data-hora="${horaFormateada}" 
                                    data-proyecto="${tarea.proyecto || 'General'}" 
-                                   data-prioridad="Normal" 
+                                   data-prioridad="${tarea.prioridad || 'Media'}" 
                                    data-detalle="${tarea.contenido || 'Sin descripción adicional.'}"
                                    data-cliente-nombre="${tarea.prospecto_nombres || '--'} ${tarea.prospecto_apellidos || ''}"
                                    data-cliente-celular="${tarea.prospecto_celular || '--'}"
@@ -511,16 +538,16 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <h6 class="mb-0">${tarea.title}</h6>
-                                            <p class="text-secondary small mb-0">ID: #${tarea.id} | <span class="text-dark">${tarea.proyecto || 'General'}</span></p>
+                                            <h6 class="mb-0">${tarea.nombre}</h6>
+                                            <p class="text-secondary small mb-0">ID: #${tarea.id} | <span class="badge rounded-pill ${sBadgeClass}" ${sBadgeStyle}>${sLabel}</span></p>
                                         </div>
-                                        <div class="col-auto text-end">
-                                            <div class="text-dark small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${fechaFormateada}</div>
-                                            <div class="text-secondary small mb-2"><i class="bi bi-clock me-1"></i>${horaFormateada}</div>
-                                            <span class="badge ${badgeClass}">Normal</span>
-                                        </div>
-                                    </div>
-                                </a>`;
+<div class="col-auto text-end">
+    <div class="text-dark small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${fechaFormateada}</div>
+    <div class="text-secondary small mb-2"><i class="bi bi-clock me-1"></i>${horaFormateada}</div>
+    <span class="badge ${badgeClass}">${tarea.prioridad}</span>
+</div>
+</div>
+</a>`;
                         });
                     }
 
@@ -577,8 +604,13 @@
 
                     // Seleccionar radio de prioridad
                     const prioridad = this.getAttribute('data-prioridad');
-                    const radioPrio = document.querySelector(`input[name="dt-prioridad-edit"][value="${prioridad}"]`);
-                    if (radioPrio) radioPrio.checked = true;
+                    // Normalizar para coincidir con los values de los radio buttons (Alta, Media, Baja) o usar uppercase
+                    const radios = document.querySelectorAll('input[name="prioridad_prospecto"]');
+                    radios.forEach(radio => {
+                        if (radio.value.toUpperCase() === prioridad.toUpperCase()) {
+                            radio.checked = true;
+                        }
+                    });
 
                     modalDetalle.show();
                 });
@@ -591,7 +623,7 @@
                     const id = document.getElementById('dt-id-tarea').value;
                     const link = document.getElementById('dt-link-drive').value;
                     const horas = document.getElementById('dt-horas').value;
-                    const prioridadChecked = document.querySelector('input[name="dt-prioridad-edit"]:checked');
+                    const prioridadChecked = document.querySelector('input[name="prioridad_prospecto"]:checked');
                     const prioridad = prioridadChecked ? prioridadChecked.value : 'Media';
 
                     // Bloquear botón
@@ -599,7 +631,7 @@
                     btnActualizar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Guardando...';
 
                     // Aquí iría la llamada fetch para guardar
-                    // Como no tengo el endpoint exacto para actualización individual, 
+                    // Como no tengo el endpoint exacto para actualización individual,
                     // simularé el éxito por ahora o usaré uno genérico si existiera.
                     console.log("Actualizando tarea:", id, {
                         linkDrive: link,
