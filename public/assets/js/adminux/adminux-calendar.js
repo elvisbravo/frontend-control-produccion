@@ -21,13 +21,14 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch("horario-by-id")
         .then((response) => response.json())
         .then((data) => {
-
+          console.log(data);
           const eventos = data.result.map((evento) => ({
             id: evento.id,
             title: evento.title,
-            start: evento.created_at,
+            start: evento.start,
             end: evento.end,
-            className: evento.className,
+            backgroundColor: evento.color,
+            borderColor: evento.color,
             // Agregamos los campos adicionales
             contenido: evento.contenido || "",
             linkDrive: evento.linkDrive || "",

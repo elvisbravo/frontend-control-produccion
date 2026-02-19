@@ -994,7 +994,7 @@ formPotencialCliente.addEventListener("submit", (e) => {
       } else {
         Swal.fire(
           "Error",
-          "Error al guardar el potencial cliente: " + data.message,
+          data.message + " " + data.result.minutos_disponibles + " minutos disponibles, ultima hora: " + data.result.ultima_hora,
           "error",
         );
       }

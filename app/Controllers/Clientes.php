@@ -90,10 +90,19 @@ class Clientes extends BaseController
 
         $data = json_decode($response->getBody(), true);
 
-        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+        if (!$data || $data['status'] == 500) {
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => $data['messages']['error']
+                'message' => $data['messages']['error'],
+                'result' => $data['result'] ?? null
+            ]);
+        }
+
+        if (!$data || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages'],
+                'result' => $data['result']
             ]);
         }
 

@@ -150,7 +150,7 @@
                         <div class="card-body">
                             <div class="row align-items-center mb-4">
                                 <div class="col">
-                                    <h5 class="mb-0">Mis Tareas Pendientes</h5>
+                                    <h5 class="mb-0">Mis Tareas</h5>
                                     <p class="text-secondary small">Visualiza y gestiona tus tareas asignadas</p>
                                 </div>
                             </div>
