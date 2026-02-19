@@ -36,13 +36,44 @@ class Actividades extends BaseController
         ]);
     }
 
-    public function save()
+    public function getActividadRow($id)
     {
-        $carreraId = $this->request->getPost('carreraId');
-        $carreraInstitucion = $this->request->getPost('carreraInstitucion');
-        $carreraNombre = $this->request->getPost('carreraNombre');
 
-        $ruta = getenv('URL_BACKEND') . 'carreras/guardar';
+        $ruta = getenv('URL_BACKEND') . 'actividad/get-row/' . $id;
+
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->get($ruta, [
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'http_errors' => false
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+
+        if (!$data || $data['status'] == 500 || $data['status'] == 400) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $data['messages']['error']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => $data['message'],
+            'result' => $data['result']
+        ]);
+    }
+
+    public function updateProcesoActividad()
+    {
+
+        $id_actividad = $this->request->getPost('id_actividad');
+        $id_prospecto = $this->request->getPost('id_prospecto');
+        $link_drive = $this->request->getPost('dt-link-drive');
+
+        $ruta = getenv('URL_BACKEND') . 'actividad/update-proceso';
 
         $client = \Config\Services::curlrequest();
 
@@ -52,9 +83,10 @@ class Actividades extends BaseController
             ],
             'http_errors' => false,
             'json' => [
-                'id' => $carreraId,
-                'institucion_id' => $carreraInstitucion,
-                'nombre' => $carreraNombre
+                'id_actividad' => $id_actividad,
+                'id_prospecto' => $id_prospecto,
+                'link_drive' => $link_drive,
+                'usuario' => session()->get('id_user')
             ]
         ]);
 

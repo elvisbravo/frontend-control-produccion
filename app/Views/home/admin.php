@@ -2,6 +2,42 @@
 
 <?= $this->section('content') ?>
 
+<style>
+    .editor-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        padding-top: 50px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+    }
+</style>
+
 <!-- page title -->
 <div class="container-fluid py-3">
     <div class="row gx-3 gx-lg-4 align-items-center page-title">
@@ -139,116 +175,101 @@
                                 <h5 class="modal-title">Detalle de la Tarea</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body p-4">
-                                <input type="hidden" id="dt-id-tarea">
-                                <div class="text-center mb-4">
-                                    <div class="avatar avatar-60 bg-theme-1-subtle text-theme-1 rounded-circle mb-3 mx-auto">
-                                        <i class="bi bi-info-circle h3 mb-0"></i>
-                                    </div>
-                                    <h4 id="dt-nombre-tarea" class="mb-1">Nombre de la Tarea</h4>
-                                    <p id="dt-proyecto" class="text-secondary small">Proyecto Relacionado</p>
-                                </div>
-
-                                <div class="row g-4">
-                                    <!-- Información del Prospecto -->
-                                    <div class="col-md-7">
-                                        <h6 class="mb-3"><span class="badge bg-secondary">Información del Potencial Cliente</span></h6>
-                                        <div class="row g-3">
-                                            <div class="col-12">
-                                                <p class="text-secondary small mb-1">Nombre Completo</p>
-                                                <h6 id="dt-cliente-nombre" class="mb-0">--</h6>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-secondary small mb-1">Celular</p>
-                                                <h6 id="dt-cliente-celular" class="mb-0">--</h6>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-secondary small mb-1">Origen</p>
-                                                <h6 id="dt-cliente-origen" class="mb-0">--</h6>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-secondary small mb-1">Nivel Académico</p>
-                                                <h6 id="dt-cliente-nivel" class="mb-0">--</h6>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-secondary small mb-1">Universidad</p>
-                                                <h6 id="dt-cliente-universidad" class="mb-0">--</h6>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="text-secondary small mb-1">Carrera</p>
-                                                <h6 id="dt-cliente-carrera" class="mb-0">--</h6>
-                                            </div>
+                            <form id="formEmpezarTarea">
+                                <div class="modal-body p-4">
+                                    <input type="hidden" name="id_actividad" id="dt-id-tarea">
+                                    <input type="hidden" name="id_prospecto" id="dt-id-prospecto">
+                                    <div class="text-center mb-4">
+                                        <div class="avatar avatar-60 bg-theme-1-subtle text-theme-1 rounded-circle mb-3 mx-auto">
+                                            <i class="bi bi-info-circle h3 mb-0"></i>
                                         </div>
+                                        <h4 id="dt-nombre-tarea" class="mb-1">Nombre de la Tarea</h4>
+                                        <p id="dt-nombre-asignado" class="mb-1"></p>
                                     </div>
 
-                                    <!-- Detalles de Entrega y Tarea -->
-                                    <div class="col-md-5">
-                                        <h6 class="mb-3"><span class="badge bg-secondary">Detalles técnicos</span></h6>
-                                        <div class="row g-3">
-                                            <div class="col-12">
-                                                <div class="p-2 border rounded-3 bg-light">
-                                                    <p class="text-secondary small mb-1">Fecha Entrega Tentativa</p>
-                                                    <h6 id="dt-entrega-tentativa" class="mb-0 text-primary">--/--/----</h6>
+                                    <div class="row g-4">
+                                        <!-- Información del Prospecto -->
+                                        <div class="col-md-7">
+                                            <h6 class="mb-3"><span class="badge bg-secondary">Información del Potencial Cliente</span></h6>
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-8">
+                                                    <p class="text-secondary small mb-2"><i class="bi bi-person-badge me-1"></i>Nombre(s) Completo(s)</p>
+                                                    <div id="dt-cliente-nombre-container" class="d-flex flex-column gap-1">
+                                                        <h6 class="mb-0 fw-bold">--</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <p class="text-secondary small mb-2"><i class="bi bi-telephone me-1"></i>Contacto(s)</p>
+                                                    <div id="dt-cliente-celular-container" class="d-flex flex-wrap gap-2">
+                                                        <h6 class="mb-0">--</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="text-secondary small mb-1">Origen</p>
+                                                    <h6 id="dt-cliente-origen" class="mb-0">--</h6>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="text-secondary small mb-1">Nivel Académico</p>
+                                                    <h6 id="dt-cliente-nivel" class="mb-0">--</h6>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="text-secondary small mb-1">Universidad</p>
+                                                    <h6 id="dt-cliente-universidad" class="mb-0">--</h6>
+                                                </div>
+                                                <div class="col-12">
+                                                    <p class="text-secondary small mb-1">Carrera</p>
+                                                    <h6 id="dt-cliente-carrera" class="mb-0">--</h6>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
-                                                <p class="text-secondary small mb-1">Fecha Registro</p>
-                                                <h6 id="dt-fecha" class="mb-0">--/--/----</h6>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-secondary small mb-1">Hora Registro</p>
-                                                <h6 id="dt-hora" class="mb-0">--:-- --</h6>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="text-secondary small mb-1">Prioridad</p>
-                                                <h6 id="dt-prioridad" class="mb-0">--</h6>
+                                        </div>
+
+                                        <!-- Detalles de Entrega y Tarea -->
+                                        <div class="col-md-5">
+                                            <h6 class="mb-3"><span class="badge bg-secondary">Detalles técnicos</span></h6>
+                                            <div class="row g-3">
+                                                <div class="col-12">
+                                                    <div class="p-2 border rounded-3 bg-light">
+                                                        <p class="text-secondary small mb-1">Fecha Entrega Tentativa</p>
+                                                        <h6 id="dt-entrega-tentativa" class="mb-0 text-primary">--/--/----</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="text-secondary small mb-1">Fecha Registro</p>
+                                                    <h6 id="dt-fecha" class="mb-0">--/--/----</h6>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="text-secondary small mb-1">Hora Registro</p>
+                                                    <h6 id="dt-hora" class="mb-0">--:-- --</h6>
+                                                </div>
+                                                <div class="col-12">
+                                                    <p class="text-secondary small mb-1">Prioridad</p>
+                                                    <h6 id="dt-prioridad" class="mb-0">--</h6>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-12 mt-4">
-                                        <h6 class="mb-3"><span class="badge bg-secondary">Descripción / Notas</span></h6>
-                                        <div class="p-3 border rounded-3 bg-light">
-                                            <p id="dt-detalle" class="mb-0 small text-dark">No hay descripción disponible.</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Campos Editables -->
-                                    <div class="col-md-8">
-                                        <label for="dt-link-drive" class="form-label fw-bold">Link del Drive</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="dt-link-drive" placeholder="https://drive.google.com/...">
-                                            <a href="#" id="dt-link-drive-btn" target="_blank" class="btn btn-outline-theme-1"><i class="bi bi-box-arrow-up-right"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="dt-horas" class="form-label fw-bold">Horas Programadas</label>
-                                        <input type="number" step="0.5" class="form-control" id="dt-horas" placeholder="0.0">
-                                    </div>
-
-                                    <div class="col-12 mt-2">
-                                        <label class="form-label fw-bold">Prioridad</label>
-                                        <div class="d-flex gap-4 p-2 border rounded bg-light">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="prioridad_prospecto" id="dt-prio-alta" value="Alta">
-                                                <label class="form-check-label text-danger fw-bold" for="dt-prio-alta">Alta</label>
+                                        <div class="col-12 mt-4">
+                                            <h6 class="mb-3"><span class="badge bg-secondary">Descripción / Notas</span></h6>
+                                            <div class="p-3 border rounded-3 bg-light">
+                                                <div id="dt-detalle" class="mb-0 small text-dark editor-content">No hay descripción disponible.</div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="prioridad_prospecto" id="dt-prio-media" value="Media">
-                                                <label class="form-check-label text-warning fw-bold" for="dt-prio-media">Media</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="prioridad_prospecto" id="dt-prio-baja" value="Baja">
-                                                <label class="form-check-label text-success fw-bold" for="dt-prio-baja">Baja</label>
+                                        </div>
+
+                                        <!-- Campos Editables -->
+                                        <div class="col-md-12">
+                                            <label for="dt-link-drive" class="form-label fw-bold">Link del Drive</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="dt-link-drive" placeholder="https://drive.google.com/..." name="dt-link-drive" required>
+                                                <a href="#" id="dt-link-drive-btn" target="_blank" class="btn btn-outline-theme-1"><i class="bi bi-box-arrow-up-right"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer border-0 pt-0 justify-content-center">
-                                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-theme-1 rounded-pill px-4" id="btnActualizarTarea">Guardar Cambios</button>
-                            </div>
+                                <div class="modal-footer border-0 pt-0 justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-outline-success rounded-pill px-4" id="btnActualizarTarea">Empezar</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -348,6 +369,11 @@
     </div>
 
 
+</div>
+
+<div id="imageModal" class="image-modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
 </div>
 <?= $this->endSection() ?>
 
@@ -457,19 +483,19 @@
             fetch("actividades")
                 .then(res => res.json())
                 .then(data => {
-                    const tareas = data.result;
+                    const actividades = data.result;
                     let html = '';
 
-                    if (!tareas || tareas.length === 0) {
+                    if (!actividades || actividades.length === 0) {
                         html = `
                             <div class="text-center py-5">
                                 <i class="bi bi-clipboard-x h2 text-secondary opacity-50 d-block mb-3"></i>
-                                <p class="text-secondary">No hay tareas pendientes en este momento.</p>
+                                <p class="text-secondary">No hay Actividades pendientes en este momento.</p>
                             </div>`;
                     } else {
-                        tareas.forEach(tarea => {
+                        actividades.forEach(actividad => {
                             // Formatear la fecha y hora de creado
-                            const fechaObj = new Date(tarea.created_at);
+                            const fechaObj = new Date(actividad.created_at);
                             const fechaFormateada = fechaObj.toLocaleDateString('es-PE', {
                                 day: '2-digit',
                                 month: '2-digit',
@@ -486,7 +512,7 @@
                             let badgeClass = "bg-secondary";
                             let bgClass = "bg-light";
 
-                            const prioridadLabel = (tarea.prioridad || 'Media').toUpperCase();
+                            const prioridadLabel = (actividad.prioridad || 'Media').toUpperCase();
                             if (prioridadLabel === 'ALTA') {
                                 badgeClass = "bg-danger";
                             } else if (prioridadLabel === 'MEDIA') {
@@ -495,42 +521,30 @@
                                 badgeClass = "bg-success";
                             }
 
-                            // Mapeo seguimiento
-                            const sVal = (tarea.seguimiento || 'Pendiente').toUpperCase();
-                            let sBadgeClass = 'bg-secondary';
+                            let sBadgeClass = '';
                             let sBadgeStyle = '';
-                            let sLabel = 'Pendiente';
+                            let sLabel = '';
 
-                            if (sVal.includes('PROCESO')) {
+                            if (actividad.seguimiento == 'Pendiente') {
+                                sBadgeClass = 'bg-secondary';
+                                sBadgeStyle = '';
+                                sLabel = 'Pendiente';
+                            } else if (actividad.seguimiento == 'En proceso') {
                                 sBadgeClass = 'bg-warning text-dark';
+                                sBadgeStyle = '';
                                 sLabel = 'En Proceso';
-                            } else if (sVal.includes('PAUSADO')) {
+                            } else if (actividad.seguimiento == 'Pausado') {
                                 sBadgeClass = '';
                                 sBadgeStyle = 'style="background-color: #fd7e14; color: white;"';
                                 sLabel = 'Pausado';
-                            } else if (sVal.includes('FINALIZADO')) {
+                            } else if (actividad.seguimiento == 'Finalizado') {
                                 sBadgeClass = 'bg-success';
+                                sBadgeStyle = '';
                                 sLabel = 'Finalizado';
                             }
 
                             html += `
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 ${bgClass} p-3 btn-ver-detalle-tarea" 
-                                   data-id="${tarea.id}" 
-                                   data-nombre="${tarea.nombre}" 
-                                   data-fecha="${fechaFormateada}"
-                                   data-hora="${horaFormateada}" 
-                                   data-proyecto="${tarea.proyecto || 'General'}" 
-                                   data-prioridad="${tarea.prioridad || 'Media'}" 
-                                   data-detalle="${tarea.contenido || 'Sin descripción adicional.'}"
-                                   data-cliente-nombre="${tarea.prospecto_nombres || '--'} ${tarea.prospecto_apellidos || ''}"
-                                   data-cliente-celular="${tarea.prospecto_celular || '--'}"
-                                   data-cliente-origen="${tarea.prospecto_origen || '--'}"
-                                   data-cliente-nivel="${tarea.prospecto_nivel || '--'}"
-                                   data-cliente-universidad="${tarea.prospecto_universidad || '--'}"
-                                   data-cliente-carrera="${tarea.prospecto_carrera || '--'}"
-                                   data-entrega-tentativa="${tarea.fecha_entrega_tentativa || '--'}"
-                                   data-link-drive="${tarea.linkDrive || ''}"
-                                   data-horas="${tarea.horas_programacion || '0'}">
+                                <a href="javascript:void(0)" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 ${bgClass} p-3 btn-ver-detalle-tarea" data-id="${actividad.id}" data-fecha="${fechaFormateada}" data-hora="${horaFormateada}" data-nombre="${actividad.nombre}" data-prioridad="${actividad.prioridad}" data-prospecto-id="${actividad.prospecto_id}">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <div class="avatar avatar-40 bg-info text-white rounded-circle">
@@ -538,16 +552,17 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <h6 class="mb-0">${tarea.nombre}</h6>
-                                            <p class="text-secondary small mb-0">ID: #${tarea.id} | <span class="badge rounded-pill ${sBadgeClass}" ${sBadgeStyle}>${sLabel}</span></p>
+                                            <h6 class="mb-0">${actividad.nombre}</h6>
+                                            <p class="text-secondary small mb-0">ID: #${actividad.id} | <span class="badge rounded-pill ${sBadgeClass}" ${sBadgeStyle}>${sLabel}</span></p>
+                                            <p class="text-secondary small mb-0">${actividad.nombres} ${actividad.apellidos}</p>
                                         </div>
-<div class="col-auto text-end">
-    <div class="text-dark small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${fechaFormateada}</div>
-    <div class="text-secondary small mb-2"><i class="bi bi-clock me-1"></i>${horaFormateada}</div>
-    <span class="badge ${badgeClass}">${tarea.prioridad}</span>
-</div>
-</div>
-</a>`;
+                                        <div class="col-auto text-end">
+                                            <div class="text-dark small fw-bold mb-1"><i class="bi bi-calendar-event me-1"></i>${fechaFormateada}</div>
+                                            <div class="text-secondary small mb-2"><i class="bi bi-clock me-1"></i>${horaFormateada}</div>
+                                            <span class="badge ${badgeClass}">${actividad.prioridad}</span>
+                                        </div>
+                                        </div>
+                                        </a>`;
                         });
                     }
 
@@ -555,8 +570,8 @@
                     asignarEventosDetalle();
                 })
                 .catch(err => {
-                    console.error("Error cargando tareas:", err);
-                    container.innerHTML = `<div class="alert alert-danger mx-3">Error al cargar las tareas pendientes.</div>`;
+                    console.error("Error cargando actividades:", err);
+                    container.innerHTML = `<div class="alert alert-danger mx-3">Error al cargar las actividades pendientes.</div>`;
                 });
         }
 
@@ -569,96 +584,137 @@
 
             btns.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    document.getElementById('dt-id-tarea').value = this.getAttribute('data-id');
-                    document.getElementById('dt-nombre-tarea').textContent = this.getAttribute('data-nombre');
-                    document.getElementById('dt-proyecto').textContent = this.getAttribute('data-proyecto');
-                    document.getElementById('dt-fecha').textContent = this.getAttribute('data-fecha');
-                    document.getElementById('dt-hora').textContent = this.getAttribute('data-hora');
-                    document.getElementById('dt-prioridad').textContent = this.getAttribute('data-prioridad');
-                    document.getElementById('dt-detalle').textContent = this.getAttribute('data-detalle');
+                    fetch('getActividadRow/' + this.getAttribute('data-id'))
+                        .then(res => res.json())
+                        .then(data => {
+                            const datos = data.result;
 
-                    // Nuevos campos del prospecto
-                    document.getElementById('dt-cliente-nombre').textContent = this.getAttribute('data-cliente-nombre');
-                    document.getElementById('dt-cliente-celular').textContent = this.getAttribute('data-cliente-celular');
-                    document.getElementById('dt-cliente-origen').textContent = this.getAttribute('data-cliente-origen');
-                    document.getElementById('dt-cliente-nivel').textContent = this.getAttribute('data-cliente-nivel');
-                    document.getElementById('dt-cliente-universidad').textContent = this.getAttribute('data-cliente-universidad');
-                    document.getElementById('dt-cliente-carrera').textContent = this.getAttribute('data-cliente-carrera');
-                    document.getElementById('dt-entrega-tentativa').textContent = this.getAttribute('data-entrega-tentativa');
+                            document.getElementById('dt-id-tarea').value = this.getAttribute('data-id');
+                            document.getElementById('dt-id-prospecto').value = this.getAttribute('data-prospecto-id');
+                            document.getElementById('dt-nombre-tarea').textContent = this.getAttribute('data-nombre');
+                            document.getElementById('dt-nombre-asignado').textContent = datos.nombres + ' ' + datos.apellidos;
+                            document.getElementById('dt-fecha').textContent = this.getAttribute('data-fecha');
+                            document.getElementById('dt-hora').textContent = this.getAttribute('data-hora');
+                            document.getElementById('dt-prioridad').textContent = this.getAttribute('data-prioridad');
 
-                    // Campos editables
-                    const linkDrive = this.getAttribute('data-link-drive');
-                    const inputDrive = document.getElementById('dt-link-drive');
-                    const btnDrive = document.getElementById('dt-link-drive-btn');
+                            document.getElementById('dt-link-drive').value = datos.link_drive;
+                            document.getElementById('dt-cliente-nivel').textContent = datos.nivel_academico == null ? '--' : datos.nivel_academico;
 
-                    inputDrive.value = linkDrive;
-                    if (linkDrive) {
-                        btnDrive.href = linkDrive;
-                        btnDrive.classList.remove('disabled');
-                    } else {
-                        btnDrive.href = '#';
-                        btnDrive.classList.add('disabled');
-                    }
+                            document.getElementById('dt-cliente-universidad').textContent = datos.institucion == null ? '--' : datos.institucion;
+                            document.getElementById('dt-cliente-carrera').textContent = datos.carrera == null ? '--' : datos.carrera;
+                            document.getElementById('dt-cliente-origen').textContent = datos.origen == null ? '--' : datos.origen;
+                            const detalleDiv = document.getElementById('dt-detalle');
+                            detalleDiv.innerHTML = datos.contenido == '' ? '--' : datos.contenido;
 
-                    document.getElementById('dt-horas').value = this.getAttribute('data-horas');
+                            const contactos = datos.contactos;
+                            let htmlContactos = "";
+                            let htmlCelular = "";
 
-                    // Seleccionar radio de prioridad
-                    const prioridad = this.getAttribute('data-prioridad');
-                    // Normalizar para coincidir con los values de los radio buttons (Alta, Media, Baja) o usar uppercase
-                    const radios = document.querySelectorAll('input[name="prioridad_prospecto"]');
-                    radios.forEach(radio => {
-                        if (radio.value.toUpperCase() === prioridad.toUpperCase()) {
-                            radio.checked = true;
-                        }
-                    });
+                            contactos.forEach(contacto => {
+                                let nombre_completo = "--";
+                                if (contacto.nombres != "") {
+                                    nombre_completo = contacto.nombres + " " + contacto.apellidos;
+                                }
 
-                    modalDetalle.show();
+                                htmlContactos += `<h6 class="mb-0 fw-bold">${nombre_completo}</h6>`;
+
+                                htmlCelular += `<h6 class="mb-0">${contacto.celular}</h6>`;
+
+                            });
+
+                            document.getElementById('dt-cliente-nombre-container').innerHTML = htmlContactos;
+                            document.getElementById('dt-cliente-celular-container').innerHTML = htmlCelular;
+
+                            // Aplicar zoom a las imágenes recién cargadas
+                            detalleDiv.querySelectorAll('img').forEach(img => {
+                                img.style.cursor = "zoom-in";
+                                img.addEventListener("click", function() {
+                                    const modal = document.getElementById("imageModal");
+                                    const modalImg = document.getElementById("modalImage");
+                                    if (modal && modalImg) {
+                                        modal.style.display = "block";
+                                        modalImg.src = this.src;
+                                    }
+                                });
+                            });
+
+                            modalDetalle.show();
+
+                        })
                 });
             });
 
-            // Evento para guardar cambios
+            // Evento para "Empezar" tarea
             const btnActualizar = document.getElementById('btnActualizarTarea');
-            if (btnActualizar) {
-                btnActualizar.onclick = function() {
+            const formEmpezarTarea = document.getElementById('formEmpezarTarea');
+            if (formEmpezarTarea) {
+                formEmpezarTarea.onsubmit = function(e) {
+                    e.preventDefault();
+
                     const id = document.getElementById('dt-id-tarea').value;
-                    const link = document.getElementById('dt-link-drive').value;
-                    const horas = document.getElementById('dt-horas').value;
-                    const prioridadChecked = document.querySelector('input[name="prioridad_prospecto"]:checked');
-                    const prioridad = prioridadChecked ? prioridadChecked.value : 'Media';
+                    const nombreTarea = document.getElementById('dt-nombre-tarea').textContent;
 
-                    // Bloquear botón
-                    btnActualizar.disabled = true;
-                    btnActualizar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Guardando...';
-
-                    // Aquí iría la llamada fetch para guardar
-                    // Como no tengo el endpoint exacto para actualización individual,
-                    // simularé el éxito por ahora o usaré uno genérico si existiera.
-                    console.log("Actualizando tarea:", id, {
-                        linkDrive: link,
-                        horas_programacion: horas,
-                        prioridad: prioridad
-                    });
-
-                    setTimeout(() => {
-                        btnActualizar.disabled = false;
-                        btnActualizar.innerHTML = 'Guardar Cambios';
-
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Éxito!',
-                                text: 'Los cambios han sido guardados correctamente.',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-                        } else {
-                            alert('Cambios guardados correctamente');
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: `Vas a empezar a trabajar en: "${nombreTarea}"`,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#198754',
+                            cancelButtonColor: '#6c757d',
+                            confirmButtonText: 'Sí, empezar ahora',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                ejecutarInicioTarea(id);
+                            }
+                        });
+                    } else {
+                        if (confirm(`¿Deseas empezar la tarea: ${nombreTarea}?`)) {
+                            ejecutarInicioTarea(id);
                         }
-
-                        modalDetalle.hide();
-                        cargarTareasPendientes(); // Recargar lista
-                    }, 1000);
+                    }
                 };
+            }
+
+            function ejecutarInicioTarea(id) {
+                // Bloquear botón
+                btnActualizar.disabled = true;
+                btnActualizar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Iniciando...';
+
+                console.log("Iniciando actividad:", id);
+
+                // Aquí podrías hacer tu fetch real al backend para cambiar el estado de la tarea
+
+                const formData = new FormData(formEmpezarTarea);
+
+                fetch("update-proceso-actividad", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.status == 'success') {
+                            btnActualizar.disabled = false;
+                            btnActualizar.innerHTML = 'Empezar';
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Actividad Iniciada!',
+                                    text: 'Has empezado a trabajar en esta actividad.',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            } else {
+                                alert('Actividad iniciada correctamente');
+                            }
+                            modalDetalle.hide();
+                            cargarTareasPendientes();
+                        }
+                    })
+
             }
 
             // Actualizar el enlace del botón de drive cuando se escribe en el input
@@ -671,6 +727,25 @@
                     btnDrive.classList.add('disabled');
                 }
             });
+        }
+
+        // Cerrar modal de imagen
+        const closeBtn = document.querySelector(".close");
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                const modal = document.getElementById("imageModal");
+                if (modal) modal.style.display = "none";
+            }
+        }
+
+        // También cerrar si se hace clic fuera de la imagen
+        const modalImgContainer = document.getElementById("imageModal");
+        if (modalImgContainer) {
+            modalImgContainer.onclick = function(e) {
+                if (e.target === modalImgContainer) {
+                    modalImgContainer.style.display = "none";
+                }
+            }
         }
 
         // Cargar tareas al iniciar

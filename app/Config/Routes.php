@@ -67,3 +67,5 @@ $routes->get('trabajos/reporte', 'Trabajos::reporteDisponibilidad');
 $routes->get('horario-by-id', 'Horario::getHorarioById');
 
 $routes->get('actividades', 'Actividades::getActividades');
+$routes->get('getActividadRow/(:num)', 'Actividades::getActividadRow/$1');
+$routes->post('update-proceso-actividad', 'Actividades::updateProcesoActividad');
