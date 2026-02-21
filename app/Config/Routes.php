@@ -68,4 +68,5 @@ $routes->get('horario-by-id', 'Horario::getHorarioById');
 
 $routes->get('actividades', 'Actividades::getActividades');
 $routes->get('getActividadRow/(:num)', 'Actividades::getActividadRow/$1');
-$routes->post('update-proceso-actividad', 'Actividades::updateProcesoActividad');
+$routes->post('update-link-drive', 'Actividades::updateLinkDrive');
+$routes->post('getEstadosActividades', 'Actividades::getEstadosActividades');

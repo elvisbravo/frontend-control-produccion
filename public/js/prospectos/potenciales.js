@@ -111,16 +111,16 @@ function initDataTable() {
         render: function (data, type, row) {
           let badgeClass = '';
           let styleAttr = '';
-          let seguimientoText = row.seguimiento;
+          let seguimientoText = row.estado_progreso;
 
-          if (row.seguimiento === "Pendiente") {
+          if (row.estado_progreso === "Pendiente") {
             badgeClass = 'bg-secondary';
-          } else if (row.seguimiento === "Proceso" || row.seguimiento === "En proceso") {
+          } else if (row.estado_progreso === "Proceso" || row.estado_progreso === "En proceso") {
             badgeClass = 'bg-warning';
-          } else if (row.seguimiento === "Pausado") {
+          } else if (row.estado_progreso === "Pausado") {
             badgeClass = ''; // No default bootstrap class, use inline style
             styleAttr = 'style="background-color: #fd7e14; color: white;"';
-          } else if (row.seguimiento === "Finalizado") {
+          } else if (row.estado_progreso === "Finalizado") {
             badgeClass = 'bg-success';
           }
 
